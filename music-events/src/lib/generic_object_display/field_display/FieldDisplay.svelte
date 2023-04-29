@@ -10,7 +10,7 @@
 </script>
 
 {#if fieldType == FieldTypes.TimeMinutes}
-	<TimeMinutesDisplay {fieldName} {value} />
+	<div class="row"><TimeMinutesDisplay {fieldName} {value} /></div>
 {:else if fieldType == FieldTypes.Text}
-	<TextDisplay {fieldName} {value} />
+	<div class="row"><TextDisplay {fieldName} {value} /></div>
 {/if}

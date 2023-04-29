@@ -15,13 +15,11 @@
 			{/if}
 		</h5>
 		{#each Object.entries(displayObject) as [key, value], i}
-			<div class="row">
-				<FieldDisplay
-					fieldName={displayObject.formatFieldName(key)}
-					{value}
-					fieldType={fieldTypes[i]}
-				/>
-			</div>
+			<FieldDisplay
+				fieldName={displayObject.formatFieldName(key)}
+				{value}
+				fieldType={fieldTypes[i]}
+			/>
 		{/each}
 	</div>
 </div>
