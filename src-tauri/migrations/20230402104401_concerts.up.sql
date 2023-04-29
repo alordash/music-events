@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS concerts (
+    id BIGSERIAL PRIMARY KEY,
+    date TIMESTAMP WITH TIME ZONE NOT NULL,
+    duration_minutes INTEGER NOT NULL,
+    address VARCHAR(100) NOT NULL,
+    name VARCHAR(50) NOT NULL
+);
