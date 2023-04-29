@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { getAllConcertIdsAndNames, getConcertById, type Concert } from '$lib/concert/concert';
-	import { transactionCommit, transactionRollback } from '$lib/general_controller';
-	import { removeViewerSeatTransaction, type ViewerSeat } from './viewer_seat';
+	import { getAllConcertIdsAndNames, getConcertById, type Concert } from '$lib/concert/Concert';
+	import { transactionCommit, transactionRollback } from '$lib/GeneralController';
+	import { removeViewerSeatTransaction, type ViewerSeat } from './ViewerSeat';
 
 	export let viewerSeat: ViewerSeat;
 	export let concertIdAndName: [number, string];

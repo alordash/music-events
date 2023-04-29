@@ -1,7 +1,9 @@
-import { sleepMaxOneSec } from "$lib/timer";
+import type { DisplayableObject } from "$lib/generic_object_display/DisplayableObject";
+import { FieldTypes } from "$lib/generic_object_display/FieldTypes";
+import { sleepMaxOneSec } from "$lib/Timer";
 import { invoke } from "@tauri-apps/api/tauri";
 
-export class Concert {
+export class Concert implements DisplayableObject {
     id: number;
     date: string;
     durationMinutes: number;
@@ -14,6 +16,33 @@ export class Concert {
         this.durationMinutes = durationMinutes;
         this.address = address;
         this.name = name;
+    }
+
+    getFieldType(fieldName: string): FieldTypes {
+        switch (fieldName) {
+            case 'id':
+                return FieldTypes.Id;
+
+            default:
+                return FieldTypes.Text
+        }
+    }
+
+    formatFieldName(fieldName: string): string {
+        switch (fieldName) {
+            case 'id':
+                return 'Id';
+            case 'date':
+                return 'Date';
+            case 'durationMinutes':
+                return 'Duration (minutes)';
+            case 'address':
+                return 'Address';
+            case 'name': 
+                return 'Name';
+            default:
+                return '';
+        }
     }
 }
 

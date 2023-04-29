@@ -1,4 +1,4 @@
-import { sleepMaxOneSec } from '$lib/timer';
+import { sleepMaxOneSec } from '$lib/Timer';
 import { invoke } from '@tauri-apps/api/tauri';
 import type { Decimal } from 'decimal.js'
 

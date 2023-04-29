@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { CreateState } from '$lib/create_state';
-	import { addViewerSeat, createViewerSeat, ViewerSeat } from './viewer_seat';
+	import { CreateState } from '$lib/CreateState';
+	import { addViewerSeat, createViewerSeat, ViewerSeat } from './ViewerSeat';
 	import { Decimal } from 'decimal.js';
-	import { Concert, getAllConcertIdsAndNames, getConcertById } from '$lib/concert/concert';
+	import { Concert, getAllConcertIdsAndNames, getConcertById } from '$lib/concert/Concert';
 
 	let createState = CreateState.Pending;
 	let newViewerSeatId = '';

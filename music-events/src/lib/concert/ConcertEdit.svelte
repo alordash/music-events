@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Concert } from './concert';
+	import type { Concert } from './Concert';
 
 	export let concert: Concert;
 	export let changeCallback: (newConcert: Concert) => void;

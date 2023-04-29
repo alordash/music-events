@@ -6,7 +6,7 @@
 		getViewerSeatById,
 		updateViewerSeat,
 		type ViewerSeat
-	} from '$lib/viewer_seat/viewer_seat';
+	} from '$lib/viewer_seat/ViewerSeat';
 
 	const viewerSeatIdLiteral = 'viewer_seat_id';
 

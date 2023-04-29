@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { addConcert, addConcertTransaction, Concert, createConcert } from '$lib/concert/concert';
-	import { CreateState } from '$lib/create_state';
-	import { transactionCommit, transactionRollback } from '$lib/general_controller';
+	import { addConcert, addConcertTransaction, Concert, createConcert } from '$lib/concert/Concert';
+	import { CreateState } from '$lib/CreateState';
+	import { transactionCommit, transactionRollback } from '$lib/GeneralController';
 
 	let createButton: HTMLButtonElement;
 	let confirmCreateButton: HTMLButtonElement;

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ViewerSeatDisplay from './ViewerSeatDisplay.svelte';
-	import { getNViewerSeatsWithOffset, type ViewerSeat } from './viewer_seat';
+	import { getNViewerSeatsWithOffset, type ViewerSeat } from './ViewerSeat';
 
 	let viewerSeats: Array<ViewerSeat> = [];
 

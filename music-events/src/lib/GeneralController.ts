@@ -1,5 +1,5 @@
 import { invoke } from "@tauri-apps/api/tauri";
-import { sleepMaxOneSec } from "./timer";
+import { sleepMaxOneSec } from "./Timer";
 
 export async function transactionCommit(transactionId: object): Promise<void> {
     await sleepMaxOneSec();

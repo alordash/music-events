@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getAllConcerts, type Concert } from './concert';
+	import { getAllConcerts, type Concert } from './Concert';
 	import ConcertDisplay from './ConcertDisplay.svelte';
 
 	let concerts: Array<Concert> = [];

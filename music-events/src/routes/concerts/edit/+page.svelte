@@ -6,7 +6,7 @@
 		removeConcert,
 		updateConcert,
 		type Concert
-	} from '$lib/concert/concert';
+	} from '$lib/concert/Concert';
 	import ConcertEdit from '$lib/concert/ConcertEdit.svelte';
 
 	const concertIdLiteral = 'concert_id';
