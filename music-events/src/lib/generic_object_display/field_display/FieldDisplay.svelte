@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { FieldTypes } from '../FieldTypes';
-	import IdFieldDisplay from './IdDisplay.svelte';
 	import TextDisplay from './TextDisplay.svelte';
 	import TimeMinutesDisplay from './TimeMinutesDisplay.svelte';
 
