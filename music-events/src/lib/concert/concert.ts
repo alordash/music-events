@@ -18,10 +18,16 @@ export class Concert implements DisplayableObject {
         this.name = name;
     }
 
+    getId(): number {
+        return this.id;
+    }
+
     getFieldType(fieldName: string): FieldTypes {
         switch (fieldName) {
             case 'id':
                 return FieldTypes.Id;
+            case 'durationMinutes':
+                return FieldTypes.TimeMinutes;
 
             default:
                 return FieldTypes.Text
@@ -35,10 +41,10 @@ export class Concert implements DisplayableObject {
             case 'date':
                 return 'Date';
             case 'durationMinutes':
-                return 'Duration (minutes)';
+                return 'Duration';
             case 'address':
                 return 'Address';
-            case 'name': 
+            case 'name':
                 return 'Name';
             default:
                 return '';

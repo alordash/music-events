@@ -1,15 +1,16 @@
 <script lang="ts">
 	import { FieldTypes } from '../FieldTypes';
-	import IdFieldDisplay from './id_field/IdFieldDisplay.svelte';
+	import IdFieldDisplay from './IdDisplay.svelte';
+	import TextDisplay from './TextDisplay.svelte';
+	import TimeMinutesDisplay from './TimeMinutesDisplay.svelte';
 
 	export let fieldName: string;
 	export let value: unknown;
 	export let fieldType: FieldTypes;
 </script>
 
-{#if fieldType == FieldTypes.Id}
-	<div class="col"><IdFieldDisplay idValue={value} /></div>
+{#if fieldType == FieldTypes.TimeMinutes}
+	<TimeMinutesDisplay {fieldName} {value} />
 {:else if fieldType == FieldTypes.Text}
-	<div class="col">{fieldName}:</div>
-	<div class="col">{value}</div>
+	<TextDisplay {fieldName} {value} />
 {/if}
