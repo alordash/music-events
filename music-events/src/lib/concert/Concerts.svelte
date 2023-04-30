@@ -1,6 +1,8 @@
 <script lang="ts">
+	import GenericObjectDisplay from '$lib/generic_object_display/GenericObjectDisplay.svelte';
 	import { getAllConcerts, type Concert } from './Concert';
 	import ConcertDisplay from './ConcertDisplay.svelte';
+	import ConcertObjectDisplay from './ConcertObjectDisplay.svelte';
 
 	let concerts: Array<Concert> = [];
 
@@ -26,7 +28,7 @@
 			<div class="row row-cols-4 text-start card-body">
 				{#each concerts as concert}
 					<div class="col border card-body">
-						<ConcertDisplay {concert} />
+						<ConcertObjectDisplay {concert} />
 					</div>
 				{/each}
 			</div>

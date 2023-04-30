@@ -1,54 +1,41 @@
-import type { DisplayableObject } from "$lib/generic_object_display/DisplayableObject";
-import { FieldTypes } from "$lib/generic_object_display/FieldTypes";
 import { sleepMaxOneSec } from "$lib/Timer";
+import { FieldTypes } from "$lib/generic_object_display/FieldTypes";
 import { invoke } from "@tauri-apps/api/tauri";
 
-export class Concert implements DisplayableObject {
+export type Concert = {
     id: number;
     date: string;
     durationMinutes: number;
     address: string;
     name: string;
+}
 
-    constructor(id: number, date: string, durationMinutes: number, address: string, name: string) {
-        this.id = id;
-        this.date = date;
-        this.durationMinutes = durationMinutes;
-        this.address = address;
-        this.name = name;
+export function fieldTypeExtractor(fieldName: string): FieldTypes {
+    switch (fieldName) {
+        case 'id':
+            return FieldTypes.Id;
+        case 'durationMinutes':
+            return FieldTypes.TimeMinutes;
+
+        default:
+            return FieldTypes.Text
     }
+}
 
-    getId(): number {
-        return this.id;
-    }
-
-    getFieldType(fieldName: string): FieldTypes {
-        switch (fieldName) {
-            case 'id':
-                return FieldTypes.Id;
-            case 'durationMinutes':
-                return FieldTypes.TimeMinutes;
-
-            default:
-                return FieldTypes.Text
-        }
-    }
-
-    formatFieldName(fieldName: string): string {
-        switch (fieldName) {
-            case 'id':
-                return 'Id';
-            case 'date':
-                return 'Date';
-            case 'durationMinutes':
-                return 'Duration';
-            case 'address':
-                return 'Address';
-            case 'name':
-                return 'Name';
-            default:
-                return '';
-        }
+export function fieldNameFormatter(fieldName: string): string {
+    switch (fieldName) {
+        case 'id':
+            return 'Id';
+        case 'date':
+            return 'Date';
+        case 'durationMinutes':
+            return 'Duration';
+        case 'address':
+            return 'Address';
+        case 'name':
+            return 'Name';
+        default:
+            return '';
     }
 }
 

@@ -1,7 +1,8 @@
-<script>
-	import ObjectDisplay from "$lib/generic_object_display/GenericObjectDisplay.svelte";
-	import { Concert } from "./Concert";
+<script lang="ts">
+	import ObjectDisplay from '$lib/generic_object_display/GenericObjectDisplay.svelte';
+	import { fieldNameFormatter, fieldTypeExtractor, type Concert } from './Concert';
 
-    const concert = new Concert(90, '2023', 555, 'Kavo', 'NAME');
+	export let concert: Concert;
 </script>
-<ObjectDisplay displayObject={concert}/>
+
+<ObjectDisplay displayObject={concert} objectName='Concert' {fieldTypeExtractor} {fieldNameFormatter} />

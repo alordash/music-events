@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { addConcert, addConcertTransaction, Concert, createConcert } from '$lib/concert/Concert';
+	import { addConcert, addConcertTransaction, type Concert, createConcert } from '$lib/concert/Concert';
 	import { CreateState } from '$lib/CreateState';
 	import { transactionCommit, transactionRollback } from '$lib/GeneralController';
 
