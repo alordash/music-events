@@ -2,7 +2,7 @@
 	import type { GenericObject } from '../GenericObject';
 	import type { FieldTypes } from '../FieldTypes';
 	import FieldDisplay from './FieldDisplay.svelte';
-	import IdDisplay from './field_displays/IdDisplay.svelte';
+	import GenericObjectCardHeader from '../GenericObjectCardHeader.svelte';
 
 	export let displayObject: GenericObject;
 	export let objectName: string;
@@ -13,12 +13,7 @@
 
 <div class="card">
 	<div class="card-body container">
-		<h5 class="card-title user-select-all">
-			{objectName}
-			{#if displayObject.id != undefined}
-				<IdDisplay id={displayObject.id} />
-			{/if}
-		</h5>
+		<GenericObjectCardHeader genericObject={displayObject} {objectName} />
 		{#each Object.entries(displayObject) as [key, value], i}
 			<FieldDisplay fieldName={fieldNameFormatter(key)} fieldType={fieldKeys[i]} {value} />
 		{/each}
