@@ -2,6 +2,7 @@
 	import type { FieldTypes } from '../FieldTypes';
 	import type { GenericObject } from '../GenericObject';
 	import IdDisplay from '../display/field_displays/IdDisplay.svelte';
+	import NameDisplay from '../display/field_displays/NameDisplay.svelte';
 	import FieldEdit from './FieldEdit.svelte';
 
 	export let editObject: GenericObject;
@@ -47,11 +48,15 @@
 <div class="card">
 	<div class="card-body container">
 		<h5 class="card-title user-select-all">
-			{objectName}
+			{#if editObject.name != undefined}
+				<NameDisplay name={editObject.name} />
+			{/if}
 			{#if editObject.id != undefined}
 				<IdDisplay id={editObject.id} />
 			{/if}
 		</h5>
+		<h6 class="card-subtitle text-body-secondary">{objectName}</h6>
+
 		{#each Object.keys(editObject) as key, i (editObject[key])}
 			<FieldEdit
 				fieldName={fieldNameFormatter(key)}
