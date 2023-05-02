@@ -28,7 +28,8 @@
 	}
 
 	$: {
-		if (editObject) {
+		editObject = editObject;
+		if (initialized) {
 			hasChanges = true;
 		}
 		initialized = true;

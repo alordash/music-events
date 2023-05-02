@@ -5,11 +5,12 @@
 		getConcertById,
 		removeConcert,
 		updateConcert,
-		type Concert
+		type Concert,
+
+		CONCERT_ID_LITERAL
+
 	} from '$lib/model/concert/Concert';
 	import ConcertObjectEdit from '$lib/model/concert/ConcertObjectEdit.svelte';
-
-	const concertIdLiteral = 'concert_id';
 
 	let concert: Concert | null = null;
 
@@ -21,17 +22,18 @@
 		}
 		concertInfos = await getAllConcertIdsAndNames();
 		console.log('concerts :>> ', concertInfos);
+		await loadConcert();
 		initialized = true;
 	}
 	$: init();
 
 	async function onSelectConcert(concertId: number) {
-		$page.url.searchParams.set(concertIdLiteral, `${concertId}`);
+		$page.url.searchParams.set(CONCERT_ID_LITERAL, `${concertId}`);
 		await loadConcert();
 	}
 
 	async function loadConcert() {
-		const concertIdStr = $page.url.searchParams.get(concertIdLiteral);
+		const concertIdStr = $page.url.searchParams.get(CONCERT_ID_LITERAL);
 		if (concertIdStr == null) {
 			console.log(`Error getting concert id`);
 			return;
@@ -70,7 +72,7 @@
 					class="dropdown-item"
 					on:keypress={() => onSelectConcert(concertInfo[0])}
 					on:click={() => onSelectConcert(concertInfo[0])}
-					href="?{concertIdLiteral}={concertInfo[0]}">{concertInfo[1]}</a
+					href="?{CONCERT_ID_LITERAL}={concertInfo[0]}">{concertInfo[1]}</a
 				>
 			</li>
 		{/each}

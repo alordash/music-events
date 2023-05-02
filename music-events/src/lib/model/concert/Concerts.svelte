@@ -23,7 +23,7 @@
 				<p>No concerts.</p>
 			</div>
 		{:else}
-			<div class="row row-cols-4 text-start card-body">
+			<div class="row row-cols-3 text-start card-body">
 				{#each concerts as concert}
 					<div class="col border card-body">
 						<ConcertObjectDisplay {concert} />

@@ -2,6 +2,8 @@ import { sleepMaxOneSec } from "$lib/Timer";
 import { FieldTypes } from "$lib/generic_object_form/FieldTypes";
 import { invoke } from "@tauri-apps/api/tauri";
 
+export const CONCERT_ID_LITERAL = 'concert_id';
+
 export type Concert = {
     id: number;
     date: string;
