@@ -53,17 +53,7 @@ export async function updateViewerSeat(viewerSeat: ViewerSeat): Promise<void> {
     return invoke('update_viewer_seat', { viewerSeat });
 }
 
-export async function updateViewerSeatTransaction(viewerSeat: ViewerSeat): Promise<object> {
-    await sleepMaxOneSec();
-    return invoke('update_viewer_seat_transaction', { viewerSeat });
-}
-
 export async function removeViewerSeat(viewerSeatId: number): Promise<void> {
     await sleepMaxOneSec();
     return invoke('remove_viewer_seat', { viewerSeatId });
-}
-
-export async function removeViewerSeatTransaction(viewerSeatId: number): Promise<object> {
-    await sleepMaxOneSec();
-    return invoke('remove_viewer_seat_transaction', { viewerSeatId });
 }

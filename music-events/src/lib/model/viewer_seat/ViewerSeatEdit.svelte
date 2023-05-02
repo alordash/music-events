@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { getAllConcertIdsAndNames, getConcertById, type Concert } from '$lib/concert/Concert';
-	import { transactionCommit, transactionRollback } from '$lib/GeneralController';
+	import { getAllConcertIdsAndNames, getConcertById, type Concert } from '$lib/model/concert/Concert';
+	import { transactionCommit, transactionRollback } from '$lib/model/GeneralController';
 	import { removeViewerSeatTransaction, type ViewerSeat } from './ViewerSeat';
 
 	export let viewerSeat: ViewerSeat;

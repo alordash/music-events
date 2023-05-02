@@ -2,7 +2,7 @@
 	import { CreateState } from '$lib/CreateState';
 	import { addViewerSeat, createViewerSeat, ViewerSeat } from './ViewerSeat';
 	import { Decimal } from 'decimal.js';
-	import { Concert, getAllConcertIdsAndNames, getConcertById } from '$lib/concert/Concert';
+	import { Concert, getAllConcertIdsAndNames, getConcertById } from '$lib/model/concert/Concert';
 
 	let createState = CreateState.Pending;
 	let newViewerSeatId = '';

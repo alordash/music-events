@@ -1,5 +1,5 @@
 <script>
-	import Concerts from '$lib/concert/Concerts.svelte';
+	import Concerts from '$lib/model/concert/Concerts.svelte';
 </script>
 
 <Concerts />

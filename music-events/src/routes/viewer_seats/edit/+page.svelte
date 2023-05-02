@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import ViewerSeatEdit from '$lib/viewer_seat/ViewerSeatEdit.svelte';
+	import ViewerSeatEdit from '$lib/model/viewer_seat/ViewerSeatEdit.svelte';
 	import {
 		getAllViewerSeatIdsAndRealNumbersAndConcertNames,
 		getViewerSeatById,
 		updateViewerSeat,
 		type ViewerSeat
-	} from '$lib/viewer_seat/ViewerSeat';
+	} from '$lib/model/viewer_seat/ViewerSeat';
 
 	const viewerSeatIdLiteral = 'viewer_seat_id';
 

@@ -1,5 +1,15 @@
 <script lang="ts">
-	import ConcertCreate from '$lib/concert/ConcertCreate.svelte';
+	import { createEmptyConcert, addConcert } from '$lib/model/concert/Concert';
+	import ConcertObjectCreate from '$lib/model/concert/ConcertObjectCreate.svelte';
+	let concert = createEmptyConcert();
+
+	async function onCreate() {
+		let id = await addConcert(concert);
+		console.log(`concert :>> ${concert}`, concert);
+		return id;
+	}
 </script>
 
-<ConcertCreate />
+<div class="w-50">
+	<ConcertObjectCreate {concert} createCallback={onCreate} />
+</div>

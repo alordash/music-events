@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Concert } from '$lib/concert/Concert';
-	import ConcertObjectDisplay from '$lib/concert/ConcertObjectDisplay.svelte';
+	import type { Concert } from '$lib/model/concert/Concert';
+	import ConcertObjectDisplay from '$lib/model/concert/ConcertObjectDisplay.svelte';
 	let concert: Concert = {
 		id: 1,
 		address: 'aSd',

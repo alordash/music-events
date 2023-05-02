@@ -41,6 +41,16 @@ export function fieldNameFormatter(fieldName: string): string {
     }
 }
 
+export function createEmptyConcert(): Concert {
+    return {
+        id: 0,
+        address: '',
+        date: '',
+        durationMinutes: 0,
+        name: ''
+    };
+}
+
 export async function createConcert({ date, durationMinutes, address, name }: Concert): Promise<object> {
     await sleepMaxOneSec();
     return invoke('create_concert', { date, durationMinutes, address, name })
@@ -69,11 +79,6 @@ export async function getConcertById(concertId: number): Promise<Concert | null>
 export async function addConcert(concert: object): Promise<number> {
     await sleepMaxOneSec();
     return invoke('add_concert', { concert });
-}
-
-export async function addConcertTransaction(concert: object): Promise<[object, number]> {
-    await sleepMaxOneSec();
-    return invoke('add_concert_transaction', { concert });
 }
 
 export async function updateConcert(concert: Concert): Promise<void> {

@@ -28,8 +28,7 @@
 	}
 
 	$: {
-		editObject = editObject;
-		if (initialized) {
+		if (editObject) {
 			hasChanges = true;
 		}
 		initialized = true;
@@ -48,7 +47,7 @@
 	<div class="card-body container">
 		<GenericObjectCardHeader genericObject={editObject} {objectName} />
 
-		{#each Object.keys(editObject) as key, i (editObject[key])}
+		{#each Object.keys(editObject) as key, i}
 			<FieldEdit
 				fieldName={fieldNameFormatter(key)}
 				fieldType={fieldTypeExtractor(fieldKeys[i])}

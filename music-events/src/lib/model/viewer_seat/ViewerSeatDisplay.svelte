@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { getConcertById, type Concert } from '$lib/concert/Concert';
-	import ConcertDisplay from '$lib/concert/ConcertDisplay.svelte';
+	import { getConcertById, type Concert } from '$lib/model/concert/Concert';
+	import ConcertDisplay from '$lib/model/concert/ConcertDisplay.svelte';
 	import type { ViewerSeat } from './ViewerSeat';
 
 	export let viewerSeat: ViewerSeat;

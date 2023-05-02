@@ -6,10 +6,8 @@
 		removeConcert,
 		updateConcert,
 		type Concert
-	} from '$lib/concert/Concert';
-	import ConcertEdit from '$lib/concert/ConcertEdit.svelte';
-	import ConcertObjectEdit from '$lib/concert/ConcertObjectEdit.svelte';
-	import type { GenericObject } from '$lib/generic_object_form/GenericObject';
+	} from '$lib/model/concert/Concert';
+	import ConcertObjectEdit from '$lib/model/concert/ConcertObjectEdit.svelte';
 
 	const concertIdLiteral = 'concert_id';
 
@@ -43,16 +41,16 @@
 		console.log('Selected concert :>> ', concert);
 	}
 
-	async function changeCallback(newConcert: GenericObject) {
-		await updateConcert(<Concert>newConcert);
+	async function changeCallback(newConcert: Concert) {
+		await updateConcert(newConcert);
 	}
 
-	async function deleteCallback(deleteConcert: GenericObject) {
+	async function deleteCallback(deleteConcert: Concert) {
 		concert = null;
 		const delId = concertInfos.findIndex(([i, _]) => i == deleteConcert.id);
 		concertInfos.splice(delId, 1);
 		concertInfos = concertInfos; // reassign to trigger reactive update
-		await removeConcert((<Concert>deleteConcert).id);
+		await removeConcert(deleteConcert.id);
 	}
 </script>
 
@@ -80,8 +78,7 @@
 </div>
 
 {#if concert != null}
-	<div class="card card-body w-50">
-		<!-- <ConcertEdit {concert} {changeCallback} {deleteCallback} /> -->
+	<div class="w-50">
 		<ConcertObjectEdit {concert} {changeCallback} {deleteCallback} />
 	</div>
 {/if}
