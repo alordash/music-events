@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEmptyConcert, addConcert } from '$lib/model/concert/Concert';
-	import ConcertObjectCreate from '$lib/model/concert/ConcertObjectCreate.svelte';
+	import ConcertObjectCreate from '$lib/model/concert/ConcertCreate.svelte';
 	let concert = createEmptyConcert();
 
 	async function onCreate() {

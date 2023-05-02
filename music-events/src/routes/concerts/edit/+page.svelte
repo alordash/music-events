@@ -10,7 +10,7 @@
 		CONCERT_ID_LITERAL
 
 	} from '$lib/model/concert/Concert';
-	import ConcertObjectEdit from '$lib/model/concert/ConcertObjectEdit.svelte';
+	import ConcertObjectEdit from '$lib/model/concert/ConcertEdit.svelte';
 
 	let concert: Concert | null = null;
 

@@ -9,8 +9,8 @@
 	export let objectName: string;
 	export let fieldTypeExtractor: (fieldName: string) => FieldTypes;
 	export let fieldNameFormatter: (key: string) => string;
-
 	export let editLiteral: string | undefined;
+	
 	let fieldKeys = Object.keys(displayObject).map((key) => fieldTypeExtractor(key));
 
 	const currentLink = $page.url.href;

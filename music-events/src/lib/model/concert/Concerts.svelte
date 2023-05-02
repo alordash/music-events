@@ -1,35 +1,37 @@
 <script lang="ts">
-	import { getAllConcerts, type Concert } from './Concert';
-	import ConcertObjectDisplay from './ConcertObjectDisplay.svelte';
+	import GenericObjectDisplay from '$lib/generic_object_form/display/GenericObjectDisplay.svelte';
+	import {
+		fieldNameFormatter,
+		fieldTypeExtractor,
+		CONCERT_ID_LITERAL,
+		getAllConcerts
+	} from './Concert';
 
-	let concerts: Array<Concert> = [];
-
-	async function loadAllConcerts() {
-		concerts = await getAllConcerts();
-
-		console.log('concerts :>> ', concerts);
-	}
+	let concertsPromise = getAllConcerts();
 </script>
 
 <div class="container">
 	<div class="text-center card">
 		<div class="card-header">
-			<button on:click={loadAllConcerts} type="button" class="btn btn-primary w-25">
-				Get all concerts
-			</button>
+			<h3>Concerts</h3>
 		</div>
-		{#if concerts.length == 0}
-			<div class="card-body">
-				<p>No concerts.</p>
+		{#await concertsPromise}
+			<div class="start-0 p-2">
+				<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
+				Loading concerts...
 			</div>
-		{:else}
+		{:then concerts}
 			<div class="row row-cols-3 text-start card-body">
 				{#each concerts as concert}
-					<div class="col border card-body">
-						<ConcertObjectDisplay {concert} />
-					</div>
+					<GenericObjectDisplay
+						displayObject={concert}
+						objectName="Concert"
+						{fieldTypeExtractor}
+						{fieldNameFormatter}
+						editLiteral={CONCERT_ID_LITERAL}
+					/>
 				{/each}
 			</div>
-		{/if}
+		{/await}
 	</div>
 </div>
