@@ -23,6 +23,7 @@
 		{:then concerts}
 			<div class="row row-cols-3 text-start card-body">
 				{#each concerts as concert}
+				<div class="p-2">
 					<GenericObjectDisplay
 						displayObject={concert}
 						objectName="Concert"
@@ -30,6 +31,7 @@
 						{fieldNameFormatter}
 						editLiteral={CONCERT_ID_LITERAL}
 					/>
+				</div>
 				{/each}
 			</div>
 		{/await}

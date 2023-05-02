@@ -3,7 +3,7 @@
 	import { fieldNameFormatter, fieldTypeExtractor, type Concert } from './Concert';
 
 	export let concert: Concert;
-	export let createCallback: (newConcert: Concert) => Promise<number | null>;
+	export let createCallback: (newConcert: Concert) => Promise<number | undefined>;
 </script>
 
 <GenericObjectCreate

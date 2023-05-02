@@ -11,16 +11,19 @@
 	export let fieldNameFormatter: (key: string) => string;
 	let fieldKeys = Object.keys(createObject);
 
-	export let createCallback: (newObject: any) => Promise<number | null>;
+	export let createCallback: (newObject: any) => Promise<number | undefined>;
 
 	let createState = CreateState.Pending;
-	let createObjectId: number | null = null;
+	let createObjectId: number | undefined = undefined;
 	let errorMsg = '';
 
 	async function onCreateButton() {
 		try {
 			createObjectId = await createCallback(createObject);
 			createState = CreateState.Ok;
+			if (createObject.id != undefined) {
+				createObject.id = createObjectId;
+			}
 		} catch (error) {
 			errorMsg = <string>error;
 			createState = CreateState.Error;
@@ -43,13 +46,13 @@
 		<br />
 		{#if createState == CreateState.Ok}
 			<div
-				class="p-3 mt-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3"
+				class="p-2 mt-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3"
 			>
 				Created {objectName}
 				{#if createObjectId != null} with id: {createObjectId} {/if}
 			</div>
 		{:else if createState == CreateState.Error}
-			<div class="p-3 mt-2 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3">
+			<div class="p-2 mt-2 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3">
 				<b>Error creating new concert:</b>
 				<br />
 				{errorMsg}
