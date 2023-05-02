@@ -1,7 +1,5 @@
 <script lang="ts">
-	import GenericObjectDisplay from '$lib/generic_object_display/GenericObjectDisplay.svelte';
 	import { getAllConcerts, type Concert } from './Concert';
-	import ConcertDisplay from './ConcertDisplay.svelte';
 	import ConcertObjectDisplay from './ConcertObjectDisplay.svelte';
 
 	let concerts: Array<Concert> = [];

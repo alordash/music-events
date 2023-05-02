@@ -1,4 +1,4 @@
-use chrono::{DateTime, NaiveDateTime, Utc};
+use chrono::NaiveDateTime;
 use tauri::State;
 
 use crate::{
@@ -7,7 +7,7 @@ use crate::{
         db_connection_pool::DbConnectionPool,
         transaction_storage::{TransactionId, TransactionStorage},
     },
-    model::concert::Concert,
+    model::{concert::Concert, date_time_custom_serde::DATE_TIME_FORMAT},
     services::db_error::db_error,
 };
 
@@ -18,11 +18,8 @@ pub fn create_concert(
     address: String,
     name: String,
 ) -> Result<Concert, String> {
-    let date = DateTime::from_utc(
-        NaiveDateTime::parse_from_str(&date, "%Y-%m-%dT%H:%M")
-            .map_err(|e| format!("Error parsing date: {:?}", e))?,
-        Utc,
-    );
+    let date = NaiveDateTime::parse_from_str(&date, DATE_TIME_FORMAT)
+        .map_err(|e| format!("Error parsing date: {:?}", e))?;
     Ok(Concert::new(date, duration_minutes, address, name))
 }
 

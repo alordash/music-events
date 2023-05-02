@@ -1,5 +1,5 @@
 import { sleepMaxOneSec } from "$lib/Timer";
-import { FieldTypes } from "$lib/generic_object_display/FieldTypes";
+import { FieldTypes } from "$lib/generic_object_form/FieldTypes";
 import { invoke } from "@tauri-apps/api/tauri";
 
 export type Concert = {
@@ -15,7 +15,9 @@ export function fieldTypeExtractor(fieldName: string): FieldTypes {
         case 'id':
             return FieldTypes.Id;
         case 'durationMinutes':
-            return FieldTypes.TimeMinutes;
+            return FieldTypes.DurationMinutes;
+        case 'date':
+            return FieldTypes.Date;
 
         default:
             return FieldTypes.Text
@@ -76,6 +78,7 @@ export async function addConcertTransaction(concert: object): Promise<[object, n
 
 export async function updateConcert(concert: Concert): Promise<void> {
     await sleepMaxOneSec();
+    console.log('update concert :>> ', concert);
     return invoke('update_concert', { concert });
 }
 

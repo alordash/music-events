@@ -8,7 +8,11 @@ use super::dao::concert_entity::ConcertEntity;
 #[getset(get = "pub", set = "pub")]
 pub struct Concert {
     id: Option<i64>, // None if created manually, Some(id) if retrieved from db
-    date: DateTime<Utc>,
+    #[serde(
+        deserialize_with = "crate::model::date_time_custom_serde::deserialize_naive_date_time"
+    )]
+    #[serde(serialize_with = "crate::model::date_time_custom_serde::serialize_naive_date_time")]
+    date: NaiveDateTime,
     #[serde(rename(serialize = "durationMinutes", deserialize = "durationMinutes"))]
     duration_minutes: i32,
     address: String,
@@ -17,7 +21,7 @@ pub struct Concert {
 
 impl Concert {
     pub fn new(
-        date: DateTime<Utc>,
+        date: NaiveDateTime,
         duration_minutes: i32,
         address: String,
         name: String,

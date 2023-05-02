@@ -1,5 +1,6 @@
 export enum FieldTypes {
     Id,
-    TimeMinutes,
+    DurationMinutes,
+    Date,
     Text
 }
