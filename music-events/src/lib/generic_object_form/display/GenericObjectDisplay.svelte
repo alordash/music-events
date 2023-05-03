@@ -14,9 +14,7 @@
 	let fieldKeys = Object.keys(displayObject).map((key) => fieldTypeExtractor(key));
 
 	const currentLink = $page.url.href;
-	console.log('currentLink :>> ', currentLink);
 	const editLink = currentLink.substring(0, currentLink.lastIndexOf('/')) + '/edit';
-	console.log('editLink :>> ', editLink);
 </script>
 
 <div class="card">

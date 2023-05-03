@@ -17,6 +17,37 @@ pub async fn get_all_concerts(pool: &PgPool) -> Result<Vec<Concert>, Error> {
     Ok(concert_entities.into_iter().map(Concert::from).collect())
 }
 
+pub async fn get_concerts_count(pool: &PgPool) -> Result<i64, Error> {
+    let (concerts_count,): (i64,) = sqlx::query_as("SELECT COUNT(id) FROM concerts")
+        .fetch_one(pool)
+        .await?;
+
+    Ok(concerts_count)
+}
+
+pub async fn get_concerts_paginated(
+    pool: &PgPool,
+    count: i64,
+    offset: i64,
+) -> Result<Vec<Concert>, Error> {
+    let concert_entities = sqlx::query_as!(
+        ConcertEntity,
+        r#"
+        SELECT *
+        FROM concerts
+        ORDER BY id
+        LIMIT $1
+        OFFSET $2
+        "#,
+        count,
+        offset
+    )
+    .fetch_all(pool)
+    .await?;
+
+    Ok(concert_entities.into_iter().map(Concert::from).collect())
+}
+
 pub async fn get_all_concert_ids(pool: &PgPool) -> Result<Vec<i64>, Error> {
     let concert_ids = sqlx::query!(
         r#"

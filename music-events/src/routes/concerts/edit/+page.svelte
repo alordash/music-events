@@ -6,9 +6,7 @@
 		removeConcert,
 		updateConcert,
 		type Concert,
-
 		CONCERT_ID_LITERAL
-
 	} from '$lib/model/concert/Concert';
 	import ConcertObjectEdit from '$lib/model/concert/ConcertEdit.svelte';
 

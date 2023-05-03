@@ -2,8 +2,6 @@ use sqlx::postgres::PgPool;
 use std::env;
 use tauri::async_runtime::Mutex;
 
-use crate::services::db_error::db_error;
-
 pub struct DbConnectionPool {
     pub connection: Mutex<PgPool>,
 }

@@ -58,9 +58,19 @@ export async function createConcert({ date, durationMinutes, address, name }: Co
     return invoke('create_concert', { date, durationMinutes, address, name })
 }
 
+export async function getConcertsPaginated(count: number, offset: number): Promise<Array<Concert>> {
+    await sleepMaxOneSec();
+    return await invoke('get_concerts_paginated', { count, offset });
+}
+
 export async function getAllConcerts(): Promise<Array<Concert>> {
     await sleepMaxOneSec();
     return invoke('get_all_concerts');
+}
+
+export async function getConcertsCount(): Promise<number> {
+    await sleepMaxOneSec();
+    return invoke('get_concerts_count');
 }
 
 export async function getAllConcertIds(): Promise<Array<number>> {

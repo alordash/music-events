@@ -35,6 +35,28 @@ pub async fn get_all_concerts<'r>(
 }
 
 #[tauri::command]
+pub async fn get_concerts_count<'r>(connection: State<'r, DbConnectionPool>) -> Result<i64, String> {
+    let pool = &*connection.connection.lock().await;
+    let concerts_count = concerts_controller::get_concerts_count(pool)
+        .await
+        .map_err(db_error)?;
+    Ok(concerts_count)
+}
+
+#[tauri::command]
+pub async fn get_concerts_paginated<'r>(
+    count: i64,
+    offset: i64,
+    connection: State<'r, DbConnectionPool>,
+) -> Result<Vec<Concert>, String> {
+    let pool = &*connection.connection.lock().await;
+    let concerts = concerts_controller::get_concerts_paginated(pool, count, offset)
+        .await
+        .map_err(db_error)?;
+    Ok(concerts)
+}
+
+#[tauri::command]
 pub async fn get_all_concert_ids<'r>(
     connection: State<'r, DbConnectionPool>,
 ) -> Result<Vec<i64>, String> {

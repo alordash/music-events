@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ViewerSeatDisplay from './ViewerSeatDisplay.svelte';
-	import { getNViewerSeatsWithOffset, type ViewerSeat } from './ViewerSeat';
+	import { getViewerSeatsPaginated, type ViewerSeat } from './ViewerSeat';
 
 	let viewerSeats: Array<ViewerSeat> = [];
 
@@ -8,7 +8,7 @@
 	let offset = '0';
 
 	async function loadAllConcerts() {
-		viewerSeats = await getNViewerSeatsWithOffset(+count, +offset);
+		viewerSeats = await getViewerSeatsPaginated(+count, +offset);
 
 		console.log('viewerSeats :>> ', viewerSeats);
 	}

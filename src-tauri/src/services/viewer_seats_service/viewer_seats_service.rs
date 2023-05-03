@@ -22,13 +22,13 @@ pub fn create_viewer_seat(
 }
 
 #[tauri::command]
-pub async fn get_n_viewer_seats_with_offset<'r>(
-    count: u32,
-    offset: i32,
+pub async fn get_viewer_seats_paginated<'r>(
+    count: i64,
+    offset: i64,
     connection: State<'r, DbConnectionPool>,
 ) -> Result<Vec<ViewerSeat>, String> {
     let pool = &*connection.connection.lock().await;
-    let viewer_seats = viewer_seats_controller::get_n_viewer_seats_with_offset(pool, count, offset)
+    let viewer_seats = viewer_seats_controller::get_viewer_seats_paginated(pool, count, offset)
         .await
         .map_err(db_error)?;
     Ok(viewer_seats)

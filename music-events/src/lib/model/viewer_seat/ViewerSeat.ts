@@ -23,9 +23,9 @@ export async function createViewerSeat({ kind, costRubles, realNumber, concertId
     return invoke('create_viewer_seat', { kind, costRubles, realNumber, concertId });
 }
 
-export async function getNViewerSeatsWithOffset(count: number, offset: number): Promise<Array<ViewerSeat>> {
+export async function getViewerSeatsPaginated(count: number, offset: number): Promise<Array<ViewerSeat>> {
     await sleepMaxOneSec();
-    return await invoke('get_n_viewer_seats_with_offset', { count, offset });
+    return await invoke('get_viewer_seats_paginated', { count, offset });
 }
 
 export async function getAllViewerSeats(): Promise<Array<ViewerSeat>> {

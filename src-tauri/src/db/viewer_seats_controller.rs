@@ -1,35 +1,28 @@
-use sqlx::{postgres::PgRow, Error, Executor, FromRow, PgPool, Postgres, Transaction};
+use sqlx::{Error, PgPool, Postgres, Transaction};
 
 use crate::model::viewer_seat::{
     dao::viewer_seat_entity::ViewerSeatEntity, viewer_seat::ViewerSeat,
 };
 
-pub async fn get_n_viewer_seats_with_offset(
+pub async fn get_viewer_seats_paginated(
     pool: &PgPool,
-    count: u32,
-    offset: i32,
+    count: i64,
+    offset: i64,
 ) -> Result<Vec<ViewerSeat>, Error> {
-    let mut tx = pool.begin().await?;
-    tx.execute(
-        format!(
-            r#"
-        DECLARE cursor_viewer_seats CURSOR FOR SELECT * FROM viewer_seats;
-        MOVE FORWARD {} FROM cursor_viewer_seats;
+    let viewer_seat_entities = sqlx::query_as!(
+        ViewerSeatEntity,
+        r#"
+        SELECT *
+        FROM viewer_seats
+        ORDER BY id
+        LIMIT $1
+        OFFSET $2
         "#,
-            offset
-        )
-        .as_str(),
+        count,
+        offset
     )
+    .fetch_all(pool)
     .await?;
-
-    let pg_rows = sqlx::query(format!("FETCH {} FROM cursor_viewer_seats", count).as_str())
-        .fetch_all(&mut tx)
-        .await?;
-    let viewer_seat_entities: Vec<ViewerSeatEntity> = pg_rows
-        .into_iter()
-        .map(|v| <ViewerSeatEntity as FromRow<PgRow>>::from_row(&v).unwrap())
-        .collect();
-    tx.commit().await?;
 
     Ok(viewer_seat_entities
         .into_iter()
