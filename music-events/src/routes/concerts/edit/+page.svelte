@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import {
-		getAllConcertIdsAndNames,
 		getConcertById,
 		removeConcert,
 		updateConcert,
@@ -10,25 +9,7 @@
 	} from '$lib/model/concert/Concert';
 	import ConcertObjectEdit from '$lib/model/concert/ConcertEdit.svelte';
 
-	let concert: Concert | null = null;
-
-	let concertInfos: Array<[number, string]> = [];
-	let initialized = false;
-	async function init() {
-		if (initialized) {
-			return;
-		}
-		concertInfos = await getAllConcertIdsAndNames();
-		console.log('concerts :>> ', concertInfos);
-		await loadConcert();
-		initialized = true;
-	}
-	$: init();
-
-	async function onSelectConcert(concertId: number) {
-		$page.url.searchParams.set(CONCERT_ID_LITERAL, `${concertId}`);
-		await loadConcert();
-	}
+	let concertPromise: Promise<Concert | null> = Promise.resolve(null);
 
 	async function loadConcert() {
 		const concertIdStr = $page.url.searchParams.get(CONCERT_ID_LITERAL);
@@ -37,48 +18,31 @@
 			return;
 		}
 		const concertId = parseInt(concertIdStr);
-		concert = await getConcertById(concertId);
-		console.log('Selected concert :>> ', concert);
+		concertPromise = getConcertById(concertId);
 	}
 
-	async function changeCallback(newConcert: Concert) {
-		await updateConcert(newConcert);
-	}
-
-	async function deleteCallback(deleteConcert: Concert) {
-		concert = null;
-		const delId = concertInfos.findIndex(([i, _]) => i == deleteConcert.id);
-		concertInfos.splice(delId, 1);
-		concertInfos = concertInfos; // reassign to trigger reactive update
-		await removeConcert(deleteConcert.id);
-	}
+	loadConcert();
 </script>
 
-<div class="dropdown">
-	<button
-		class="btn btn-secondary dropdown-toggle"
-		type="button"
-		data-bs-toggle="dropdown"
-		aria-expanded="false"
-	>
-		Select concert
-	</button>
-	<ul class="dropdown-menu">
-		{#each concertInfos as concertInfo}
-			<li>
-				<a
-					class="dropdown-item"
-					on:keypress={() => onSelectConcert(concertInfo[0])}
-					on:click={() => onSelectConcert(concertInfo[0])}
-					href="?{CONCERT_ID_LITERAL}={concertInfo[0]}">{concertInfo[1]}</a
-				>
-			</li>
-		{/each}
-	</ul>
-</div>
-
-{#if concert != null}
-	<div class="w-50">
-		<ConcertObjectEdit {concert} {changeCallback} {deleteCallback} />
+{#await concertPromise}
+	<div class="p-2">
+		<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
+		Loading...
 	</div>
-{/if}
+{:then concert}
+	{#if concert != null}
+		<div class="w-50">
+			<ConcertObjectEdit
+				{concert}
+				changeCallback={updateConcert}
+				deleteCallback={(dc) => removeConcert(dc.id)}
+			/>
+		</div>
+	{:else}
+		<div
+			class="p-2 mt-2 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3"
+		>
+			Error: concert not found
+		</div>
+	{/if}
+{/await}
