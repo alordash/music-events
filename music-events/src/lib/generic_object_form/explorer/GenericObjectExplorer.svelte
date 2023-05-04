@@ -96,19 +96,25 @@
 			<nav class="card-footer d-flex justify-content-center" aria-label="Page navigation example">
 				<ul class="pagination m-0 me-2">
 					<li class="page-item">
-						<a class="page-link" href="?{PAGE_LITERAL}={0}">First</a>
+						<a class="page-link {currentPage == 0 ? 'disabled' : ''}" href="?{PAGE_LITERAL}={0}"
+							>First</a
+						>
 					</li>
 				</ul>
 				<ul class="pagination justify-content-center m-0">
-					<li class="page-item">
-						<a
-							class="page-link {currentPage > 0 ? '' : 'disabled'}"
-							href="?{PAGE_LITERAL}={currentPage - 1}">&laquo;</a
-						>
-					</li>
+					{#if currentPage > extraPageButtonsCount}
+						<li class="page-item">
+							<a
+								class="page-link {currentPage > 0 ? '' : 'disabled'}"
+								href="?{PAGE_LITERAL}={currentPage - 1}">&laquo;</a
+							>
+						</li>
+					{/if}
 					{#each GenNumRange(currentPage - extraPageButtonsCount, currentPage) as prevPage}
 						{#if prevPage >= 0 && prevPage < totalPages}
-							<a class="page-link" href="?{PAGE_LITERAL}={prevPage}">{prevPage + 1}</a>
+							<li class="page-item">
+								<a class="page-link" href="?{PAGE_LITERAL}={prevPage}">{prevPage + 1}</a>
+							</li>
 						{/if}
 					{/each}
 					<li class="page-item disabled">
@@ -116,20 +122,27 @@
 					</li>
 					{#each GenNumRange(currentPage + 1, currentPage + extraPageButtonsCount + 1) as nextPage}
 						{#if nextPage >= 0 && nextPage < totalPages}
-							<a class="page-link" href="?{PAGE_LITERAL}={nextPage}">{nextPage + 1}</a>
+							<li class="page-item">
+								<a class="page-link" href="?{PAGE_LITERAL}={nextPage}">{nextPage + 1}</a>
+							</li>
 						{/if}
 					{/each}
-					<li class="page-item">
-						<a
-							class="page-link {currentPage < totalPages - 1 ? '' : 'disabled'}"
-							href="?{PAGE_LITERAL}={currentPage + 1}">&raquo;</a
-						>
-					</li>
+					{#if totalPages - currentPage > extraPageButtonsCount}
+						<li class="page-item">
+							<a
+								class="page-link {currentPage < totalPages - 1 ? '' : 'disabled'}"
+								href="?{PAGE_LITERAL}={currentPage + 1}">&raquo;</a
+							>
+						</li>
+					{/if}
 				</ul>
 
 				<ul class="pagination m-0 ms-2">
 					<li class="page-item">
-						<a class="page-link" href="?{PAGE_LITERAL}={totalPages - 1}">Last</a>
+						<a
+							class="page-link {currentPage == totalPages - 1 ? 'disabled' : ''}"
+							href="?{PAGE_LITERAL}={totalPages - 1}">Last</a
+						>
 					</li>
 				</ul>
 			</nav>
