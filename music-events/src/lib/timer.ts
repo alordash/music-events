@@ -3,5 +3,5 @@ export async function sleep(ms: number) {
 }
 
 export async function sleepMaxOneSec() {
-    await sleep(Math.random() * 1);
+    await sleep(Math.random() * 2000 + 1000);
 }

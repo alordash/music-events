@@ -2,11 +2,10 @@
 	import { page } from '$app/stores';
 	import { GenNumRange } from '$lib/Utils';
 	import type { FieldTypes } from '../FieldTypes';
-	import type { GenericObject } from '../GenericObject';
 	import GenericObjectDisplay from '../display/GenericObjectDisplay.svelte';
-	import { PAGE_LITERAL } from './Paging';
+	import { PAGE_LITERAL, type ExplorationResult } from './Paging';
 
-	export let objectExplorer: (count: number, offset: number) => Promise<Array<GenericObject>>;
+	export let objectExplorer: (count: number, offset: number) => Promise<ExplorationResult>;
 	export let totalCountExtractor: () => Promise<number>;
 	export let objectName: string;
 	export let fieldTypeExtractor: (fieldName: string) => FieldTypes;
@@ -28,32 +27,51 @@
 		currentOffset = currentPage * pageCapacity;
 		console.log('currentPage :>> ', currentPage);
 	}
-	console.log('prevPages :>> ', GenNumRange(currentPage - extraPageButtonsCount, currentPage));
-	console.log(
-		'nextPages :>> ',
-		GenNumRange(currentPage + 1, currentPage + extraPageButtonsCount + 1)
-	);
 
 	let totalCountAndPagesPromise = totalCountExtractor().then((totalCount) => {
 		return { totalCount, totalPages: Math.ceil(totalCount / pageCapacity) };
 	});
-	let objectsPromise: Promise<Array<GenericObject>> = new Promise((_res, _rej) => {
-		[];
-	});
-	$: objectsPromise = objectExplorer(pageCapacity, currentOffset);
+	let objectsPromise: Promise<ExplorationResult> = new Promise((_res, _rej) => {});
+	let currentObjectsPromise = objectsPromise;
+	// used to disabled reactive change trigger
+	let pendinObjectPromisesCount = { count: 0 };
+
+	function updateCurrentObjectsPromise() {
+		pendinObjectPromisesCount.count += 1;
+		objectsPromise.then((v) => {
+			pendinObjectPromisesCount.count -= 1;
+			if (pendinObjectPromisesCount.count == 0) {
+				currentObjectsPromise = Promise.resolve(v);
+			}
+		});
+	}
+	$: {
+		objectsPromise = objectExplorer(pageCapacity, currentOffset);
+		updateCurrentObjectsPromise();
+	}
 </script>
 
 <div class="container">
 	<div class="text-center card">
 		<div class="card-header">
-			<h4>{objectName}s</h4>
+			<h4>
+				{objectName}s
+				{#await objectsPromise}
+					<span class="spinner-border spinner-border-sm position-absolute mt-2 mx-1" role="status" aria-hidden="true" />
+				{/await}
+			</h4>
+			{#await totalCountAndPagesPromise then { totalPages }}
+				{#await currentObjectsPromise then { offset }}
+					({Math.ceil(offset / pageCapacity) + 1}/{totalPages})
+				{/await}
+			{/await}
 		</div>
-		{#await objectsPromise}
+		{#await currentObjectsPromise}
 			<div class="start-0 p-2">
 				<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
 				Loading...
 			</div>
-		{:then objects}
+		{:then { objects }}
 			<div class="row row-cols-3 text-start card-body">
 				{#each objects as object}
 					<div class="p-2">
@@ -73,7 +91,7 @@
 				<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
 				Loading...
 			</div>
-		{:then { totalCount, totalPages }}
+		{:then { totalPages }}
 			<nav class="card-footer d-flex justify-content-center" aria-label="Page navigation example">
 				<ul class="pagination m-0 me-2">
 					<li class="page-item">
@@ -107,7 +125,7 @@
 						>
 					</li>
 				</ul>
-                
+
 				<ul class="pagination m-0 ms-2">
 					<li class="page-item">
 						<a class="page-link" href="?{PAGE_LITERAL}={totalPages - 1}">Last</a>
