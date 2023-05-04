@@ -32,15 +32,12 @@
 		return { totalCount, totalPages: Math.ceil(totalCount / pageCapacity) };
 	});
 	let objectsPromise: Promise<ExplorationResult> = new Promise((_res, _rej) => {});
-	let currentObjectsPromise = objectsPromise;
+	let currentObjectsPromise: Promise<ExplorationResult> = new Promise((_res, _rej) => {});
 	// used to disabled reactive change trigger
-	let pendinObjectPromisesCount = { count: 0 };
 
 	function updateCurrentObjectsPromise() {
-		pendinObjectPromisesCount.count += 1;
 		objectsPromise.then((v) => {
-			pendinObjectPromisesCount.count -= 1;
-			if (pendinObjectPromisesCount.count == 0) {
+			if (v.offset == currentPage * pageCapacity) {
 				currentObjectsPromise = Promise.resolve(v);
 			}
 		});
@@ -57,7 +54,11 @@
 			<h4>
 				{objectName}s
 				{#await objectsPromise}
-					<span class="spinner-border spinner-border-sm position-absolute mt-2 mx-1" role="status" aria-hidden="true" />
+					<span
+						class="spinner-border spinner-border-sm position-absolute mt-2 mx-1"
+						role="status"
+						aria-hidden="true"
+					/>
 				{/await}
 			</h4>
 			{#await totalCountAndPagesPromise then { totalPages }}
