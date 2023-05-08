@@ -3,11 +3,13 @@ use tauri::State;
 
 use crate::{
     db::{
-        concerts_controller,
         db_connection_pool::DbConnectionPool,
         transaction_storage::{TransactionId, TransactionStorage},
     },
-    model::{concert::Concert, date_time_custom_serde::DATE_TIME_FORMAT},
+    model::{
+        concert::{concerts_repository, Concert},
+        date_time_custom_serde::DATE_TIME_FORMAT,
+    },
     services::db_error::db_error,
 };
 
@@ -28,16 +30,18 @@ pub async fn get_all_concerts<'r>(
     connection: State<'r, DbConnectionPool>,
 ) -> Result<Vec<Concert>, String> {
     let pool = &*connection.connection.lock().await;
-    let concerts = concerts_controller::get_all_concerts(pool)
+    let concerts = concerts_repository::get_all_concerts(pool)
         .await
         .map_err(db_error)?;
     Ok(concerts)
 }
 
 #[tauri::command]
-pub async fn get_concerts_count<'r>(connection: State<'r, DbConnectionPool>) -> Result<i64, String> {
+pub async fn get_concerts_count<'r>(
+    connection: State<'r, DbConnectionPool>,
+) -> Result<i64, String> {
     let pool = &*connection.connection.lock().await;
-    let concerts_count = concerts_controller::get_concerts_count(pool)
+    let concerts_count = concerts_repository::get_concerts_count(pool)
         .await
         .map_err(db_error)?;
     Ok(concerts_count)
@@ -50,7 +54,7 @@ pub async fn get_concerts_paginated<'r>(
     connection: State<'r, DbConnectionPool>,
 ) -> Result<Vec<Concert>, String> {
     let pool = &*connection.connection.lock().await;
-    let concerts = concerts_controller::get_concerts_paginated(pool, count, offset)
+    let concerts = concerts_repository::get_concerts_paginated(pool, count, offset)
         .await
         .map_err(db_error)?;
     Ok(concerts)
@@ -61,7 +65,7 @@ pub async fn get_all_concert_ids<'r>(
     connection: State<'r, DbConnectionPool>,
 ) -> Result<Vec<i64>, String> {
     let pool = &*connection.connection.lock().await;
-    let concert_ids = concerts_controller::get_all_concert_ids(pool)
+    let concert_ids = concerts_repository::get_all_concert_ids(pool)
         .await
         .map_err(db_error)?;
     Ok(concert_ids)
@@ -72,7 +76,7 @@ pub async fn get_all_concert_ids_and_names<'r>(
     connection: State<'r, DbConnectionPool>,
 ) -> Result<Vec<(i64, String)>, String> {
     let pool = &*connection.connection.lock().await;
-    let concert_names = concerts_controller::get_all_concert_ids_and_names(pool)
+    let concert_names = concerts_repository::get_all_concert_ids_and_names(pool)
         .await
         .map_err(db_error)?;
     Ok(concert_names)
@@ -84,7 +88,7 @@ pub async fn get_concert_by_id<'r>(
     concert_id: i64,
 ) -> Result<Option<Concert>, String> {
     let pool = &*connection.connection.lock().await;
-    let concert = concerts_controller::get_concert_by_id(pool, concert_id)
+    let concert = concerts_repository::get_concert_by_id(pool, concert_id)
         .await
         .map_err(db_error)?;
     Ok(concert)
@@ -96,7 +100,7 @@ pub async fn add_concert<'r>(
     connection: State<'r, DbConnectionPool>,
 ) -> Result<i64, String> {
     let pool = &*connection.connection.lock().await;
-    let concert_id = concerts_controller::add_concert(pool, &concert)
+    let concert_id = concerts_repository::add_concert(pool, &concert)
         .await
         .map_err(db_error)?;
     Ok(concert_id)
@@ -111,7 +115,7 @@ pub async fn add_concert_transaction<'r, 't>(
     let pool = &*connection.connection.lock().await;
     let transaction_storage = &mut *transaction_storage.transactions.lock().await;
 
-    let (transaction, concert_id) = concerts_controller::add_concert_transaction(&pool, &concert)
+    let (transaction, concert_id) = concerts_repository::add_concert_transaction(&pool, &concert)
         .await
         .map_err(db_error)?;
 
@@ -126,7 +130,7 @@ pub async fn update_concert<'r>(
     connection: State<'r, DbConnectionPool>,
 ) -> Result<(), String> {
     let pool = &*connection.connection.lock().await;
-    let concert_id = concerts_controller::update_concert(pool, &concert)
+    let concert_id = concerts_repository::update_concert(pool, &concert)
         .await
         .map_err(db_error)?;
     Ok(concert_id)
@@ -138,7 +142,7 @@ pub async fn remove_concert<'r>(
     connection: State<'r, DbConnectionPool>,
 ) -> Result<u64, String> {
     let pool = &*connection.connection.lock().await;
-    let rows_affected = concerts_controller::remove_concert(pool, concert_id)
+    let rows_affected = concerts_repository::remove_concert(pool, concert_id)
         .await
         .map_err(db_error)?;
     Ok(rows_affected)

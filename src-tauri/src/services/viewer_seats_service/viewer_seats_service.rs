@@ -5,9 +5,8 @@ use crate::{
     db::{
         db_connection_pool::DbConnectionPool,
         transaction_storage::{TransactionId, TransactionStorage},
-        viewer_seats_controller,
     },
-    model::viewer_seat::ViewerSeat,
+    model::viewer_seat::{viewer_seats_repository, ViewerSeat},
     services::db_error::db_error,
 };
 
@@ -28,7 +27,7 @@ pub async fn get_viewer_seats_paginated<'r>(
     connection: State<'r, DbConnectionPool>,
 ) -> Result<Vec<ViewerSeat>, String> {
     let pool = &*connection.connection.lock().await;
-    let viewer_seats = viewer_seats_controller::get_viewer_seats_paginated(pool, count, offset)
+    let viewer_seats = viewer_seats_repository::get_viewer_seats_paginated(pool, count, offset)
         .await
         .map_err(db_error)?;
     Ok(viewer_seats)
@@ -40,7 +39,7 @@ pub async fn get_concert_viewer_seats<'r>(
     connection: State<'r, DbConnectionPool>,
 ) -> Result<Vec<ViewerSeat>, String> {
     let pool = &*connection.connection.lock().await;
-    let viewer_seats = viewer_seats_controller::get_concert_viewer_seats(pool, concert_id)
+    let viewer_seats = viewer_seats_repository::get_concert_viewer_seats(pool, concert_id)
         .await
         .map_err(db_error)?;
     Ok(viewer_seats)
@@ -51,7 +50,7 @@ pub async fn get_all_viewer_seats<'r>(
     connection: State<'r, DbConnectionPool>,
 ) -> Result<Vec<ViewerSeat>, String> {
     let pool = &*connection.connection.lock().await;
-    let viewer_seats = viewer_seats_controller::get_all_viewer_seats(pool)
+    let viewer_seats = viewer_seats_repository::get_all_viewer_seats(pool)
         .await
         .map_err(db_error)?;
     Ok(viewer_seats)
@@ -63,7 +62,7 @@ pub async fn get_all_viewer_seat_ids_and_real_numbers_and_concert_names<'r>(
 ) -> Result<Vec<(i64, i32, String)>, String> {
     let pool = &*connection.connection.lock().await;
     let viewer_seats_ids_and_real_numbers =
-        viewer_seats_controller::get_all_viewer_seat_ids_and_real_numbers_and_concert_names(pool)
+        viewer_seats_repository::get_all_viewer_seat_ids_and_real_numbers_and_concert_names(pool)
             .await
             .map_err(db_error)?;
     Ok(viewer_seats_ids_and_real_numbers)
@@ -75,7 +74,7 @@ pub async fn get_viewer_seat_by_id<'r>(
     viewer_seat_id: i64,
 ) -> Result<Option<ViewerSeat>, String> {
     let pool = &*connection.connection.lock().await;
-    let viewer_seat = viewer_seats_controller::get_viewer_seat_by_id(pool, viewer_seat_id)
+    let viewer_seat = viewer_seats_repository::get_viewer_seat_by_id(pool, viewer_seat_id)
         .await
         .map_err(db_error)?;
     Ok(viewer_seat)
@@ -88,7 +87,7 @@ pub async fn add_viewer_seat<'r>(
 ) -> Result<i64, String> {
     let pool = &*connection.connection.lock().await;
 
-    let viewer_seat_id = viewer_seats_controller::add_viewer_seat(pool, &viewer_seat)
+    let viewer_seat_id = viewer_seats_repository::add_viewer_seat(pool, &viewer_seat)
         .await
         .map_err(db_error)?;
     Ok(viewer_seat_id)
@@ -101,7 +100,7 @@ pub async fn update_viewer_seat<'r>(
 ) -> Result<(), String> {
     let pool = &*connection.connection.lock().await;
 
-    viewer_seats_controller::update_viewer_seat(pool, &viewer_seat)
+    viewer_seats_repository::update_viewer_seat(pool, &viewer_seat)
         .await
         .map_err(db_error)?;
     Ok(())
@@ -116,7 +115,7 @@ pub async fn update_viewer_seat_transaction<'r, 't>(
     let pool = &*connection.connection.lock().await;
     let transaction_storage = &mut *transaction_storage.transactions.lock().await;
 
-    let transaction = viewer_seats_controller::update_viewer_seat_transaction(&pool, &viewer_seat)
+    let transaction = viewer_seats_repository::update_viewer_seat_transaction(&pool, &viewer_seat)
         .await
         .map_err(db_error)?;
 
@@ -131,7 +130,7 @@ pub async fn remove_viewer_seat<'r>(
     connection: State<'r, DbConnectionPool>,
 ) -> Result<u64, String> {
     let pool = &*connection.connection.lock().await;
-    let rows_affected = viewer_seats_controller::remove_viewer_seat(pool, viewer_seat_id)
+    let rows_affected = viewer_seats_repository::remove_viewer_seat(pool, viewer_seat_id)
         .await
         .map_err(db_error)?;
     Ok(rows_affected)
@@ -147,7 +146,7 @@ pub async fn remove_viewer_seat_transaction<'r, 't>(
     let transaction_storage = &mut *transaction_storage.transactions.lock().await;
 
     let transaction =
-        viewer_seats_controller::remove_viewer_seat_transaction(&pool, viewer_seat_id)
+        viewer_seats_repository::remove_viewer_seat_transaction(&pool, viewer_seat_id)
             .await
             .map_err(db_error)?;
 
