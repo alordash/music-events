@@ -1,15 +1,14 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { GenNumRange } from '$lib/Utils';
-	import type { FieldTypes } from '../FieldTypes';
 	import GenericObjectDisplay from '../display/GenericObjectDisplay.svelte';
+	import type { FieldInfo } from '../edit/FieldInfo';
 	import { PAGE_LITERAL, type ExplorationResult } from './Paging';
 
 	export let objectExplorer: (count: number, offset: number) => Promise<ExplorationResult>;
 	export let totalCountExtractor: () => Promise<number>;
 	export let objectName: string;
-	export let fieldTypeExtractor: (fieldName: string) => FieldTypes;
-	export let fieldNameFormatter: (key: string) => string;
+	export let fieldComposer: (fieldName: string) => FieldInfo;
 	export let editLiteral: string | undefined;
 	export let pageCapacity: number;
 
@@ -79,8 +78,7 @@
 						<GenericObjectDisplay
 							displayObject={object}
 							{objectName}
-							{fieldTypeExtractor}
-							{fieldNameFormatter}
+							{fieldComposer}
 							{editLiteral}
 						/>
 					</div>

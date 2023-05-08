@@ -2,10 +2,13 @@
 	import { FieldTypes } from '../FieldTypes';
 	import TextDisplay from './field_displays/TextDisplay.svelte';
 	import TimeMinutesDisplay from './field_displays/DurationMinutesDisplay.svelte';
+	import type { FieldInfo } from '../edit/FieldInfo';
 
-	export let fieldName: string;
+	export let fieldInfo: FieldInfo;
 	export let value: any;
-	export let fieldType: FieldTypes;
+	
+	let fieldName = fieldInfo.fieldName;
+	let fieldType = fieldInfo.fieldType;
 </script>
 
 {#if fieldType == FieldTypes.DurationMinutes}

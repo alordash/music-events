@@ -4,14 +4,13 @@
 	import FieldDisplay from './FieldDisplay.svelte';
 	import GenericObjectCardHeader from '../GenericObjectCardHeader.svelte';
 	import { page } from '$app/stores';
+	import type { FieldInfo } from '../edit/FieldInfo';
 
 	export let displayObject: GenericObject;
 	export let objectName: string;
-	export let fieldTypeExtractor: (fieldName: string) => FieldTypes;
-	export let fieldNameFormatter: (key: string) => string;
+	export let fieldComposer: (fieldName: string) => FieldInfo;
+
 	export let editLiteral: string | undefined;
-	
-	let fieldKeys = Object.keys(displayObject).map((key) => fieldTypeExtractor(key));
 
 	const currentLink = $page.url.href;
 	const editLink = currentLink.substring(0, currentLink.lastIndexOf('/')) + '/edit';
@@ -29,7 +28,7 @@
 
 		<GenericObjectCardHeader genericObject={displayObject} {objectName} />
 		{#each Object.entries(displayObject) as [key, value], i}
-			<FieldDisplay fieldName={fieldNameFormatter(key)} fieldType={fieldKeys[i]} {value} />
+			<FieldDisplay fieldInfo={fieldComposer(key)} {value} />
 		{/each}
 	</div>
 </div>

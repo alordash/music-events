@@ -1,15 +1,13 @@
 <script lang="ts">
 	import { CreateState } from '$lib/CreateState';
-	import type { FieldTypes } from '../FieldTypes';
 	import type { GenericObject } from '../GenericObject';
 	import GenericObjectCardHeader from '../GenericObjectCardHeader.svelte';
 	import FieldEdit from '../edit/FieldEdit.svelte';
+	import type { FieldInfo } from '../edit/FieldInfo';
 
 	export let createObject: GenericObject;
 	export let objectName: string;
-	export let fieldTypeExtractor: (fieldName: string) => FieldTypes;
-	export let fieldNameFormatter: (key: string) => string;
-	let fieldKeys = Object.keys(createObject);
+	export let fieldComposer: (fieldName: string) => FieldInfo;
 
 	export let createCallback: (newObject: any) => Promise<number | undefined>;
 
@@ -36,11 +34,7 @@
 		<GenericObjectCardHeader genericObject={createObject} {objectName} />
 
 		{#each Object.keys(createObject) as key, i}
-			<FieldEdit
-				fieldName={fieldNameFormatter(key)}
-				fieldType={fieldTypeExtractor(fieldKeys[i])}
-				bind:value={createObject[key]}
-			/>
+			<FieldEdit fieldInfo={fieldComposer(key)} bind:value={createObject[key]} />
 		{/each}
 		<button type="submit" class="btn btn-primary" on:click={onCreateButton}>Create</button>
 		<br />
@@ -52,7 +46,9 @@
 				{#if createObjectId != null} with id: {createObjectId} {/if}
 			</div>
 		{:else if createState == CreateState.Error}
-			<div class="p-2 mt-2 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3">
+			<div
+				class="p-2 mt-2 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3"
+			>
 				<b>Error creating new concert:</b>
 				<br />
 				{errorMsg}

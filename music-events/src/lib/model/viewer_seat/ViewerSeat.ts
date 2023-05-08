@@ -1,20 +1,48 @@
 import { sleepMaxOneSec } from '$lib/Timer';
+import { FieldTypes } from '$lib/generic_object_form/FieldTypes';
+import { FieldInfo } from '$lib/generic_object_form/edit/FieldInfo';
 import { invoke } from '@tauri-apps/api/tauri';
 import type { Decimal } from 'decimal.js'
 
-export class ViewerSeat {
+export type ViewerSeat = {
     id: number;
     kind: string;
     costRubles: Decimal;
     realNumber: number;
     concertId: number;
+}
 
-    constructor(id: number, kind: string, costRubles: Decimal, realNumber: number, concertId: number) {
-        this.id = id;
-        this.kind = kind;
-        this.costRubles = costRubles;
-        this.realNumber = realNumber;
-        this.concertId = concertId;
+export function fieldTypeExtractor(fieldName: string): FieldTypes {
+    switch (fieldName) {
+        case 'id':
+            return FieldTypes.Id;
+        case 'kind':
+            return FieldTypes.Text;
+        case 'costRubles':
+            return FieldTypes.Number
+        case 'realNumber':
+            return FieldTypes.Text;
+        case 'concertId':
+            return FieldTypes.ObjectSelector;
+        default:
+            return FieldTypes.Text;
+    }
+}
+
+export function fieldComposer(fieldName: string): FieldInfo {
+    switch (fieldName) {
+        case 'id':
+            return FieldInfo('Id', FieldTypes.Id);
+        case 'kind':
+            return FieldInfo('Type', FieldTypes.Text);
+        case 'costRubles':
+            return FieldInfo('Cost ₽', FieldTypes.Number);
+        case 'realNumber':
+            return FieldInfo('Number', FieldTypes.Text);
+        case 'concertId':
+            return FieldInfo('Concert', FieldTypes.ObjectSelector);
+        default:
+            return FieldInfo('', FieldTypes.Text);
     }
 }
 

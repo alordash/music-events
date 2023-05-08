@@ -1,12 +1,16 @@
 <script lang="ts">
 	import { FieldTypes } from '../FieldTypes';
+	import type { FieldInfo } from './FieldInfo';
 	import DateEdit from './field_edit/DateEdit.svelte';
 	import DurationMinutesEdit from './field_edit/DurationMinutesEdit.svelte';
+	import NumberEdit from './field_edit/NumberEdit.svelte';
 	import TextEdit from './field_edit/TextEdit.svelte';
 
-	export let fieldName: string;
+	export let fieldInfo: FieldInfo;
 	export let value: any;
-	export let fieldType: FieldTypes;
+
+	let fieldName = fieldInfo.fieldName;
+	let fieldType = fieldInfo.fieldType;
 </script>
 
 {#if fieldType == FieldTypes.Id}
@@ -15,6 +19,8 @@
 	<div class="row"><DurationMinutesEdit bind:value {fieldName} /></div>
 {:else if fieldType == FieldTypes.Date}
 	<div class="row"><DateEdit bind:value {fieldName} /></div>
+{:else if fieldType == FieldTypes.Number}
+	<div class="row"><NumberEdit bind:value {fieldName} /></div>
 {:else}
 	<div class="row"><TextEdit bind:value {fieldName} /></div>
 {/if}

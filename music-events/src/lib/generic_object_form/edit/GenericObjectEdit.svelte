@@ -3,12 +3,11 @@
 	import type { GenericObject } from '../GenericObject';
 	import GenericObjectCardHeader from '../GenericObjectCardHeader.svelte';
 	import FieldEdit from './FieldEdit.svelte';
+	import type { FieldInfo } from './FieldInfo';
 
 	export let editObject: GenericObject;
 	export let objectName: string;
-	export let fieldTypeExtractor: (fieldName: string) => FieldTypes;
-	export let fieldNameFormatter: (key: string) => string;
-	let fieldKeys = Object.keys(editObject);
+	export let fieldComposer: (fieldName: string) => FieldInfo;
 
 	export let changeCallback: (newObject: any) => void;
 	export let deleteCallback: (deleteObject: any) => void;
@@ -49,11 +48,7 @@
 		<GenericObjectCardHeader genericObject={editObject} {objectName} />
 
 		{#each Object.keys(editObject) as key, i}
-			<FieldEdit
-				fieldName={fieldNameFormatter(key)}
-				fieldType={fieldTypeExtractor(fieldKeys[i])}
-				bind:value={editObject[key]}
-			/>
+			<FieldEdit fieldInfo={fieldComposer(key)} bind:value={editObject[key]} />
 		{/each}
 		<button
 			type="submit"

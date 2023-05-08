@@ -1,6 +1,6 @@
 <script lang="ts">
 	import GenericObjectEdit from '$lib/generic_object_form/edit/GenericObjectEdit.svelte';
-	import { fieldNameFormatter, fieldTypeExtractor, type Concert } from './Concert';
+	import { fieldComposer, type Concert } from './Concert';
 
 	export let concert: Concert;
 	export let changeCallback: (newConcert: Concert) => void;
@@ -10,8 +10,7 @@
 <GenericObjectEdit
 	editObject={concert}
 	objectName="Concert"
-	{fieldTypeExtractor}
-	{fieldNameFormatter}
+	{fieldComposer}
 	{changeCallback}
 	{deleteCallback}
 />

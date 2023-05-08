@@ -1,5 +1,6 @@
 import { sleepMaxOneSec } from "$lib/Timer";
 import { FieldTypes } from "$lib/generic_object_form/FieldTypes";
+import { FieldInfo } from "$lib/generic_object_form/edit/FieldInfo";
 import { invoke } from "@tauri-apps/api/tauri";
 
 export const CONCERT_ID_LITERAL = 'concert_id';
@@ -12,34 +13,20 @@ export type Concert = {
     name: string;
 }
 
-export function fieldTypeExtractor(fieldName: string): FieldTypes {
+export function fieldComposer(fieldName: string): FieldInfo {
     switch (fieldName) {
         case 'id':
-            return FieldTypes.Id;
-        case 'durationMinutes':
-            return FieldTypes.DurationMinutes;
+            return FieldInfo('Id', FieldTypes.Id);
         case 'date':
-            return FieldTypes.Date;
-
-        default:
-            return FieldTypes.Text
-    }
-}
-
-export function fieldNameFormatter(fieldName: string): string {
-    switch (fieldName) {
-        case 'id':
-            return 'Id';
-        case 'date':
-            return 'Date';
+            return FieldInfo('Date', FieldTypes.Date);
         case 'durationMinutes':
-            return 'Duration';
+            return FieldInfo('Duration', FieldTypes.DurationMinutes);
         case 'address':
-            return 'Address';
+            return FieldInfo('Address', FieldTypes.Text);
         case 'name':
-            return 'Name';
+            return FieldInfo('Name', FieldTypes.Text);
         default:
-            return '';
+            return FieldInfo('', FieldTypes.Text);
     }
 }
 
