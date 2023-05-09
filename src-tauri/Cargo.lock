@@ -1705,15 +1705,8 @@ dependencies = [
 name = "music-events"
 version = "0.1.0"
 dependencies = [
- "chrono",
  "dotenvy",
- "getset",
  "music_events_lib",
- "rust_decimal",
- "rustls",
- "serde",
- "serde_json",
- "sqlx",
  "tauri",
  "tauri-build",
  "tokio",

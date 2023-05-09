@@ -9,7 +9,7 @@ use std::sync::Arc;
 use music_events_lib::db::db_connection_pool::establish_connection_pool;
 use music_events_lib::db::transaction_storage::TransactionStorage;
 use music_events_lib::model::concert::ConcertsRepository;
-use music_events_lib::model::viewer_seat::viewer_seats_repository::ViewerSeatsRepository;
+use music_events_lib::model::viewer_seat::ViewerSeatsRepository;
 use music_events_lib::services::concerts_service::concerts_service::*;
 use music_events_lib::services::general_service::general_service::*;
 use music_events_lib::services::viewer_seats_service::viewer_seats_service::*;

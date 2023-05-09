@@ -32,6 +32,10 @@ pub fn repository_macro(input: proc_macro::TokenStream) -> proc_macro::TokenStre
             pub fn new(pool: Arc<PgPool>) -> Self {
                 #struct_name { pool }
             }
+
+            pub fn pool(&self) -> Arc<PgPool> {
+                self.pool.clone()
+            }
         }
         impl Repository for #struct_name {
             type Model = #model;

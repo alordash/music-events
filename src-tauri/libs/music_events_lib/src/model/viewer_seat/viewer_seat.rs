@@ -1,11 +1,16 @@
+use crate::model::repository::Repository;
 use getset::{Getters, Setters};
 use serde::{Deserialize, Serialize};
-use sqlx::types::Decimal;
+use sqlx::{types::Decimal, Error, PgPool};
 
 use super::dao::viewer_seat_entity::ViewerSeatEntity;
 
 #[derive(Debug, Clone, Serialize, Deserialize, Getters, Setters)]
 #[getset(get = "pub", set = "pub")]
+#[derive(Repository)]
+#[table_name = "viewer_seats"]
+#[entity = "ViewerSeatEntity"]
+#[model = "ViewerSeat"]
 pub struct ViewerSeat {
     id: Option<i64>, // None if created manually, Some(id) if retrieved from db
     kind: String,

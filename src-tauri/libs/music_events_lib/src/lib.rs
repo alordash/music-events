@@ -11,7 +11,7 @@ pub mod services;
 pub use db::db_connection_pool::establish_connection_pool;
 pub use db::transaction_storage::TransactionStorage;
 pub use model::concert::ConcertsRepository;
-pub use model::viewer_seat::viewer_seats_repository::ViewerSeatsRepository;
+pub use model::viewer_seat::ViewerSeatsRepository;
 pub use services::concerts_service::concerts_service::*;
 pub use services::general_service::general_service::*;
 pub use services::viewer_seats_service::viewer_seats_service::*;

@@ -8,10 +8,7 @@ use crate::{
     },
     model::{
         repository::*,
-        viewer_seat::{
-            viewer_seats_repository::{self, ViewerSeatsRepository},
-            ViewerSeat,
-        },
+        viewer_seat::{ViewerSeat, ViewerSeatsRepository},
     },
     services::db_error::db_error,
 };
