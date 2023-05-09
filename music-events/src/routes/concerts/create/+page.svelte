@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { createEmptyConcert, addConcert } from '$lib/model/concert/Concert';
+	import { createEmpty, addConcert } from '$lib/model/concert/Concert';
 	import ConcertObjectCreate from '$lib/model/concert/ConcertCreate.svelte';
-	let concert = createEmptyConcert();
+	let concert = createEmpty();
 </script>
 
 <div class="w-50">

@@ -1,93 +1,48 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import ViewerSeatEdit from '$lib/model/viewer_seat/ViewerSeatEdit.svelte';
 	import {
-		getAllViewerSeatIdsAndRealNumbersAndConcertNames,
 		getViewerSeatById,
+		removeViewerSeat,
 		updateViewerSeat,
-		type ViewerSeat
+		type ViewerSeat,
+		VIEWER_SEAT_ID_LITERAL
 	} from '$lib/model/viewer_seat/ViewerSeat';
+	import ViewerSeatEdit from '$lib/model/viewer_seat/ViewerSeatEdit.svelte';
 
-	const viewerSeatIdLiteral = 'viewer_seat_id';
-
-	let viewerSeat: ViewerSeat | null = null;
-
-	let viewerSeatInfos: Array<[number, number, string]> = [];
-	let initialized = false;
-	async function init() {
-		if (initialized) {
-			return;
-		}
-		viewerSeatInfos = await getAllViewerSeatIdsAndRealNumbersAndConcertNames();
-		console.log('concerts :>> ', viewerSeatInfos);
-		initialized = true;
-	}
-	$: init();
-
-	async function onSelectConcert(viewerSeatId: number) {
-		$page.url.searchParams.set(viewerSeatIdLiteral, `${viewerSeatId}`);
-		await loadConcert();
-	}
+	let objectPromise: Promise<ViewerSeat | null> = Promise.resolve(null);
 
 	async function loadConcert() {
-		const viewerSeatIdStr = $page.url.searchParams.get(viewerSeatIdLiteral);
-		if (viewerSeatIdStr == null) {
+		const idStr = $page.url.searchParams.get(VIEWER_SEAT_ID_LITERAL);
+		if (idStr == null) {
 			console.log(`Error getting concert id`);
 			return;
 		}
-		const viewerSeatId = parseInt(viewerSeatIdStr);
-		viewerSeat = await getViewerSeatById(viewerSeatId);
-		console.log('Selected concert :>> ', viewerSeat);
+		const id = parseInt(idStr);
+		objectPromise = getViewerSeatById(id);
 	}
 
-	async function changeCallback(newViewerSeat: ViewerSeat) {
-		await updateViewerSeat(newViewerSeat);
-	}
-
-	async function deleteCallback(deleteViewerSeat: ViewerSeat) {
-		viewerSeat = null;
-		const delId = viewerSeatInfos.findIndex(([i, _]) => i == deleteViewerSeat.id);
-		viewerSeatInfos.splice(delId, 1);
-		viewerSeatInfos = viewerSeatInfos; // reassign to trigger reactive update
-	}
-
-	function getCurrentConcertInfo() {
-		const idx = viewerSeatInfos.findIndex(([i, _]) => i == viewerSeat?.id);
-		return <[number, string]>[viewerSeatInfos[idx][1], viewerSeatInfos[idx][2]];
-	}
+	loadConcert();
 </script>
 
-<div class="dropdown">
-	<button
-		class="btn btn-secondary dropdown-toggle"
-		type="button"
-		data-bs-toggle="dropdown"
-		aria-expanded="false"
-	>
-		Select viewer seat
-	</button>
-	<ul class="dropdown-menu">
-		{#each viewerSeatInfos as viewerSeatInfo}
-			<li>
-				<a
-					class="dropdown-item"
-					on:keypress={() => onSelectConcert(viewerSeatInfo[0])}
-					on:click={() => onSelectConcert(viewerSeatInfo[0])}
-					href="?{viewerSeatIdLiteral}={viewerSeatInfo[0]}"
-					>{`${viewerSeatInfo[2]}: ${viewerSeatInfo[1]}`}</a
-				>
-			</li>
-		{/each}
-	</ul>
-</div>
-
-{#if viewerSeat != null}
-	<div class="card card-body">
-		<ViewerSeatEdit
-			{viewerSeat}
-			concertIdAndName={getCurrentConcertInfo()}
-			{changeCallback}
-			{deleteCallback}
-		/>
+{#await objectPromise}
+	<div class="p-2">
+		<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
+		Loading...
 	</div>
-{/if}
+{:then object}
+	{#if object != null}
+		<div class="w-50">
+			<ViewerSeatEdit
+				viewerSeat={object}
+				changeCallback={updateViewerSeat}
+				deleteCallback={(dc) => removeViewerSeat(dc.id)}
+			/>
+		</div>
+	{:else}
+		<div
+			class="p-2 mt-2 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3"
+		>
+			Error: viewer seat not found
+		</div>
+	{/if}
+{/await}

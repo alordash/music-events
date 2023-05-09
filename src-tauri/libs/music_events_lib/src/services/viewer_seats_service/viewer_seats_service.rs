@@ -37,6 +37,17 @@ pub async fn get_viewer_seats_paginated<'r>(
 }
 
 #[tauri::command]
+pub async fn get_viewer_seats_count<'r>(
+    viewer_seats_repository: State<'r, ViewerSeatsRepository>,
+) -> Result<u64, String> {
+    let count = viewer_seats_repository
+        .get_count()
+        .await
+        .map_err(db_error)?;
+    Ok(count)
+}
+
+#[tauri::command]
 pub async fn get_concert_viewer_seats<'r>(
     concert_id: u64,
     viewer_seats_repository: State<'r, ViewerSeatsRepository>,

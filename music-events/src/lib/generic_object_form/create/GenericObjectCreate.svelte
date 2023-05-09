@@ -3,11 +3,16 @@
 	import type { GenericObject } from '../GenericObject';
 	import GenericObjectCardHeader from '../GenericObjectCardHeader.svelte';
 	import FieldEdit from '../edit/FieldEdit.svelte';
-	import type { FieldInfo } from '../edit/FieldInfo';
+	import type { FieldInfo } from '../FieldInfo';
 
 	export let createObject: GenericObject;
 	export let objectName: string;
 	export let fieldComposer: (fieldName: string) => FieldInfo;
+	let infos = Object.keys(createObject)
+		.map((key) => {
+			return { key, fieldInfo: fieldComposer(key) };
+		})
+		.sort((a, b) => a.fieldInfo.priority - b.fieldInfo.priority);
 
 	export let createCallback: (newObject: any) => Promise<number | undefined>;
 
@@ -33,8 +38,8 @@
 	<div class="card-body container">
 		<GenericObjectCardHeader genericObject={createObject} {objectName} />
 
-		{#each Object.keys(createObject) as key, i}
-			<FieldEdit fieldInfo={fieldComposer(key)} bind:value={createObject[key]} />
+		{#each infos as info}
+			<FieldEdit fieldInfo={info.fieldInfo} bind:value={createObject[info.key]} />
 		{/each}
 		<button type="submit" class="btn btn-primary" on:click={onCreateButton}>Create</button>
 		<br />

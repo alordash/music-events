@@ -41,13 +41,11 @@ async fn main() {
             remove_concert,
             get_viewer_seats_paginated,
             get_all_viewer_seats,
-            // get_all_viewer_seat_ids_and_real_numbers_and_concert_names,
+            get_viewer_seats_count,
             get_viewer_seat_by_id,
             add_viewer_seat,
             update_viewer_seat,
-            // update_viewer_seat_transaction,
             remove_viewer_seat,
-            // remove_viewer_seat_transaction,
             transaction_commit,
             transaction_rollback
         ])

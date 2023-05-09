@@ -9,31 +9,31 @@
 	} from '$lib/model/concert/Concert';
 	import ConcertObjectEdit from '$lib/model/concert/ConcertEdit.svelte';
 
-	let concertPromise: Promise<Concert | null> = Promise.resolve(null);
+	let objectPromise: Promise<Concert | null> = Promise.resolve(null);
 
 	async function loadConcert() {
-		const concertIdStr = $page.url.searchParams.get(CONCERT_ID_LITERAL);
-		if (concertIdStr == null) {
+		const idStr = $page.url.searchParams.get(CONCERT_ID_LITERAL);
+		if (idStr == null) {
 			console.log(`Error getting concert id`);
 			return;
 		}
-		const concertId = parseInt(concertIdStr);
-		concertPromise = getConcertById(concertId);
+		const id = parseInt(idStr);
+		objectPromise = getConcertById(id);
 	}
 
 	loadConcert();
 </script>
 
-{#await concertPromise}
+{#await objectPromise}
 	<div class="p-2">
 		<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
 		Loading...
 	</div>
-{:then concert}
-	{#if concert != null}
+{:then object}
+	{#if object != null}
 		<div class="w-50">
 			<ConcertObjectEdit
-				{concert}
+				concert={object}
 				changeCallback={updateConcert}
 				deleteCallback={(dc) => removeConcert(dc.id)}
 			/>

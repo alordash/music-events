@@ -1,8 +1,10 @@
 import { sleepMaxOneSec } from '$lib/Timer';
 import { FieldTypes } from '$lib/generic_object_form/FieldTypes';
-import { FieldInfo } from '$lib/generic_object_form/edit/FieldInfo';
+import { FieldInfo } from '$lib/generic_object_form/FieldInfo';
 import { invoke } from '@tauri-apps/api/tauri';
-import type { Decimal } from 'decimal.js'
+import { Decimal } from 'decimal.js'
+
+export const VIEWER_SEAT_ID_LITERAL = 'viewer_seat_id';
 
 export type ViewerSeat = {
     id: number;
@@ -12,23 +14,6 @@ export type ViewerSeat = {
     concertId: number;
 }
 
-export function fieldTypeExtractor(fieldName: string): FieldTypes {
-    switch (fieldName) {
-        case 'id':
-            return FieldTypes.Id;
-        case 'kind':
-            return FieldTypes.Text;
-        case 'costRubles':
-            return FieldTypes.Number
-        case 'realNumber':
-            return FieldTypes.Text;
-        case 'concertId':
-            return FieldTypes.ObjectSelector;
-        default:
-            return FieldTypes.Text;
-    }
-}
-
 export function fieldComposer(fieldName: string): FieldInfo {
     switch (fieldName) {
         case 'id':
@@ -36,13 +21,23 @@ export function fieldComposer(fieldName: string): FieldInfo {
         case 'kind':
             return FieldInfo('Type', FieldTypes.Text);
         case 'costRubles':
-            return FieldInfo('Cost ₽', FieldTypes.Number);
+            return FieldInfo('Cost', FieldTypes.CostRubles);
         case 'realNumber':
-            return FieldInfo('Number', FieldTypes.Text);
+            return FieldInfo('Number', FieldTypes.Number);
         case 'concertId':
-            return FieldInfo('Concert', FieldTypes.ObjectSelector);
+            return FieldInfo('Concert', FieldTypes.Number, 100000);
         default:
             return FieldInfo('', FieldTypes.Text);
+    }
+}
+
+export function createEmpty(): ViewerSeat {
+    return {
+        id: 0,
+        concertId: 0,
+        costRubles: new Decimal(0),
+        kind: '',
+        realNumber: 0
     }
 }
 
@@ -59,6 +54,11 @@ export async function getViewerSeatsPaginated(count: number, offset: number): Pr
 export async function getAllViewerSeats(): Promise<Array<ViewerSeat>> {
     await sleepMaxOneSec();
     return invoke('get_all_viewer_seats');
+}
+
+export async function getViewerSeatsCount(): Promise<number> {
+    await sleepMaxOneSec();
+    return invoke('get_viewer_seats_count');
 }
 
 export async function getAllViewerSeatIdsAndRealNumbersAndConcertNames(): Promise<Array<[number, number, string]>> {

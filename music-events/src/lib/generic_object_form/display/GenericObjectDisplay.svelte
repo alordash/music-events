@@ -1,14 +1,18 @@
 <script lang="ts">
 	import type { GenericObject } from '../GenericObject';
-	import type { FieldTypes } from '../FieldTypes';
 	import FieldDisplay from './FieldDisplay.svelte';
 	import GenericObjectCardHeader from '../GenericObjectCardHeader.svelte';
 	import { page } from '$app/stores';
-	import type { FieldInfo } from '../edit/FieldInfo';
+	import type { FieldInfo } from '../FieldInfo';
 
 	export let displayObject: GenericObject;
 	export let objectName: string;
 	export let fieldComposer: (fieldName: string) => FieldInfo;
+	let infos = Object.keys(displayObject)
+		.map((key) => {
+			return { key, fieldInfo: fieldComposer(key) };
+		})
+		.sort((a, b) => a.fieldInfo.priority - b.fieldInfo.priority);
 
 	export let editLiteral: string | undefined;
 
@@ -27,8 +31,8 @@
 		{/if}
 
 		<GenericObjectCardHeader genericObject={displayObject} {objectName} />
-		{#each Object.entries(displayObject) as [key, value], i}
-			<FieldDisplay fieldInfo={fieldComposer(key)} {value} />
+		{#each infos as info}
+			<FieldDisplay fieldInfo={info.fieldInfo} value={displayObject[info.key]} />
 		{/each}
 	</div>
 </div>

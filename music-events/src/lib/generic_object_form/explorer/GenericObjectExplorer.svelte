@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { GenNumRange } from '$lib/Utils';
 	import GenericObjectDisplay from '../display/GenericObjectDisplay.svelte';
-	import type { FieldInfo } from '../edit/FieldInfo';
+	import type { FieldInfo } from '../FieldInfo';
 	import { PAGE_LITERAL, type ExplorationResult } from './Paging';
 
 	export let objectExplorer: (count: number, offset: number) => Promise<ExplorationResult>;
@@ -24,7 +24,6 @@
 
 	$: {
 		currentOffset = currentPage * pageCapacity;
-		console.log('currentPage :>> ', currentPage);
 	}
 
 	let totalCountAndPagesPromise = totalCountExtractor().then((totalCount) => {

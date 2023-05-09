@@ -1,6 +1,6 @@
 import { sleepMaxOneSec } from "$lib/Timer";
 import { FieldTypes } from "$lib/generic_object_form/FieldTypes";
-import { FieldInfo } from "$lib/generic_object_form/edit/FieldInfo";
+import { FieldInfo } from "$lib/generic_object_form/FieldInfo";
 import { invoke } from "@tauri-apps/api/tauri";
 
 export const CONCERT_ID_LITERAL = 'concert_id';
@@ -30,7 +30,7 @@ export function fieldComposer(fieldName: string): FieldInfo {
     }
 }
 
-export function createEmptyConcert(): Concert {
+export function createEmpty(): Concert {
     return {
         id: 0,
         address: '',
@@ -63,11 +63,6 @@ export async function getConcertsCount(): Promise<number> {
 export async function getAllConcertIds(): Promise<Array<number>> {
     await sleepMaxOneSec();
     return invoke('get_all_concert_ids');
-}
-
-export async function getAllConcertIdsAndNames(): Promise<Array<[number, string]>> {
-    await sleepMaxOneSec();
-    return invoke('get_all_concert_ids_and_names');
 }
 
 export async function getConcertById(concertId: number): Promise<Concert | null> {

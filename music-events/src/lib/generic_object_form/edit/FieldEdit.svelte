@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { FieldTypes } from '../FieldTypes';
-	import type { FieldInfo } from './FieldInfo';
+	import type { FieldInfo } from '../FieldInfo';
 	import DateEdit from './field_edit/DateEdit.svelte';
 	import DurationMinutesEdit from './field_edit/DurationMinutesEdit.svelte';
 	import NumberEdit from './field_edit/NumberEdit.svelte';

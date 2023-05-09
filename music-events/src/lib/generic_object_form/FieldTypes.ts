@@ -4,5 +4,6 @@ export enum FieldTypes {
     DurationMinutes,
     Date,
     Text,
+    CostRubles,
     ObjectSelector
 }

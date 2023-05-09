@@ -3,11 +3,16 @@
 	import type { GenericObject } from '../GenericObject';
 	import GenericObjectCardHeader from '../GenericObjectCardHeader.svelte';
 	import FieldEdit from './FieldEdit.svelte';
-	import type { FieldInfo } from './FieldInfo';
+	import type { FieldInfo } from '../FieldInfo';
 
 	export let editObject: GenericObject;
 	export let objectName: string;
 	export let fieldComposer: (fieldName: string) => FieldInfo;
+	let infos = Object.keys(editObject)
+		.map((key) => {
+			return { key, fieldInfo: fieldComposer(key) };
+		})
+		.sort((a, b) => a.fieldInfo.priority - b.fieldInfo.priority);
 
 	export let changeCallback: (newObject: any) => void;
 	export let deleteCallback: (deleteObject: any) => void;
@@ -47,8 +52,8 @@
 	<div class="card-body container">
 		<GenericObjectCardHeader genericObject={editObject} {objectName} />
 
-		{#each Object.keys(editObject) as key, i}
-			<FieldEdit fieldInfo={fieldComposer(key)} bind:value={editObject[key]} />
+		{#each infos as info}
+			<FieldEdit fieldInfo={info.fieldInfo} bind:value={editObject[info.key]} />
 		{/each}
 		<button
 			type="submit"
