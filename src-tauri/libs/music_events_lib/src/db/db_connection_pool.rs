@@ -6,13 +6,11 @@ pub struct DbConnectionPool {
     pub connection: Mutex<PgPool>,
 }
 
-pub async fn establish_connection_pool() -> Result<DbConnectionPool, String> {
+pub async fn establish_connection_pool() -> Result<PgPool, String> {
     let db_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
     let pool = PgPool::connect(&db_url)
         .await
         .map_err(|e| format!("Error connecting to db: {}", e))?;
 
-    Ok(DbConnectionPool {
-        connection: Mutex::new(pool),
-    })
+    Ok(pool)
 }

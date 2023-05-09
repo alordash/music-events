@@ -1,11 +1,17 @@
+use crate::model::repository::Repository;
 use chrono::prelude::*;
 use getset::{Getters, Setters};
 use serde::{Deserialize, Serialize};
 
 use super::dao::concert_entity::ConcertEntity;
+use sqlx::{Error, PgPool};
 
 #[derive(Debug, Clone, Serialize, Deserialize, Getters, Setters)]
 #[getset(get = "pub", set = "pub")]
+#[derive(Repository)]
+#[table_name = "concerts"]
+#[entity = "ConcertEntity"]
+#[model = "Concert"]
 pub struct Concert {
     id: Option<i64>, // None if created manually, Some(id) if retrieved from db
     #[serde(

@@ -1,0 +1,26 @@
+[package]
+name = "music_events_lib"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "music_events_lib"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[dependencies]
+repository_derive = { path = '../repository_derive' }
+serde_json = { version = "1.0", features = ["arbitrary_precision"] }
+serde = { version = "1.0", features = ["derive"] }
+tauri = { version = "1.2.2", features = [] }
+chrono = { version = "0.4.19", features = ["serde"] }
+tokio = { version = "1.24.1", features = ["full"] }
+rustls = "0.20.8"
+sqlx = { version = "0.6", features = [
+    "runtime-tokio-rustls",
+    "postgres",
+    "chrono",
+    "decimal"
+] }
+dotenvy = "0.15.6"
+getset = "0.1.2"
+rust_decimal = "1.29.1"
