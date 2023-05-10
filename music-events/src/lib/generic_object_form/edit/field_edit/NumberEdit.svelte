@@ -5,5 +5,5 @@
 
 <label for="inputNumber" class="col col-form-label">{fieldName}:</label>
 <div class="col-8">
-	<input type="number" class="form-control w-auto" id="inputNumber" bind:value />
+	<input type="number" class="form-control" id="inputNumber" bind:value />
 </div>

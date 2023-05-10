@@ -1,6 +1,9 @@
 <script lang="ts">
 	import type {
-	FieldComposer,
+		FieldComposer,
+		FieldComposer,
+		FieldInfo,
+		FieldComposer,
 		FieldInfo,
 		ObjectExplorer,
 		ObjectExtractor,
@@ -9,7 +12,6 @@
 	import type { GenericObject } from '$lib/generic_object_form/GenericObject';
 	import IdDisplay from '$lib/generic_object_form/display/field_displays/IdDisplay.svelte';
 	import GenericObjectExplorer from '$lib/generic_object_form/explorer/GenericObjectExplorer.svelte';
-	import Concerts from '$lib/model/concert/Concerts.svelte';
 
 	export let fieldName: string;
 	export let value: number;
@@ -36,54 +38,41 @@
 </script>
 
 <label for="inputRef" class="col col-form-label">{fieldName}:</label>
-<div class="col-8 input-group mb-3" id="inputRef">
-	<span class="input-group-text">
-		<IdDisplay id={value} />
-	</span>
+<div class="col-8">
 	<button
-		type="button"
-		class="btn btn-primary"
+		class="input-group mb-3 border border-0 bg-transparent p-0"
 		data-bs-toggle="modal"
-		data-bs-target="#exampleModal"
+		data-bs-target="#selectModal"
 	>
-		{#await refObjectPromise}
-			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
-		{:then refObject}
-			{refObject?.name}
-		{/await}
+		<span class="input-group-text w-auto">
+			<IdDisplay id={value} />
+		</span>
+		<span class="input-group-text form-control">
+			{#await refObjectPromise}
+				<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />&nbsp;
+			{:then refObject}
+				{refObject?.name}
+			{/await}
+		</span>
 	</button>
 </div>
 
-<div
-	class="modal fade"
-	id="exampleModal"
-	tabindex="-1"
-	aria-labelledby="exampleModalLabel"
-	aria-hidden="true"
->
+<div class="modal fade" id="selectModal" tabindex="-1" aria-hidden="true">
 	<div class="modal-dialog modal-lg modal-dialog-centered">
 		<div class="modal-content">
-			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-			</div>
 			<div class="modal-body">
-				{#await refObjectPromise}
-					<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
-				{:then refObject}
-					<GenericObjectExplorer
-						short={true}
-						showEditButton={false}
-						clickCallback={callback}
-						pageCapacity={12}
-						columnsCount={4}
-						{fieldComposer}
-						editLiteral=""
-						{objectExplorer}
-						{objectName}
-						{totalCountExtractor}
-					/>
-				{/await}
+				<GenericObjectExplorer
+					short={true}
+					showEditButton={false}
+					clickCallback={callback}
+					pageCapacity={12}
+					columnsCount={4}
+					{fieldComposer}
+					editLiteral=""
+					{objectExplorer}
+					{objectName}
+					{totalCountExtractor}
+				/>
 			</div>
 		</div>
 	</div>
