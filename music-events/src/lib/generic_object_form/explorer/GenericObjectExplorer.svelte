@@ -3,6 +3,7 @@
 	import { GenNumRange } from '$lib/Utils';
 	import GenericObjectDisplay from '../display/GenericObjectDisplay.svelte';
 	import type { FieldInfo } from '../FieldInfo';
+	import type { ClickCallback } from './ClickCallback';
 	import { PAGE_LITERAL, type ExplorationResult } from './Paging';
 
 	export let objectExplorer: (count: number, offset: number) => Promise<ExplorationResult>;
@@ -14,6 +15,9 @@
 
 	export let currentPage: number = 0;
 	export let extraPageButtonsCount: number = 2;
+	export let columnsCount = 3;
+	export let short = false;
+	export let showEditButton = true;
 	let currentOffset = 0;
 	$: {
 		let searchParamPage = $page.url.searchParams.get(PAGE_LITERAL);
@@ -25,6 +29,7 @@
 	$: {
 		currentOffset = currentPage * pageCapacity;
 	}
+	export let clickCallback: ClickCallback | undefined = undefined;
 
 	let totalCountAndPagesPromise = totalCountExtractor().then((totalCount) => {
 		return { totalCount, totalPages: Math.ceil(totalCount / pageCapacity) };
@@ -44,13 +49,28 @@
 		objectsPromise = objectExplorer(pageCapacity, currentOffset);
 		updateCurrentObjectsPromise();
 	}
+
+	function formatObjectName() {
+		let name = objectName;
+		if (clickCallback == undefined) {
+			name = `${name}s`;
+		} else {
+			name = `Select ${name.substring(0, 1).toLocaleLowerCase() + name.substring(1)}`;
+		}
+		return name;
+	}
 </script>
 
 <div class="container">
 	<div class="text-center card">
 		<div class="card-header">
 			<h4>
-				{objectName}s
+				{formatObjectName()}
+				{#await totalCountAndPagesPromise then { totalPages }}
+					{#await currentObjectsPromise then { offset }}
+						({Math.ceil(offset / pageCapacity) + 1}/{totalPages})
+					{/await}
+				{/await}
 				{#await objectsPromise}
 					<span
 						class="spinner-border spinner-border-sm position-absolute mt-2 mx-1"
@@ -59,11 +79,6 @@
 					/>
 				{/await}
 			</h4>
-			{#await totalCountAndPagesPromise then { totalPages }}
-				{#await currentObjectsPromise then { offset }}
-					({Math.ceil(offset / pageCapacity) + 1}/{totalPages})
-				{/await}
-			{/await}
 		</div>
 		{#await currentObjectsPromise}
 			<div class="start-0 p-2">
@@ -71,7 +86,7 @@
 				Loading...
 			</div>
 		{:then { objects }}
-			<div class="row row-cols-3 text-start card-body">
+			<div class="row row-cols-{columnsCount} text-start card-body">
 				{#each objects as object}
 					<div class="p-2">
 						<GenericObjectDisplay
@@ -79,6 +94,9 @@
 							{objectName}
 							{fieldComposer}
 							{editLiteral}
+							{short}
+							{showEditButton}
+							{clickCallback}
 						/>
 					</div>
 				{/each}

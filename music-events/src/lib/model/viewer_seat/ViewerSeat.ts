@@ -3,6 +3,7 @@ import { FieldTypes } from '$lib/generic_object_form/FieldTypes';
 import { FieldInfo } from '$lib/generic_object_form/FieldInfo';
 import { invoke } from '@tauri-apps/api/tauri';
 import { Decimal } from 'decimal.js'
+import { getConcertById } from '../concert/Concert';
 
 export const VIEWER_SEAT_ID_LITERAL = 'viewer_seat_id';
 
@@ -25,7 +26,7 @@ export function fieldComposer(fieldName: string): FieldInfo {
         case 'realNumber':
             return FieldInfo('Number', FieldTypes.Number);
         case 'concertId':
-            return FieldInfo('Concert', FieldTypes.Number, 100000);
+            return FieldInfo('Concert', FieldTypes.ObjectReference, 100000, getConcertById);
         default:
             return FieldInfo('', FieldTypes.Text);
     }

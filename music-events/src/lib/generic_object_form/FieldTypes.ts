@@ -5,5 +5,5 @@ export enum FieldTypes {
     Date,
     Text,
     CostRubles,
-    ObjectSelector
+    ObjectReference
 }

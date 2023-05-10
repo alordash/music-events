@@ -5,6 +5,7 @@
 
 	export let genericObject: GenericObject;
 	export let objectName: string;
+	export let short = false;
 </script>
 
 <h5 class="card-title user-select-all">
@@ -15,4 +16,6 @@
 		<IdDisplay id={genericObject.id} />
 	{/if}
 </h5>
-<h6 class="card-subtitle text-body-secondary">{objectName}</h6>
+{#if !short}
+	<h6 class="card-subtitle text-body-secondary">{objectName}</h6>
+{/if}
