@@ -1,12 +1,24 @@
 <script lang="ts">
+	import type {
+	FieldComposer,
+		FieldInfo,
+		ObjectExplorer,
+		ObjectExtractor,
+		TotalCountExtractor
+	} from '$lib/generic_object_form/FieldInfo';
 	import type { GenericObject } from '$lib/generic_object_form/GenericObject';
 	import IdDisplay from '$lib/generic_object_form/display/field_displays/IdDisplay.svelte';
+	import GenericObjectExplorer from '$lib/generic_object_form/explorer/GenericObjectExplorer.svelte';
 	import Concerts from '$lib/model/concert/Concerts.svelte';
 
 	export let fieldName: string;
 	export let value: number;
 
-	export let objectExtractor: (id: number) => Promise<GenericObject>;
+	export let objectExtractor: ObjectExtractor;
+	export let fieldComposer: FieldComposer;
+	export let objectExplorer: ObjectExplorer;
+	export let totalCountExtractor: TotalCountExtractor;
+	export let objectName: string;
 
 	const callback = (object: GenericObject | undefined) => {
 		if (object == undefined) {
@@ -25,7 +37,7 @@
 
 <label for="inputRef" class="col col-form-label">{fieldName}:</label>
 <div class="col-8 input-group mb-3" id="inputRef">
-	<span class="input-group-text" id="basic-addon1">
+	<span class="input-group-text">
 		<IdDisplay id={value} />
 	</span>
 	<button
@@ -37,7 +49,7 @@
 		{#await refObjectPromise}
 			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
 		{:then refObject}
-			{refObject.name}
+			{refObject?.name}
 		{/await}
 	</button>
 </div>
@@ -56,17 +68,23 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" />
 			</div>
 			<div class="modal-body">
-				<Concerts
-					short={true}
-					showEditButton={false}
-					clickCallback={callback}
-					pageCapacity={12}
-					columnsCount={4}
-				/>
+				{#await refObjectPromise}
+					<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
+				{:then refObject}
+					<GenericObjectExplorer
+						short={true}
+						showEditButton={false}
+						clickCallback={callback}
+						pageCapacity={12}
+						columnsCount={4}
+						{fieldComposer}
+						editLiteral=""
+						{objectExplorer}
+						{objectName}
+						{totalCountExtractor}
+					/>
+				{/await}
 			</div>
-			<!-- <div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-			</div> -->
 		</div>
 	</div>
 </div>

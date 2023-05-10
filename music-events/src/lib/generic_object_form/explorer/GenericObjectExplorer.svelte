@@ -2,12 +2,12 @@
 	import { page } from '$app/stores';
 	import { GenNumRange } from '$lib/Utils';
 	import GenericObjectDisplay from '../display/GenericObjectDisplay.svelte';
-	import type { FieldInfo } from '../FieldInfo';
+	import type { FieldInfo, ObjectExplorer, TotalCountExtractor } from '../FieldInfo';
 	import type { ClickCallback } from './ClickCallback';
 	import { PAGE_LITERAL, type ExplorationResult } from './Paging';
 
-	export let objectExplorer: (count: number, offset: number) => Promise<ExplorationResult>;
-	export let totalCountExtractor: () => Promise<number>;
+	export let objectExplorer: ObjectExplorer;
+	export let totalCountExtractor: TotalCountExtractor;
 	export let objectName: string;
 	export let fieldComposer: (fieldName: string) => FieldInfo;
 	export let editLiteral: string | undefined;
@@ -55,7 +55,7 @@
 		if (clickCallback == undefined) {
 			name = `${name}s`;
 		} else {
-			name = `Select ${name.substring(0, 1).toLocaleLowerCase() + name.substring(1)}`;
+			name = `Select ${name}`;
 		}
 		return name;
 	}

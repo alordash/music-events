@@ -1,18 +1,28 @@
 <script lang="ts">
 	import { FieldTypes } from '../FieldTypes';
-	import type { FieldInfo } from '../FieldInfo';
+	import type {
+		FieldComposer,
+		FieldInfo,
+		ObjectExplorer,
+		ObjectExtractor,
+		TotalCountExtractor
+	} from '../FieldInfo';
 	import DateEdit from './field_edit/DateEdit.svelte';
 	import DurationMinutesEdit from './field_edit/DurationMinutesEdit.svelte';
 	import NumberEdit from './field_edit/NumberEdit.svelte';
 	import TextEdit from './field_edit/TextEdit.svelte';
-	import ObjectRef from './field_edit/ObjectRef.svelte';
+	import ObjectRef from './field_edit/ObjectRefEdit.svelte';
 
 	export let fieldInfo: FieldInfo;
 	export let value: any;
 
 	let fieldName = fieldInfo.fieldName;
 	let fieldType = fieldInfo.fieldType;
-	let objectExtractor = <any>fieldInfo.objectExtractor;
+	let objectExtractor = <ObjectExtractor>fieldInfo.objectExtractor;
+	let objectExplorer = <ObjectExplorer>fieldInfo.objectExplorer;
+	let totalCountExtractor = <TotalCountExtractor>fieldInfo.totalCountExtractor;
+	let fieldComposer = <FieldComposer>fieldInfo.fieldComposer;
+	let objectName = <string>fieldInfo.objectName;
 </script>
 
 {#if fieldType == FieldTypes.Id}
@@ -25,7 +35,15 @@
 	<div class="row"><NumberEdit bind:value {fieldName} /></div>
 {:else if fieldType == FieldTypes.ObjectReference}
 	<div class="row">
-		<ObjectRef bind:value {fieldName} {objectExtractor} />
+		<ObjectRef
+			bind:value
+			{fieldName}
+			{objectExtractor}
+			{objectExplorer}
+			{totalCountExtractor}
+			{fieldComposer}
+			{objectName}
+		/>
 	</div>
 {:else}
 	<div class="row"><TextEdit bind:value {fieldName} /></div>
