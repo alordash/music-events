@@ -12,6 +12,7 @@ use music_events_lib::model::concert::ConcertsRepository;
 use music_events_lib::model::event::EventsRepository;
 use music_events_lib::model::group::GroupsRepository;
 use music_events_lib::model::group_artist::GroupArtistsRepository;
+use music_events_lib::model::participant::ParticipantsRepository;
 use music_events_lib::model::person::PersonsRepository;
 use music_events_lib::model::viewer::ViewersRepository;
 use music_events_lib::model::viewer_seat::ViewerSeatsRepository;
@@ -21,6 +22,7 @@ use music_events_lib::services::concerts_service::concerts_service::*;
 use music_events_lib::services::events_service::events_service::*;
 use music_events_lib::services::group_artists_service::group_artists_service::*;
 use music_events_lib::services::groups_service::groups_service::*;
+use music_events_lib::services::participants_service::participants_service::*;
 use music_events_lib::services::persons_service::persons_service::*;
 use music_events_lib::services::viewer_seats_service::viewer_seats_service::*;
 use music_events_lib::services::viewers_service::viewers_service::*;
@@ -34,6 +36,7 @@ async fn main() {
     let concerts_repository = ConcertsRepository::new(pool.clone());
     let artists_repository = ArtistsRepository::new(pool.clone());
     let groups_repository = GroupsRepository::new(pool.clone());
+    let participants_repository = ParticipantsRepository::new(pool.clone());
     let group_artists_repository = GroupArtistsRepository::new(pool.clone());
     let viewer_seats_repository = ViewerSeatsRepository::new(pool.clone());
     let viewers_repository = ViewersRepository::new(pool.clone());
@@ -45,6 +48,7 @@ async fn main() {
         .manage(concerts_repository)
         .manage(artists_repository)
         .manage(groups_repository)
+        .manage(participants_repository)
         .manage(group_artists_repository)
         .manage(viewer_seats_repository)
         .manage(viewers_repository)
@@ -71,6 +75,16 @@ async fn main() {
             add_concert,
             update_concert,
             remove_concert,
+            // participants
+            create_participant,
+            get_all_participants,
+            get_participants_count,
+            get_participants_paginated,
+            get_all_participant_ids,
+            get_participant_by_id,
+            add_participant,
+            update_participant,
+            remove_participant,
             // groups
             create_group,
             get_all_groups,

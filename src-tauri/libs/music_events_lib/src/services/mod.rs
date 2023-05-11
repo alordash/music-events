@@ -8,6 +8,9 @@ pub mod concerts_service {
 pub mod groups_service {
     pub mod groups_service;
 }
+pub mod participants_service {
+    pub mod participants_service;
+}
 pub mod artists_service {
     pub mod artists_service;
 }

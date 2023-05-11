@@ -26,7 +26,7 @@ export function fieldComposer(fieldName: string): FieldInfo {
                 exploreComposer(getPersonsPaginated),
                 getPersonsCount,
                 fieldComposer,
-                "persons"
+                "person"
             );
         case 'viewerSeatId':
             return FieldInfo(
@@ -37,7 +37,7 @@ export function fieldComposer(fieldName: string): FieldInfo {
                 exploreComposer(getViewerSeatsPaginated),
                 getViewerSeatsCount,
                 fieldComposer,
-                "viewer seats",
+                "viewer seat",
                 nameComposer
             );
 
