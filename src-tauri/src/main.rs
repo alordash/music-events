@@ -11,8 +11,9 @@ use music_events_lib::db::transaction_storage::TransactionStorage;
 use music_events_lib::model::concert::ConcertsRepository;
 use music_events_lib::model::viewer_seat::ViewerSeatsRepository;
 use music_events_lib::services::concerts_service::concerts_service::*;
-use music_events_lib::services::general_service::general_service::*;
+use music_events_lib::services::transactions_service::transactions_service::*;
 use music_events_lib::services::viewer_seats_service::viewer_seats_service::*;
+use music_events_lib::services::events_service::events_service::*;
 use tauri::Manager;
 
 #[tokio::main]
@@ -28,26 +29,36 @@ async fn main() {
         .manage(viewer_seats_repository)
         .manage(transaction_storage)
         .invoke_handler(tauri::generate_handler![
+            // event
+            create_event,
+            get_all_events,
+            get_events_count,
+            get_events_paginated,
+            get_all_event_ids,
+            get_event_by_id,
+            add_event,
+            update_event,
+            remove_event,
+            // concert
             create_concert,
-            create_viewer_seat,
             get_all_concerts,
             get_concerts_count,
             get_concerts_paginated,
             get_all_concert_ids,
             get_concert_by_id,
-            get_concert_viewer_seats,
             add_concert,
             update_concert,
             remove_concert,
-            get_viewer_seats_paginated,
+            // viewer_seat
+            create_viewer_seat,
             get_all_viewer_seats,
             get_viewer_seats_count,
+            get_viewer_seats_paginated,
+            get_all_viewer_seat_ids,
             get_viewer_seat_by_id,
             add_viewer_seat,
             update_viewer_seat,
             remove_viewer_seat,
-            transaction_commit,
-            transaction_rollback
         ])
         .setup(|app| {
             #[cfg(debug_assertions)]

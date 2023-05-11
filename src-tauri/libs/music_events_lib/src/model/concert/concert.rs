@@ -23,6 +23,8 @@ pub struct Concert {
     duration_minutes: i32,
     address: String,
     name: String,
+    #[serde(rename(serialize = "eventId", deserialize = "eventId"))]
+    event_id: i64,
 }
 
 impl Concert {
@@ -31,6 +33,7 @@ impl Concert {
         duration_minutes: i32,
         address: String,
         name: String,
+        event_id: i64,
     ) -> Concert {
         Concert {
             id: None,
@@ -38,6 +41,7 @@ impl Concert {
             duration_minutes,
             address,
             name,
+            event_id,
         }
     }
 }
@@ -50,6 +54,7 @@ impl From<ConcertEntity> for Concert {
             duration_minutes: concert_entity.duration_minutes,
             address: concert_entity.address,
             name: concert_entity.name,
+            event_id: concert_entity.event_id,
         }
     }
 }

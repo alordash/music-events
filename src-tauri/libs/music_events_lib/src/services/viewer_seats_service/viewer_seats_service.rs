@@ -68,6 +68,14 @@ pub async fn get_all_viewer_seats<'r>(
 }
 
 #[tauri::command]
+pub async fn get_all_viewer_seat_ids<'r>(
+    viewer_seats_repository: State<'r, ViewerSeatsRepository>,
+) -> Result<Vec<i64>, String> {
+    let viewer_seat_ids = viewer_seats_repository.get_ids().await.map_err(db_error)?;
+    Ok(viewer_seat_ids)
+}
+
+#[tauri::command]
 pub async fn get_viewer_seat_by_id<'r>(
     viewer_seat_id: u64,
     viewer_seats_repository: State<'r, ViewerSeatsRepository>,

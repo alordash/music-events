@@ -1,0 +1,4 @@
+ALTER TABLE
+    concerts
+ADD
+    COLUMN IF NOT EXISTS event_id BIGSERIAL REFERENCES events(id);

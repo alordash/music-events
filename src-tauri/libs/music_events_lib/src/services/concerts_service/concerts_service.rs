@@ -16,10 +16,17 @@ pub fn create_concert(
     duration_minutes: i32,
     address: String,
     name: String,
+    event_id: i64,
 ) -> Result<Concert, String> {
     let date = NaiveDateTime::parse_from_str(&date, DATE_TIME_FORMAT)
         .map_err(|e| format!("Error parsing date: {:?}", e))?;
-    Ok(Concert::new(date, duration_minutes, address, name))
+    Ok(Concert::new(
+        date,
+        duration_minutes,
+        address,
+        name,
+        event_id,
+    ))
 }
 
 #[tauri::command]
