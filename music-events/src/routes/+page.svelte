@@ -1,4 +1,5 @@
 <script lang="ts">
+	import LoginForm from '$lib/main_page/LoginForm.svelte';
 	import type { Concert } from '$lib/model/concert/Concert';
 	import ConcertObjectDisplay from '$lib/model/concert/ConcertDisplay.svelte';
 	let concert: Concert = {
@@ -11,4 +12,4 @@
 </script>
 
 <h1>Welcome to music events</h1>
-<ConcertObjectDisplay {concert} />
+<LoginForm />

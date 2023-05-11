@@ -3,7 +3,7 @@
 	export let value: string;
 </script>
 
-<label for="inputName" class="col col-form-label">{fieldName}:</label>
+<label for="inputPassword" class="col col-form-label">{fieldName}:</label>
 <div class="col-8">
-	<input type="password" class="form-control view" id="inputName" bind:value />
+	<input type="password" class="form-control view" id="inputPassword" bind:value />
 </div>

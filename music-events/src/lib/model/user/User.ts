@@ -87,3 +87,8 @@ export async function removeUser(userId: number): Promise<void> {
     await sleepMaxOneSec();
     return invoke('remove_user', { userId });
 }
+
+export async function tryLogin(login: string, password: string): Promise<object> {
+    await sleepMaxOneSec();
+    return invoke('try_login_user', { login, password })
+}
