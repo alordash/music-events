@@ -19,7 +19,9 @@
 {:else if fieldType == FieldTypes.CostRubles}
 	<div class="row"><CostRublesDisplay {fieldName} {value} /></div>
 {:else if fieldType == FieldTypes.ObjectReference}
-	<div class="row"><ObjectRefDisplay {fieldName} {value} {objectExtractor} /></div>
+	<div class="row">
+		<ObjectRefDisplay {fieldName} {value} {objectExtractor} nameComposer={fieldInfo.nameComposer} />
+	</div>
 {:else}
 	<div class="row"><TextDisplay {fieldName} {value} /></div>
 {/if}

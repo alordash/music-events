@@ -21,7 +21,7 @@ export function fieldComposer(fieldName: string): FieldInfo {
             return FieldInfo(
                 'Person',
                 FieldTypes.ObjectReference,
-                50000,
+                10000,
                 getPersonById,
                 exploreComposer(getPersonsPaginated),
                 getPersonsCount,
