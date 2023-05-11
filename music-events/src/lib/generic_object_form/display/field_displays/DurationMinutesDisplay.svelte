@@ -4,4 +4,4 @@
 </script>
 
 <div class="col">{fieldName}:</div>
-<div class="col">{value}m</div>
+<div class="col-8">{value}m</div>

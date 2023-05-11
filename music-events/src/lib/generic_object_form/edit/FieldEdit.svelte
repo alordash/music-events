@@ -12,6 +12,7 @@
 	import NumberEdit from './field_edit/NumberEdit.svelte';
 	import TextEdit from './field_edit/TextEdit.svelte';
 	import ObjectRef from './field_edit/ObjectRefEdit.svelte';
+	import CostRublesEdit from './field_edit/CostRublesEdit.svelte';
 
 	export let fieldInfo: FieldInfo;
 	export let value: any;
@@ -33,6 +34,8 @@
 	<div class="row"><DateEdit bind:value {fieldName} /></div>
 {:else if fieldType == FieldTypes.Number}
 	<div class="row"><NumberEdit bind:value {fieldName} /></div>
+{:else if fieldType == FieldTypes.CostRubles}
+	<div class="row"><CostRublesEdit bind:value {fieldName} /></div>
 {:else if fieldType == FieldTypes.ObjectReference}
 	<div class="row">
 		<ObjectRef

@@ -6,7 +6,7 @@
 <label for="inputDuration" class="col col-form-label">{fieldName}:</label>
 <div class="col-8">
 	<div class="input-group">
-		<input type="number" class="form-control w-auto" id="inputDuration" bind:value />
+		<input type="number" class="form-control w-auto" id="inputDuration" min=0 bind:value />
 		<span class="input-group-text">m</span>
 	</div>
 </div>

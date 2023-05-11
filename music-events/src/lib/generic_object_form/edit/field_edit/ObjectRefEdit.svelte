@@ -1,10 +1,6 @@
 <script lang="ts">
 	import type {
 		FieldComposer,
-		FieldComposer,
-		FieldInfo,
-		FieldComposer,
-		FieldInfo,
 		ObjectExplorer,
 		ObjectExtractor,
 		TotalCountExtractor
@@ -51,7 +47,7 @@
 			{#await refObjectPromise}
 				<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />&nbsp;
 			{:then refObject}
-				{refObject?.name}
+				{refObject == undefined ? 'Not set' : refObject.name}
 			{/await}
 		</span>
 	</button>
