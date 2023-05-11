@@ -5,7 +5,8 @@
 		fieldComposer,
 		PERSON_ID_LITERAL,
 		getPersonsPaginated,
-		getPersonsCount
+		getPersonsCount,
+		nameComposer
 	} from './Person';
 
 	export let short = false;
@@ -32,4 +33,5 @@
 	{short}
 	{showEditButton}
 	{clickCallback}
+	{nameComposer}
 />

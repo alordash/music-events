@@ -2,14 +2,14 @@
 	import GenericObjectExplorer from '$lib/generic_object_form/explorer/GenericObjectExplorer.svelte';
 	import {
 		fieldComposer,
-		ACTOR_ID_LITERAL,
-		getActorsPaginated,
-		getActorsCount,
+		ARTIST_ID_LITERAL,
+		getArtistsPaginated,
+		getArtistsCount,
 		nameComposer
-	} from './Actor';
+	} from './Artist';
 
 	function objectExplorer(count: number, offset: number) {
-		return getActorsPaginated(count, offset).then((objects) =>
+		return getArtistsPaginated(count, offset).then((objects) =>
 			Promise.resolve({ objects, offset })
 		);
 	}
@@ -17,10 +17,10 @@
 
 <GenericObjectExplorer
 	{objectExplorer}
-	totalCountExtractor={getActorsCount}
-	objectName="Actor seat"
+	totalCountExtractor={getArtistsCount}
+	objectName="Artist seat"
 	{fieldComposer}
-	editLiteral={ACTOR_ID_LITERAL}
+	editLiteral={ARTIST_ID_LITERAL}
 	columnsCount={2}
 	pageCapacity={6}
 	{nameComposer}

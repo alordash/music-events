@@ -4,10 +4,11 @@ import { FieldInfo, FieldInfoUnknown, exploreComposer } from '$lib/generic_objec
 import { invoke } from '@tauri-apps/api/tauri';
 import type { GenericObject } from '$lib/generic_object_form/GenericObject';
 import { getPersonById, getPersonsCount, getPersonsPaginated } from '../person/Person';
+import { nameComposer as personNameComposer } from '../person/Person'
 
-export const ACTOR_ID_LITERAL = 'actor_id';
+export const ARTIST_ID_LITERAL = 'artist_id';
 
-export type Actor = {
+export type Artist = {
     id: number;
     pseudonym: string,
     personId: number
@@ -28,7 +29,8 @@ export function fieldComposer(fieldName: string): FieldInfo {
                 exploreComposer(getPersonsPaginated),
                 getPersonsCount,
                 fieldComposer,
-                "persons"
+                "persons",
+                personNameComposer
             );
         default:
             return FieldInfoUnknown();
@@ -36,11 +38,11 @@ export function fieldComposer(fieldName: string): FieldInfo {
 }
 
 export async function nameComposer(obj: GenericObject) {
-    const actor = <Actor>obj;
-    return Promise.resolve(actor.pseudonym);
+    const artist = <Artist>obj;
+    return Promise.resolve(artist.pseudonym);
 }
 
-export function createEmpty(): Actor {
+export function createEmpty(): Artist {
     return {
         id: 0,
         pseudonym: '',
@@ -48,47 +50,47 @@ export function createEmpty(): Actor {
     }
 }
 
-export async function createActor({ pseudonym, personId }: Actor): Promise<object> {
+export async function createArtist({ pseudonym, personId }: Artist): Promise<object> {
     await sleepMaxOneSec();
-    return invoke('create_actor', { pseudonym, personId });
+    return invoke('create_artist', { pseudonym, personId });
 }
 
-export async function getActorsPaginated(count: number, offset: number): Promise<Array<Actor>> {
+export async function getArtistsPaginated(count: number, offset: number): Promise<Array<Artist>> {
     await sleepMaxOneSec();
-    return await invoke('get_actors_paginated', { count, offset });
+    return await invoke('get_artists_paginated', { count, offset });
 }
 
-export async function getAllActors(): Promise<Array<Actor>> {
+export async function getAllArtists(): Promise<Array<Artist>> {
     await sleepMaxOneSec();
-    return invoke('get_all_actors');
+    return invoke('get_all_artists');
 }
 
-export async function getActorsCount(): Promise<number> {
+export async function getArtistsCount(): Promise<number> {
     await sleepMaxOneSec();
-    return invoke('get_actors_count');
+    return invoke('get_artists_count');
 }
 
-export async function getAllActorIdsAndRealNumbersAndConcertNames(): Promise<Array<[number, number, string]>> {
+export async function getAllArtistIdsAndRealNumbersAndConcertNames(): Promise<Array<[number, number, string]>> {
     await sleepMaxOneSec();
-    return invoke('get_all_actor_ids_and_real_numbers_and_concert_names');
+    return invoke('get_all_artist_ids_and_real_numbers_and_concert_names');
 }
 
-export async function getActorById(actorId: number): Promise<Actor | null> {
+export async function getArtistById(artistId: number): Promise<Artist | null> {
     await sleepMaxOneSec();
-    return invoke('get_actor_by_id', { actorId });
+    return invoke('get_artist_by_id', { artistId });
 }
 
-export async function addActor(actor: object): Promise<number> {
+export async function addArtist(artist: object): Promise<number> {
     await sleepMaxOneSec();
-    return invoke('add_actor', { actor })
+    return invoke('add_artist', { artist })
 }
 
-export async function updateActor(actor: Actor): Promise<void> {
+export async function updateArtist(artist: Artist): Promise<void> {
     await sleepMaxOneSec();
-    return invoke('update_actor', { actor });
+    return invoke('update_artist', { artist });
 }
 
-export async function removeActor(actorId: number): Promise<void> {
+export async function removeArtist(artistId: number): Promise<void> {
     await sleepMaxOneSec();
-    return invoke('remove_actor', { actorId });
+    return invoke('remove_artist', { artistId });
 }

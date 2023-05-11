@@ -1,6 +1,7 @@
 import { sleepMaxOneSec } from "$lib/Timer";
 import { FieldInfo, FieldInfoUnknown } from "$lib/generic_object_form/FieldInfo";
 import { FieldTypes } from "$lib/generic_object_form/FieldTypes";
+import type { GenericObject } from "$lib/generic_object_form/GenericObject";
 import { invoke } from "@tauri-apps/api/tauri";
 
 export const PERSON_ID_LITERAL = 'person_id';
@@ -23,6 +24,11 @@ export function fieldComposer(fieldName: string): FieldInfo {
         default:
             return FieldInfoUnknown();
     }
+}
+
+export async function nameComposer(obj: GenericObject) {
+    const person = <Person>obj;
+    return Promise.resolve(`${person.name} ${person.surname}`);
 }
 
 export function createEmpty(): Person {

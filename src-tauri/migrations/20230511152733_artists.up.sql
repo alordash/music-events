@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS actors (
+CREATE TABLE IF NOT EXISTS artists (
     id BIGSERIAL PRIMARY KEY,
     pseudonym VARCHAR(100) NOT NULL,
     person_id BIGSERIAL REFERENCES persons(id)

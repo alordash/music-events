@@ -7,7 +7,7 @@ use std::sync::Arc;
 
 use music_events_lib::db::db_connection_pool::establish_connection_pool;
 use music_events_lib::db::transaction_storage::TransactionStorage;
-use music_events_lib::model::actor::ActorsRepository;
+use music_events_lib::model::artist::ArtistsRepository;
 use music_events_lib::model::concert::ConcertsRepository;
 use music_events_lib::model::event::EventsRepository;
 use music_events_lib::model::group::GroupsRepository;
@@ -17,7 +17,7 @@ use music_events_lib::model::viewer_seat::ViewerSeatsRepository;
 use music_events_lib::services::events_service::events_service::*;
 use music_events_lib::services::concerts_service::concerts_service::*;
 use music_events_lib::services::groups_service::groups_service::*;
-use music_events_lib::services::actors_service::actors_service::*;
+use music_events_lib::services::artists_service::artists_service::*;
 use music_events_lib::services::persons_service::persons_service::*;
 use music_events_lib::services::viewer_seats_service::viewer_seats_service::*;
 use music_events_lib::services::viewers_service::viewers_service::*;
@@ -29,7 +29,7 @@ async fn main() {
     let pool = Arc::new(establish_connection_pool().await.unwrap());
     let events_repository = EventsRepository::new(pool.clone());
     let concerts_repository = ConcertsRepository::new(pool.clone());
-    let actors_repository = ActorsRepository::new(pool.clone());
+    let artists_repository = ArtistsRepository::new(pool.clone());
     let groups_repository = GroupsRepository::new(pool.clone());
     let viewer_seats_repository = ViewerSeatsRepository::new(pool.clone());
     let viewers_repository = ViewersRepository::new(pool.clone());
@@ -39,7 +39,7 @@ async fn main() {
     tauri::Builder::default()
         .manage(events_repository)
         .manage(concerts_repository)
-        .manage(actors_repository)
+        .manage(artists_repository)
         .manage(groups_repository)
         .manage(viewer_seats_repository)
         .manage(viewers_repository)
@@ -76,16 +76,16 @@ async fn main() {
             add_group,
             update_group,
             remove_group,
-            // actors
-            create_actor,
-            get_all_actors,
-            get_actors_count,
-            get_actors_paginated,
-            get_all_actor_ids,
-            get_actor_by_id,
-            add_actor,
-            update_actor,
-            remove_actor,
+            // artists
+            create_artist,
+            get_all_artists,
+            get_artists_count,
+            get_artists_paginated,
+            get_all_artist_ids,
+            get_artist_by_id,
+            add_artist,
+            update_artist,
+            remove_artist,
             // viewer_seat
             create_viewer_seat,
             get_all_viewer_seats,
