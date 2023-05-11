@@ -16,7 +16,7 @@ export function fieldComposer(fieldName: string): FieldInfo {
         case 'id':
             return FieldInfo('Id', FieldTypes.Id);
         case 'name':
-            return FieldInfo('Name', FieldTypes.Text);
+            return FieldInfo('Name', FieldTypes.Name);
         case 'genre':
             return FieldInfo('Genre', FieldTypes.Text);
         default:

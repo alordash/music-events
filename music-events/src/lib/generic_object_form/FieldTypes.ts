@@ -5,5 +5,6 @@ export enum FieldTypes {
     Date,
     Text,
     CostRubles,
-    ObjectReference
+    ObjectReference,
+    Name
 }

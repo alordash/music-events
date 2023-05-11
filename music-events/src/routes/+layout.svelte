@@ -19,6 +19,7 @@
 					<a class="nav-link" href="/concerts/load/">Concerts</a>
 					<a class="nav-link" href="/groups/load/">Groups</a>
 					<a class="nav-link" href="/participants/load/">Participants</a>
+					<a class="nav-link" href="/repertoires/load/">Repertoires</a>
 					<a class="nav-link" href="/artists/load/">Artists</a>
 					<a class="nav-link" href="/group_artists/load/">Group artists</a>
 					<a class="nav-link" href="/viewer_seats/load/">Viewer seats</a>

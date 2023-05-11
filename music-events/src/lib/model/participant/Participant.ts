@@ -4,6 +4,7 @@ import { FieldTypes } from "$lib/generic_object_form/FieldTypes";
 import { invoke } from "@tauri-apps/api/tauri";
 import { getConcertById, getConcertsCount, getConcertsPaginated } from "../concert/Concert";
 import { getGroupById, getGroupsCount, getGroupsPaginated } from "../group/Group";
+import type { GenericObject } from "$lib/generic_object_form/GenericObject";
 
 export const PARTICIPANT_ID_LITERAL = 'participant_id';
 
@@ -43,6 +44,13 @@ export function fieldComposer(fieldName: string): FieldInfo {
         default:
             return FieldInfoUnknown();
     }
+}
+
+export async function nameComposer(obj: GenericObject) {
+    const participant = <Participant>obj;
+    const concert = await getConcertById(participant.concertId);
+    const group = await getGroupById(participant.groupId);
+    return `${concert?.name} – ${group?.name}`;
 }
 
 export function createEmpty(): Participant {
