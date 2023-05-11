@@ -9,9 +9,9 @@ use std::sync::Arc;
 use music_events_lib::db::db_connection_pool::establish_connection_pool;
 use music_events_lib::db::transaction_storage::TransactionStorage;
 use music_events_lib::model::concert::ConcertsRepository;
+use music_events_lib::model::event::EventsRepository;
 use music_events_lib::model::viewer_seat::ViewerSeatsRepository;
 use music_events_lib::services::concerts_service::concerts_service::*;
-use music_events_lib::services::transactions_service::transactions_service::*;
 use music_events_lib::services::viewer_seats_service::viewer_seats_service::*;
 use music_events_lib::services::events_service::events_service::*;
 use tauri::Manager;
@@ -20,11 +20,13 @@ use tauri::Manager;
 async fn main() {
     dotenvy::dotenv().ok();
     let pool = Arc::new(establish_connection_pool().await.unwrap());
+    let events_repository = EventsRepository::new(pool.clone());
     let concerts_repository = ConcertsRepository::new(pool.clone());
     let viewer_seats_repository = ViewerSeatsRepository::new(pool.clone());
 
     let transaction_storage = TransactionStorage::new();
     tauri::Builder::default()
+        .manage(events_repository)
         .manage(concerts_repository)
         .manage(viewer_seats_repository)
         .manage(transaction_storage)
