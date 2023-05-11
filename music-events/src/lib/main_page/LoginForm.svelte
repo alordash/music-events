@@ -22,13 +22,18 @@
 	}
 </script>
 
-<div class="card">
+<div class="card w-50">
 	<div class="card-body container">
+		<h5 class="card-title">Login in account</h5>
+	
 		<TextEdit fieldName="Login" bind:value={login} />
 
 		<PasswordEdit fieldName="Password" bind:value={password} />
 
-		<button class="btn btn-primary mt-3" on:click={onLoginClick}>Login</button>
+		<div class="d-inline">
+			<button class="btn btn-primary mt-3" on:click={onLoginClick}>Login</button>
+			<a class="btn btn-info mt-3" href={`registration`}>Registration</a>
+		</div>
 
 		{#if status == LoginStatus.Ok}
 			<div
