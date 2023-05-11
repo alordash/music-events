@@ -3,7 +3,7 @@
 	import FieldDisplay from './FieldDisplay.svelte';
 	import GenericObjectCardHeader from '../GenericObjectCardHeader.svelte';
 	import { page } from '$app/stores';
-	import type { FieldInfo } from '../FieldInfo';
+	import type { FieldInfo, NameComposer } from '../FieldInfo';
 	import type { ClickCallback } from '../explorer/ClickCallback';
 
 	export let displayObject: GenericObject;
@@ -19,6 +19,7 @@
 
 	export let editLiteral: string | undefined;
 	export let clickCallback: ClickCallback | undefined = undefined;
+	export let nameComposer: NameComposer | undefined = undefined;
 	const getAction = () =>
 		clickCallback == undefined ? () => {} : () => (<ClickCallback>clickCallback)(displayObject);
 
@@ -41,7 +42,7 @@
 			>
 		{/if}
 
-		<GenericObjectCardHeader genericObject={displayObject} {objectName} {short} />
+		<GenericObjectCardHeader genericObject={displayObject} {objectName} {short} {nameComposer} />
 		{#if !short}
 			{#each infos as info}
 				<FieldDisplay fieldInfo={info.fieldInfo} value={displayObject[info.key]} />

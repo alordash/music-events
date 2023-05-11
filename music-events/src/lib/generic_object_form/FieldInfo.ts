@@ -10,7 +10,8 @@ export type FieldInfo = {
     objectExplorer: ObjectExplorer | undefined,
     totalCountExtractor: TotalCountExtractor | undefined,
     fieldComposer: FieldComposer | undefined,
-    objectName: string | undefined
+    objectName: string | undefined,
+    nameComposer: NameComposer | undefined
 }
 
 export function FieldInfo(
@@ -21,7 +22,8 @@ export function FieldInfo(
     objectExplorer: ObjectExplorer | undefined = undefined,
     totalCountExtractor: TotalCountExtractor | undefined = undefined,
     fieldComposer: FieldComposer | undefined = undefined,
-    objectName: string | undefined = undefined
+    objectName: string | undefined = undefined,
+    nameComposer: NameComposer | undefined = undefined
 ): FieldInfo {
     return {
         fieldName,
@@ -31,7 +33,8 @@ export function FieldInfo(
         objectExplorer,
         totalCountExtractor,
         fieldComposer,
-        objectName
+        objectName,
+        nameComposer
     };
 }
 
@@ -43,6 +46,7 @@ export type ObjectExtractor = (id: number) => Promise<GenericObject | null>;
 export type ObjectExplorer = (count: number, offset: number) => Promise<ExplorationResult>;
 export type TotalCountExtractor = () => Promise<number>;
 export type FieldComposer = (fieldName: string) => FieldInfo;
+export type NameComposer = (obj: GenericObject) => Promise<string>;
 
 export function exploreComposer(simpleObjectExplorer: (count: number, offset: number) => Promise<Array<GenericObject>>) {
     return (count: number, offset: number) => { return simpleObjectExplorer(count, offset).then(objects => Promise.resolve({ objects, offset })) };

@@ -66,7 +66,6 @@ export async function addEvent(event: object): Promise<number> {
 
 export async function updateEvent(event: Event): Promise<void> {
     await sleepMaxOneSec();
-    console.log('update event :>> ', event);
     return invoke('update_event', { event });
 }
 

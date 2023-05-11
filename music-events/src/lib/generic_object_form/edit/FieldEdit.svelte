@@ -46,6 +46,7 @@
 			{totalCountExtractor}
 			{fieldComposer}
 			{objectName}
+			nameComposer={fieldInfo.nameComposer}
 		/>
 	</div>
 {:else}

@@ -4,7 +4,8 @@
 		fieldComposer,
 		VIEWER_SEAT_ID_LITERAL,
 		getViewerSeatsPaginated,
-		getViewerSeatsCount
+		getViewerSeatsCount,
+		nameComposer
 	} from './ViewerSeat';
 
 	function objectExplorer(count: number, offset: number) {
@@ -21,4 +22,5 @@
 	{fieldComposer}
 	editLiteral={VIEWER_SEAT_ID_LITERAL}
 	pageCapacity={3}
+	{nameComposer}
 />

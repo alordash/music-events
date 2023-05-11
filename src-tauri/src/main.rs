@@ -10,11 +10,13 @@ use music_events_lib::db::transaction_storage::TransactionStorage;
 use music_events_lib::model::concert::ConcertsRepository;
 use music_events_lib::model::event::EventsRepository;
 use music_events_lib::model::person::PersonsRepository;
+use music_events_lib::model::viewer::ViewersRepository;
 use music_events_lib::model::viewer_seat::ViewerSeatsRepository;
 use music_events_lib::services::concerts_service::concerts_service::*;
 use music_events_lib::services::events_service::events_service::*;
 use music_events_lib::services::persons_service::persons_service::*;
 use music_events_lib::services::viewer_seats_service::viewer_seats_service::*;
+use music_events_lib::services::viewers_service::viewers_service::*;
 use tauri::Manager;
 
 #[tokio::main]
@@ -25,12 +27,14 @@ async fn main() {
     let concerts_repository = ConcertsRepository::new(pool.clone());
     let viewer_seats_repository = ViewerSeatsRepository::new(pool.clone());
     let persons_repository = PersonsRepository::new(pool.clone());
+    let viewers_repository = ViewersRepository::new(pool.clone());
 
     let transaction_storage = TransactionStorage::new();
     tauri::Builder::default()
         .manage(events_repository)
         .manage(concerts_repository)
         .manage(viewer_seats_repository)
+        .manage(viewers_repository)
         .manage(persons_repository)
         .manage(transaction_storage)
         .invoke_handler(tauri::generate_handler![
@@ -64,6 +68,16 @@ async fn main() {
             add_viewer_seat,
             update_viewer_seat,
             remove_viewer_seat,
+            // viewers
+            create_viewer,
+            get_all_viewers,
+            get_viewers_count,
+            get_viewers_paginated,
+            get_all_viewer_ids,
+            get_viewer_by_id,
+            add_viewer,
+            update_viewer,
+            remove_viewer,
             // persons
             create_person,
             get_all_persons,

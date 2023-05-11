@@ -70,7 +70,6 @@ export async function addPerson(person: object): Promise<number> {
 
 export async function updatePerson(person: Person): Promise<void> {
     await sleepMaxOneSec();
-    console.log('update person :>> ', person);
     return invoke('update_person', { person });
 }
 

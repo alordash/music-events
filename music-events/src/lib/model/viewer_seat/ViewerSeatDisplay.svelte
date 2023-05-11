@@ -1,6 +1,6 @@
 <script lang="ts">
 	import GenericObjectDisplay from '$lib/generic_object_form/display/GenericObjectDisplay.svelte';
-	import { fieldComposer, type ViewerSeat, VIEWER_SEAT_ID_LITERAL } from './ViewerSeat';
+	import { fieldComposer, type ViewerSeat, VIEWER_SEAT_ID_LITERAL, nameComposer } from './ViewerSeat';
 
 	export let viewerSeat: ViewerSeat;
 </script>
@@ -10,4 +10,5 @@
 	objectName="Viewer seat"
 	{fieldComposer}
 	editLiteral={VIEWER_SEAT_ID_LITERAL}
+	{nameComposer}
 />

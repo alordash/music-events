@@ -4,6 +4,7 @@ import { FieldInfo, FieldInfoUnknown, exploreComposer } from '$lib/generic_objec
 import { invoke } from '@tauri-apps/api/tauri';
 import { Decimal } from 'decimal.js'
 import { getConcertById, getConcertsCount, getConcertsPaginated } from '../concert/Concert';
+import type { GenericObject } from '$lib/generic_object_form/GenericObject';
 
 export const VIEWER_SEAT_ID_LITERAL = 'viewer_seat_id';
 
@@ -39,6 +40,16 @@ export function fieldComposer(fieldName: string): FieldInfo {
         default:
             return FieldInfoUnknown();
     }
+}
+
+export async function nameComposer(obj: GenericObject) {
+    const viewerSeat = <ViewerSeat>obj;
+    const concert = await getConcertById(viewerSeat.concertId);
+    let result = `${concert?.name}: ${viewerSeat.kind}`;
+    if (viewerSeat.realNumber != 0) {
+        result += ` №${viewerSeat.realNumber}`;
+    }
+    return result;
 }
 
 export function createEmpty(): ViewerSeat {

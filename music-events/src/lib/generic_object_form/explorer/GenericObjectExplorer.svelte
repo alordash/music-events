@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { GenNumRange } from '$lib/Utils';
 	import GenericObjectDisplay from '../display/GenericObjectDisplay.svelte';
-	import type { FieldInfo, ObjectExplorer, TotalCountExtractor } from '../FieldInfo';
+	import type { FieldInfo, NameComposer, ObjectExplorer, TotalCountExtractor } from '../FieldInfo';
 	import type { ClickCallback } from './ClickCallback';
 	import { PAGE_LITERAL, type ExplorationResult } from './Paging';
 
@@ -18,6 +18,7 @@
 	export let columnsCount = 3;
 	export let short = false;
 	export let showEditButton = true;
+	export let nameComposer: NameComposer | undefined = undefined;
 	let currentOffset = 0;
 	$: {
 		let searchParamPage = $page.url.searchParams.get(PAGE_LITERAL);
@@ -102,6 +103,7 @@
 								{short}
 								{showEditButton}
 								{clickCallback}
+								{nameComposer}
 							/>
 						</div>
 					{/each}
