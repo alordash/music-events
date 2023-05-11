@@ -18,6 +18,7 @@
 					<a class="nav-link" href="/events/load/">Events</a>
 					<a class="nav-link" href="/concerts/load/">Concerts</a>
 					<a class="nav-link" href="/viewer_seats/load/">Viewer seats</a>
+					<a class="nav-link" href="/persons/load/">Persons</a>
 				</div>
 			</div>
 		</div>

@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS persons (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    surname VARCHAR(50) NOT NULL
+);
