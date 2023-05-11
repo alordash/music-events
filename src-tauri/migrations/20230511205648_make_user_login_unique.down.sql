@@ -1,0 +1,1 @@
+ALTER TABLE users DROP CONSTRAINT user_login_unique;
