@@ -16,6 +16,7 @@ use music_events_lib::model::participant::ParticipantsRepository;
 use music_events_lib::model::person::PersonsRepository;
 use music_events_lib::model::repertoire::RepertoiresRepository;
 use music_events_lib::model::user::UsersRepository;
+use music_events_lib::model::user_person::UserPersonsRepository;
 use music_events_lib::model::viewer::ViewersRepository;
 use music_events_lib::model::viewer_seat::ViewerSeatsRepository;
 
@@ -27,6 +28,7 @@ use music_events_lib::services::groups_service::groups_service::*;
 use music_events_lib::services::participants_service::participants_service::*;
 use music_events_lib::services::persons_service::persons_service::*;
 use music_events_lib::services::repertoires_service::repertoires_service::*;
+use music_events_lib::services::user_persons_service::user_persons_service::*;
 use music_events_lib::services::users_service::users_service::*;
 use music_events_lib::services::viewer_seats_service::viewer_seats_service::*;
 use music_events_lib::services::viewers_service::viewers_service::*;
@@ -47,6 +49,7 @@ async fn main() {
     let viewers_repository = ViewersRepository::new(pool.clone());
     let persons_repository = PersonsRepository::new(pool.clone());
     let users_repository = UsersRepository::new(pool.clone());
+    let user_persons_repository = UserPersonsRepository::new(pool.clone());
 
     let transaction_storage = TransactionStorage::new();
     tauri::Builder::default()
@@ -61,6 +64,7 @@ async fn main() {
         .manage(viewers_repository)
         .manage(persons_repository)
         .manage(users_repository)
+        .manage(user_persons_repository)
         .manage(transaction_storage)
         .invoke_handler(tauri::generate_handler![
             // event
@@ -173,7 +177,17 @@ async fn main() {
             add_user,
             update_user,
             remove_user,
-            try_login_user
+            try_login_user,
+            // user_persons
+            create_user_person,
+            get_all_user_persons,
+            get_user_persons_count,
+            get_user_persons_paginated,
+            get_all_user_person_ids,
+            get_user_person_by_id,
+            add_user_person,
+            update_user_person,
+            remove_user_person
         ])
         .setup(|app| {
             #[cfg(debug_assertions)]

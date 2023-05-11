@@ -33,6 +33,9 @@ pub mod persons_service {
 pub mod users_service {
     pub mod users_service;
 }
+pub mod user_persons_service {
+    pub mod user_persons_service;
+}
 // Unused
 pub mod transactions_service {
     pub mod transactions_service;
