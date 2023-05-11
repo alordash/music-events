@@ -22,6 +22,8 @@
 	<div class="row">
 		<ObjectRefDisplay {fieldName} {value} {objectExtractor} nameComposer={fieldInfo.nameComposer} />
 	</div>
+{:else if fieldType == FieldTypes.Id}
+	<!-- empty -->
 {:else}
 	<div class="row"><TextDisplay {fieldName} {value} /></div>
 {/if}

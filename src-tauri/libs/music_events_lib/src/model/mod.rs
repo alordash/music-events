@@ -2,6 +2,7 @@ pub mod event;
 pub mod concert;
 pub mod group;
 pub mod artist;
+pub mod group_artist;
 pub mod viewer_seat;
 pub mod viewer;
 pub mod person;

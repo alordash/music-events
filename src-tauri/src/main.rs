@@ -11,13 +11,16 @@ use music_events_lib::model::artist::ArtistsRepository;
 use music_events_lib::model::concert::ConcertsRepository;
 use music_events_lib::model::event::EventsRepository;
 use music_events_lib::model::group::GroupsRepository;
+use music_events_lib::model::group_artist::GroupArtistsRepository;
 use music_events_lib::model::person::PersonsRepository;
 use music_events_lib::model::viewer::ViewersRepository;
 use music_events_lib::model::viewer_seat::ViewerSeatsRepository;
-use music_events_lib::services::events_service::events_service::*;
-use music_events_lib::services::concerts_service::concerts_service::*;
-use music_events_lib::services::groups_service::groups_service::*;
+
 use music_events_lib::services::artists_service::artists_service::*;
+use music_events_lib::services::concerts_service::concerts_service::*;
+use music_events_lib::services::events_service::events_service::*;
+use music_events_lib::services::group_artists_service::group_artists_service::*;
+use music_events_lib::services::groups_service::groups_service::*;
 use music_events_lib::services::persons_service::persons_service::*;
 use music_events_lib::services::viewer_seats_service::viewer_seats_service::*;
 use music_events_lib::services::viewers_service::viewers_service::*;
@@ -31,6 +34,7 @@ async fn main() {
     let concerts_repository = ConcertsRepository::new(pool.clone());
     let artists_repository = ArtistsRepository::new(pool.clone());
     let groups_repository = GroupsRepository::new(pool.clone());
+    let group_artists_repository = GroupArtistsRepository::new(pool.clone());
     let viewer_seats_repository = ViewerSeatsRepository::new(pool.clone());
     let viewers_repository = ViewersRepository::new(pool.clone());
     let persons_repository = PersonsRepository::new(pool.clone());
@@ -41,6 +45,7 @@ async fn main() {
         .manage(concerts_repository)
         .manage(artists_repository)
         .manage(groups_repository)
+        .manage(group_artists_repository)
         .manage(viewer_seats_repository)
         .manage(viewers_repository)
         .manage(persons_repository)
@@ -86,6 +91,16 @@ async fn main() {
             add_artist,
             update_artist,
             remove_artist,
+            // group_artists
+            create_group_artist,
+            get_all_group_artists,
+            get_group_artists_count,
+            get_group_artists_paginated,
+            get_all_group_artist_ids,
+            get_group_artist_by_id,
+            add_group_artist,
+            update_group_artist,
+            remove_group_artist,
             // viewer_seat
             create_viewer_seat,
             get_all_viewer_seats,

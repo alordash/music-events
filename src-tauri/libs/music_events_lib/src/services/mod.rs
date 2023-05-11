@@ -5,11 +5,14 @@ pub mod events_service {
 pub mod concerts_service {
     pub mod concerts_service;
 }
+pub mod groups_service {
+    pub mod groups_service;
+}
 pub mod artists_service {
     pub mod artists_service;
 }
-pub mod groups_service {
-    pub mod groups_service;
+pub mod group_artists_service {
+    pub mod group_artists_service;
 }
 pub mod viewer_seats_service {
     pub mod viewer_seats_service;
