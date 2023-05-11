@@ -10,12 +10,14 @@ use music_events_lib::db::transaction_storage::TransactionStorage;
 use music_events_lib::model::actor::ActorsRepository;
 use music_events_lib::model::concert::ConcertsRepository;
 use music_events_lib::model::event::EventsRepository;
+use music_events_lib::model::group::GroupsRepository;
 use music_events_lib::model::person::PersonsRepository;
 use music_events_lib::model::viewer::ViewersRepository;
 use music_events_lib::model::viewer_seat::ViewerSeatsRepository;
-use music_events_lib::services::actors_service::actors_service::*;
-use music_events_lib::services::concerts_service::concerts_service::*;
 use music_events_lib::services::events_service::events_service::*;
+use music_events_lib::services::concerts_service::concerts_service::*;
+use music_events_lib::services::groups_service::groups_service::*;
+use music_events_lib::services::actors_service::actors_service::*;
 use music_events_lib::services::persons_service::persons_service::*;
 use music_events_lib::services::viewer_seats_service::viewer_seats_service::*;
 use music_events_lib::services::viewers_service::viewers_service::*;
@@ -27,20 +29,22 @@ async fn main() {
     let pool = Arc::new(establish_connection_pool().await.unwrap());
     let events_repository = EventsRepository::new(pool.clone());
     let concerts_repository = ConcertsRepository::new(pool.clone());
-    let viewer_seats_repository = ViewerSeatsRepository::new(pool.clone());
-    let persons_repository = PersonsRepository::new(pool.clone());
-    let viewers_repository = ViewersRepository::new(pool.clone());
     let actors_repository = ActorsRepository::new(pool.clone());
+    let groups_repository = GroupsRepository::new(pool.clone());
+    let viewer_seats_repository = ViewerSeatsRepository::new(pool.clone());
+    let viewers_repository = ViewersRepository::new(pool.clone());
+    let persons_repository = PersonsRepository::new(pool.clone());
 
     let transaction_storage = TransactionStorage::new();
     tauri::Builder::default()
         .manage(events_repository)
         .manage(concerts_repository)
+        .manage(actors_repository)
+        .manage(groups_repository)
         .manage(viewer_seats_repository)
         .manage(viewers_repository)
         .manage(persons_repository)
         .manage(transaction_storage)
-        .manage(actors_repository)
         .invoke_handler(tauri::generate_handler![
             // event
             create_event,
@@ -62,6 +66,26 @@ async fn main() {
             add_concert,
             update_concert,
             remove_concert,
+            // groups
+            create_group,
+            get_all_groups,
+            get_groups_count,
+            get_groups_paginated,
+            get_all_group_ids,
+            get_group_by_id,
+            add_group,
+            update_group,
+            remove_group,
+            // actors
+            create_actor,
+            get_all_actors,
+            get_actors_count,
+            get_actors_paginated,
+            get_all_actor_ids,
+            get_actor_by_id,
+            add_actor,
+            update_actor,
+            remove_actor,
             // viewer_seat
             create_viewer_seat,
             get_all_viewer_seats,
@@ -82,16 +106,6 @@ async fn main() {
             add_viewer,
             update_viewer,
             remove_viewer,
-            // actors
-            create_actor,
-            get_all_actors,
-            get_actors_count,
-            get_actors_paginated,
-            get_all_actor_ids,
-            get_actor_by_id,
-            add_actor,
-            update_actor,
-            remove_actor,
             // persons
             create_person,
             get_all_persons,
