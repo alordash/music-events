@@ -117,7 +117,7 @@
 			</div>
 		{:then { totalPages }}
 			{#if totalPages > 1}
-				<nav class="card-footer d-flex justify-content-center" aria-label="Page navigation example">
+				<nav class="card-footer d-flex justify-content-center" aria-label="Pagination">
 					<ul class="pagination m-0 me-2">
 						<li class="page-item">
 							<a class="page-link {currentPage == 0 ? 'disabled' : ''}" href="?{PAGE_LITERAL}={0}"

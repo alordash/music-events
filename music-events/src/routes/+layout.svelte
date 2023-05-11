@@ -15,17 +15,17 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 				<div class="navbar-nav">
-					<a class="nav-link" href="/events/load/">Events</a>
-					<a class="nav-link" href="/concerts/load/">Concerts</a>
-					<a class="nav-link" href="/groups/load/">Groups</a>
-					<a class="nav-link" href="/participants/load/">Participants</a>
-					<a class="nav-link" href="/repertoires/load/">Repertoires</a>
-					<a class="nav-link" href="/artists/load/">Artists</a>
-					<a class="nav-link" href="/group_artists/load/">Group artists</a>
-					<a class="nav-link" href="/viewer_seats/load/">Viewer seats</a>
-					<a class="nav-link" href="/viewers/load/">Viewers</a>
-					<a class="nav-link" href="/persons/load/">Persons</a>
-					<a class="nav-link" href="/users/load/">Users</a>
+					<a class="nav-link" href="/models/events/load/">Events</a>
+					<a class="nav-link" href="/models/concerts/load/">Concerts</a>
+					<a class="nav-link" href="/models/groups/load/">Groups</a>
+					<a class="nav-link" href="/models/participants/load/">Participants</a>
+					<a class="nav-link" href="/models/repertoires/load/">Repertoires</a>
+					<a class="nav-link" href="/models/artists/load/">Artists</a>
+					<a class="nav-link" href="/models/group_artists/load/">Group artists</a>
+					<a class="nav-link" href="/models/viewer_seats/load/">Viewer seats</a>
+					<a class="nav-link" href="/models/viewers/load/">Viewers</a>
+					<a class="nav-link" href="/models/persons/load/">Persons</a>
+					<a class="nav-link" href="/models/users/load/">Users</a>
 
 				</div>
 			</div>

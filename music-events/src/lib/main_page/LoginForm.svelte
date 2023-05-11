@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import PasswordEdit from '$lib/generic_object_form/edit/field_edit/PasswordEdit.svelte';
 	import TextEdit from '$lib/generic_object_form/edit/field_edit/TextEdit.svelte';
 	import { tryLogin, type User } from '$lib/model/user/User';
@@ -19,13 +20,27 @@
 		} else {
 			status = LoginStatus.Ok;
 		}
+
+		switch (user.role) {
+			case 'admin':
+				goto('/admin/');
+				break;
+			case 'stuff':
+				goto('/stuff/');
+				break;
+			case 'client':
+				goto('/client/');
+				break;
+			default:
+				break;
+		}
 	}
 </script>
 
 <div class="card w-50">
 	<div class="card-body container">
 		<h5 class="card-title">Login in account</h5>
-	
+
 		<TextEdit fieldName="Login" bind:value={login} />
 
 		<PasswordEdit fieldName="Password" bind:value={password} />
