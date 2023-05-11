@@ -7,11 +7,13 @@ use std::sync::Arc;
 
 use music_events_lib::db::db_connection_pool::establish_connection_pool;
 use music_events_lib::db::transaction_storage::TransactionStorage;
+use music_events_lib::model::actor::ActorsRepository;
 use music_events_lib::model::concert::ConcertsRepository;
 use music_events_lib::model::event::EventsRepository;
 use music_events_lib::model::person::PersonsRepository;
 use music_events_lib::model::viewer::ViewersRepository;
 use music_events_lib::model::viewer_seat::ViewerSeatsRepository;
+use music_events_lib::services::actors_service::actors_service::*;
 use music_events_lib::services::concerts_service::concerts_service::*;
 use music_events_lib::services::events_service::events_service::*;
 use music_events_lib::services::persons_service::persons_service::*;
@@ -28,6 +30,7 @@ async fn main() {
     let viewer_seats_repository = ViewerSeatsRepository::new(pool.clone());
     let persons_repository = PersonsRepository::new(pool.clone());
     let viewers_repository = ViewersRepository::new(pool.clone());
+    let actors_repository = ActorsRepository::new(pool.clone());
 
     let transaction_storage = TransactionStorage::new();
     tauri::Builder::default()
@@ -37,6 +40,7 @@ async fn main() {
         .manage(viewers_repository)
         .manage(persons_repository)
         .manage(transaction_storage)
+        .manage(actors_repository)
         .invoke_handler(tauri::generate_handler![
             // event
             create_event,
@@ -78,6 +82,16 @@ async fn main() {
             add_viewer,
             update_viewer,
             remove_viewer,
+            // actors
+            create_actor,
+            get_all_actors,
+            get_actors_count,
+            get_actors_paginated,
+            get_all_actor_ids,
+            get_actor_by_id,
+            add_actor,
+            update_actor,
+            remove_actor,
             // persons
             create_person,
             get_all_persons,

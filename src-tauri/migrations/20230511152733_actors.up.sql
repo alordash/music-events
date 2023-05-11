@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS actors (
+    id BIGSERIAL PRIMARY KEY,
+    pseudonym VARCHAR(100) NOT NULL,
+    person_id BIGSERIAL REFERENCES persons(id)
+);

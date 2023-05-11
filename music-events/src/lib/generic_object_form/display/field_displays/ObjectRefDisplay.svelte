@@ -19,7 +19,7 @@
 		<span class="input-group-text">
 			<IdDisplay id={value} />
 		</span>
-		<span class="input-group-text">
+		<span class="input-group-text text-truncate">
 			{#await refObjectPromise}
 				<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />&nbsp;
 			{:then refObject}

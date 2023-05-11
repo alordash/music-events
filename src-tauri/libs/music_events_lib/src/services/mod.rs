@@ -11,6 +11,9 @@ pub mod viewer_seats_service {
 pub mod viewers_service {
     pub mod viewers_service;
 }
+pub mod actors_service {
+    pub mod actors_service;
+}
 pub mod persons_service {
     pub mod persons_service;
 }
