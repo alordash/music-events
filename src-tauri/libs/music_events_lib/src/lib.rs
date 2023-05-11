@@ -2,6 +2,7 @@
     all(not(debug_assertions), target_os = "windows"),
     windows_subsystem = "windows"
 )]
+#![allow(incomplete_features)]
 #![feature(async_fn_in_trait)]
 
 pub mod db;

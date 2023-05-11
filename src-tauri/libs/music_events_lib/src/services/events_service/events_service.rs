@@ -1,22 +1,16 @@
-use chrono::NaiveDateTime;
 use tauri::State;
 
 use crate::{
     model::{
         event::{Event, EventsRepository},
-        date_time_custom_serde::DATE_TIME_FORMAT,
         repository::*,
     },
     services::db_error::db_error,
 };
 
 #[tauri::command]
-pub fn create_event(
-    name: String,
-) -> Result<Event, String> {
-    Ok(Event::new(
-        name
-    ))
+pub fn create_event(name: String) -> Result<Event, String> {
+    Ok(Event::new(name))
 }
 
 #[tauri::command]
@@ -82,10 +76,7 @@ pub async fn update_event<'r>(
     event: Event,
     events_repository: State<'r, EventsRepository>,
 ) -> Result<(), String> {
-    events_repository
-        .update(&event)
-        .await
-        .map_err(db_error)?;
+    events_repository.update(&event).await.map_err(db_error)?;
     Ok(())
 }
 
@@ -94,9 +85,6 @@ pub async fn remove_event<'r>(
     event_id: u64,
     events_repository: State<'r, EventsRepository>,
 ) -> Result<u64, String> {
-    let rows_affected = events_repository
-        .remove(event_id)
-        .await
-        .map_err(db_error)?;
+    let rows_affected = events_repository.remove(event_id).await.map_err(db_error)?;
     Ok(rows_affected)
 }

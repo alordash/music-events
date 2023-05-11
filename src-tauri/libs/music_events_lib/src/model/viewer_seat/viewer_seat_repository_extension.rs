@@ -1,7 +1,7 @@
 use crate::model::viewer_seat::dao::viewer_seat_entity::ViewerSeatEntity;
 
 use super::{ViewerSeat, ViewerSeatsRepository};
-use sqlx::{Error, PgPool};
+use sqlx::Error;
 
 impl ViewerSeatsRepository {
     pub async fn get_concert_viewer_seats(

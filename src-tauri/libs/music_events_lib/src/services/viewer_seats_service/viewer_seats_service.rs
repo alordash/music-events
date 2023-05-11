@@ -2,10 +2,6 @@ use sqlx::types::Decimal;
 use tauri::State;
 
 use crate::{
-    db::{
-        db_connection_pool::DbConnectionPool,
-        transaction_storage::{TransactionId, TransactionStorage},
-    },
     model::{
         repository::*,
         viewer_seat::{ViewerSeat, ViewerSeatsRepository},

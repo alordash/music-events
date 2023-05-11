@@ -44,39 +44,7 @@ pub trait Repository {
     async fn get_ids(&self) -> Result<Vec<i64>, Error> {
         unimplemented!();
     }
-    async fn get_paginated(&self, count: i64, offset: i64) -> Result<Vec<Self::Model>, Error> {
+    async fn get_paginated(&self, _count: i64, _offset: i64) -> Result<Vec<Self::Model>, Error> {
         unimplemented!();
     }
 }
-
-// impl<T, S> Repository<T> for S
-// where
-//     S: RepositoryParamsProvider,
-// {
-//     async fn add(&self, value: &T) -> Result<u64, Error> {
-//         let (groups, placeholders) = Self::form_params_group_and_placeholders();
-//         let a = format!(
-//             r#"
-//         INSERT INTO {}
-//         VALUES {}
-//         RETURNING id
-//         "#,
-//             groups, placeholders
-//         );
-//         let rec = sqlx::query!(
-//             r#"
-//             INSERT INTO concerts (date, duration_minutes, address, name)
-//             VALUES ( $1, $2, $3, $4 )
-//             RETURNING id
-//             "#,
-//             value.date(),
-//             value.duration_minutes(),
-//             value.address(),
-//             value.name()
-//         )
-//         .fetch_one(self.pool.as_ref())
-//         .await?;
-
-//         Ok(rec.id as u64)
-//     }
-// }
