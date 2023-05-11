@@ -15,6 +15,7 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 				<div class="navbar-nav">
+					<a class="nav-link" href="/events/load/">Events</a>
 					<a class="nav-link" href="/concerts/load/">Concerts</a>
 					<a class="nav-link" href="/viewer_seats/load/">Viewer seats</a>
 				</div>

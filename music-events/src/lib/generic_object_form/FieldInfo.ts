@@ -1,4 +1,4 @@
-import type { FieldTypes } from "./FieldTypes"
+import { FieldTypes } from "./FieldTypes"
 import type { GenericObject } from "./GenericObject";
 import type { ExplorationResult } from "./explorer/Paging";
 
@@ -35,7 +35,15 @@ export function FieldInfo(
     };
 }
 
+export function FieldInfoUnknown() {
+    return FieldInfo('??', FieldTypes.Text);
+}
+
 export type ObjectExtractor = (id: number) => Promise<GenericObject | null>;
 export type ObjectExplorer = (count: number, offset: number) => Promise<ExplorationResult>;
 export type TotalCountExtractor = () => Promise<number>;
 export type FieldComposer = (fieldName: string) => FieldInfo;
+
+export function exploreComposer(simpleObjectExplorer: (count: number, offset: number) => Promise<Array<GenericObject>>) {
+    return (count: number, offset: number) => { return simpleObjectExplorer(count, offset).then(objects => Promise.resolve({ objects, offset })) };
+}

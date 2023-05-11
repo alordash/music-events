@@ -1,6 +1,6 @@
 import { sleepMaxOneSec } from '$lib/Timer';
 import { FieldTypes } from '$lib/generic_object_form/FieldTypes';
-import { FieldInfo } from '$lib/generic_object_form/FieldInfo';
+import { FieldInfo, FieldInfoUnknown, exploreComposer } from '$lib/generic_object_form/FieldInfo';
 import { invoke } from '@tauri-apps/api/tauri';
 import { Decimal } from 'decimal.js'
 import { getConcertById, getConcertsCount, getConcertsPaginated } from '../concert/Concert';
@@ -31,13 +31,13 @@ export function fieldComposer(fieldName: string): FieldInfo {
                 FieldTypes.ObjectReference,
                 100000,
                 getConcertById,
-                (count: number, offset: number) => { return getConcertsPaginated(count, offset).then(objects => Promise.resolve({ objects, offset })) },
+                exploreComposer(getConcertsPaginated),
                 getConcertsCount,
                 fieldComposer,
                 "concerts"
             );
         default:
-            return FieldInfo('', FieldTypes.Text);
+            return FieldInfoUnknown();
     }
 }
 

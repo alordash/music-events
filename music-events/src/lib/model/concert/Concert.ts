@@ -1,7 +1,8 @@
 import { sleepMaxOneSec } from "$lib/Timer";
 import { FieldTypes } from "$lib/generic_object_form/FieldTypes";
-import { FieldInfo } from "$lib/generic_object_form/FieldInfo";
+import { FieldInfo, FieldInfoUnknown, exploreComposer } from "$lib/generic_object_form/FieldInfo";
 import { invoke } from "@tauri-apps/api/tauri";
+import { getEventById, getEventsCount, getEventsPaginated } from "../event/Event";
 
 export const CONCERT_ID_LITERAL = 'concert_id';
 
@@ -11,6 +12,7 @@ export type Concert = {
     durationMinutes: number;
     address: string;
     name: string;
+    eventId: number;
 }
 
 export function fieldComposer(fieldName: string): FieldInfo {
@@ -25,8 +27,19 @@ export function fieldComposer(fieldName: string): FieldInfo {
             return FieldInfo('Address', FieldTypes.Text);
         case 'name':
             return FieldInfo('Name', FieldTypes.Text);
+        case 'eventId':
+            return FieldInfo(
+                'Event',
+                FieldTypes.ObjectReference,
+                10000,
+                getEventById,
+                exploreComposer(getEventsPaginated),
+                getEventsCount,
+                fieldComposer,
+                "events"
+            );
         default:
-            return FieldInfo('', FieldTypes.Text);
+            return FieldInfoUnknown();
     }
 }
 
@@ -36,7 +49,8 @@ export function createEmpty(): Concert {
         address: '',
         date: '',
         durationMinutes: 0,
-        name: ''
+        name: '',
+        eventId: 0
     };
 }
 
