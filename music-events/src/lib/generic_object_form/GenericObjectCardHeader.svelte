@@ -11,9 +11,8 @@
 	export let nameComposer: NameComposer | undefined = undefined;
 </script>
 
-<h5 class="card-title user-select-all d-inline-flex">
+<h5 class="card-title user-select-all">
 	<NameDisplay name={genericObject.name} {nameComposer} {genericObject} />
-	&nbsp;
 	{#if genericObject.id != undefined}
 		<IdDisplay id={genericObject.id} />
 	{/if}

@@ -2,8 +2,8 @@ import { sleepMaxOneSec } from "$lib/Timer";
 import { FieldInfo, FieldInfoUnknown, exploreComposer } from "$lib/generic_object_form/FieldInfo";
 import { FieldTypes } from "$lib/generic_object_form/FieldTypes";
 import { invoke } from "@tauri-apps/api/tauri";
-import { getPersonById, getPersonsCount, getPersonsPaginated } from "../person/Person";
-import { getViewerSeatById, getViewerSeatsCount, getViewerSeatsPaginated, nameComposer } from "../viewer_seat/ViewerSeat";
+import { getPersonById, getPersonsCount, getPersonsPaginated, nameComposer as personNameComposer } from "../person/Person";
+import { getViewerSeatById, getViewerSeatsCount, getViewerSeatsPaginated, nameComposer as viewerSeatNameComposer } from "../viewer_seat/ViewerSeat";
 
 export const VIEWER_ID_LITERAL = 'viewer_id';
 
@@ -26,7 +26,8 @@ export function fieldComposer(fieldName: string): FieldInfo {
                 exploreComposer(getPersonsPaginated),
                 getPersonsCount,
                 fieldComposer,
-                "person"
+                "person",
+                personNameComposer
             );
         case 'viewerSeatId':
             return FieldInfo(
@@ -38,7 +39,7 @@ export function fieldComposer(fieldName: string): FieldInfo {
                 getViewerSeatsCount,
                 fieldComposer,
                 "viewer seat",
-                nameComposer
+                viewerSeatNameComposer
             );
 
         default:
