@@ -15,6 +15,7 @@ use music_events_lib::model::group_artist::GroupArtistsRepository;
 use music_events_lib::model::participant::ParticipantsRepository;
 use music_events_lib::model::person::PersonsRepository;
 use music_events_lib::model::repertoire::RepertoiresRepository;
+use music_events_lib::model::user::UsersRepository;
 use music_events_lib::model::viewer::ViewersRepository;
 use music_events_lib::model::viewer_seat::ViewerSeatsRepository;
 
@@ -26,6 +27,7 @@ use music_events_lib::services::groups_service::groups_service::*;
 use music_events_lib::services::participants_service::participants_service::*;
 use music_events_lib::services::persons_service::persons_service::*;
 use music_events_lib::services::repertoires_service::repertoires_service::*;
+use music_events_lib::services::users_service::users_service::*;
 use music_events_lib::services::viewer_seats_service::viewer_seats_service::*;
 use music_events_lib::services::viewers_service::viewers_service::*;
 use tauri::Manager;
@@ -44,6 +46,7 @@ async fn main() {
     let viewer_seats_repository = ViewerSeatsRepository::new(pool.clone());
     let viewers_repository = ViewersRepository::new(pool.clone());
     let persons_repository = PersonsRepository::new(pool.clone());
+    let users_repository = UsersRepository::new(pool.clone());
 
     let transaction_storage = TransactionStorage::new();
     tauri::Builder::default()
@@ -57,6 +60,7 @@ async fn main() {
         .manage(viewer_seats_repository)
         .manage(viewers_repository)
         .manage(persons_repository)
+        .manage(users_repository)
         .manage(transaction_storage)
         .invoke_handler(tauri::generate_handler![
             // event
@@ -159,6 +163,17 @@ async fn main() {
             add_person,
             update_person,
             remove_person,
+            // users
+            create_user,
+            get_all_users,
+            get_users_count,
+            get_users_paginated,
+            get_all_user_ids,
+            get_user_by_id,
+            add_user,
+            update_user,
+            remove_user,
+            try_login_user
         ])
         .setup(|app| {
             #[cfg(debug_assertions)]

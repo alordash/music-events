@@ -25,6 +25,8 @@
 					<a class="nav-link" href="/viewer_seats/load/">Viewer seats</a>
 					<a class="nav-link" href="/viewers/load/">Viewers</a>
 					<a class="nav-link" href="/persons/load/">Persons</a>
+					<a class="nav-link" href="/users/load/">Users</a>
+
 				</div>
 			</div>
 		</div>

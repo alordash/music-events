@@ -29,6 +29,10 @@ pub mod viewers_service {
 pub mod persons_service {
     pub mod persons_service;
 }
+
+pub mod users_service {
+    pub mod users_service;
+}
 // Unused
 pub mod transactions_service {
     pub mod transactions_service;

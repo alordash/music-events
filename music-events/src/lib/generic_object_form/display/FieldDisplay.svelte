@@ -22,6 +22,8 @@
 	<div class="row">
 		<ObjectRefDisplay {fieldName} {value} {objectExtractor} nameComposer={fieldInfo.nameComposer} />
 	</div>
+{:else if fieldType == FieldTypes.Password}
+	<!-- skip -->
 {:else if fieldType == FieldTypes.Id}
 	<!-- skip -->
 {:else if fieldType == FieldTypes.Name}

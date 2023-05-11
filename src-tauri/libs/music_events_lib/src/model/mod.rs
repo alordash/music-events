@@ -9,6 +9,8 @@ pub mod viewer_seat;
 pub mod viewer;
 pub mod person;
 
+pub mod user;
+
 pub mod date_time_custom_serde;
 
 pub mod repository;
