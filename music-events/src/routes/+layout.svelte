@@ -24,7 +24,7 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 				<div class="navbar-nav">
-					<a class="nav-link" href="/models/events/load/">Events</a>
+					<!-- <a class="nav-link" href="/models/events/load/">Events</a>
 					<a class="nav-link" href="/models/concerts/load/">Concerts</a>
 					<a class="nav-link" href="/models/groups/load/">Groups</a>
 					<a class="nav-link" href="/models/participants/load/">Participants</a>
@@ -34,7 +34,7 @@
 					<a class="nav-link" href="/models/viewer_seats/load/">Viewer seats</a>
 					<a class="nav-link" href="/models/viewers/load/">Viewers</a>
 					<a class="nav-link" href="/models/persons/load/">Persons</a>
-					<a class="nav-link" href="/models/users/load/">Users</a>
+					<a class="nav-link" href="/models/users/load/">Users</a> -->
 					{#if accountRole != ACCOUNT_DEFAULT_ROLE}
 						<LogoutButton />
 					{/if}

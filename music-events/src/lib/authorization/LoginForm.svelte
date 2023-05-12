@@ -3,7 +3,7 @@
 	import PasswordEdit from '$lib/generic_object_form/edit/field_edit/PasswordEdit.svelte';
 	import TextEdit from '$lib/generic_object_form/edit/field_edit/TextEdit.svelte';
 	import { tryLogin, type User } from '$lib/model/user/User';
-	import { accountStore, roleMapper, setCurrentAccount } from '$lib/user_forms/AccountStore';
+	import { roleMapper, setCurrentAccount } from '$lib/user_forms/AccountStore';
 
 	let login = '';
 	let password = '';
@@ -23,7 +23,6 @@
 		}
 
 		setCurrentAccount(user);
-		// accountStore.set(user);
 		let redirect = roleMapper(user.role);
 		goto(redirect);
 	}
@@ -39,7 +38,7 @@
 
 		<div class="d-inline">
 			<button class="btn btn-primary mt-3" on:click={onLoginClick}>Login</button>
-			<a class="btn btn-info mt-3" href={`registration`}>Registration</a>
+			<a class="btn btn-info mt-3" href="registration">Registration</a>
 		</div>
 
 		{#if status == LoginStatus.Ok}
