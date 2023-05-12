@@ -1,7 +1,15 @@
+<script lang="ts">
+	import LogoutButton from '$lib/authorization/LogoutButton.svelte';
+	import { ACCOUNT_DEFAULT_ROLE, accountRoleStore, roleMapper } from '$lib/user_forms/AccountStore';
+
+	let accountRole: string;
+	accountRoleStore.subscribe((v) => (accountRole = v));
+</script>
+
 <div class="container w-75">
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="/">Home</a>
+			<a class="navbar-brand" href={roleMapper(accountRole)}>Home</a>
 			<button
 				class="navbar-toggler"
 				type="button"
@@ -26,7 +34,9 @@
 					<a class="nav-link" href="/models/viewers/load/">Viewers</a>
 					<a class="nav-link" href="/models/persons/load/">Persons</a>
 					<a class="nav-link" href="/models/users/load/">Users</a>
-
+					{#if accountRole != ACCOUNT_DEFAULT_ROLE}
+						<LogoutButton />
+					{/if}
 				</div>
 			</div>
 		</div>
