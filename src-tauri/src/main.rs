@@ -151,6 +151,10 @@ async fn main() {
             add_viewer_seat,
             update_viewer_seat,
             remove_viewer_seat,
+            get_concert_viewer_seats,
+            get_free_viewer_seats_paginated,
+            get_free_viewer_seats_count,
+            get_free_concert_viewer_seats,
             // viewers
             create_viewer,
             get_all_viewers,
@@ -171,6 +175,7 @@ async fn main() {
             add_person,
             update_person,
             remove_person,
+            get_person_by_name_and_surname,
             // users
             create_user,
             get_all_users,
@@ -192,7 +197,9 @@ async fn main() {
             get_user_person_by_id,
             add_user_person,
             update_user_person,
-            remove_user_person
+            remove_user_person,
+            get_user_person_by_user_id_and_person_id,
+            remove_user_person_by_person_id
         ])
         .setup(|app| {
             #[cfg(debug_assertions)]

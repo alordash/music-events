@@ -17,6 +17,9 @@
 	export let changeCallback: (newObject: any) => void;
 	export let deleteCallback: (deleteObject: any) => void;
 
+	export let showButtons = true;
+	export let customTitle: string | undefined = undefined;
+
 	let saveChangesButton: HTMLButtonElement | null;
 
 	let hasChanges = false;
@@ -50,17 +53,19 @@
 
 <div class="card">
 	<div class="card-body container">
-		<GenericObjectCardHeader genericObject={editObject} {objectName} />
+		<GenericObjectCardHeader genericObject={editObject} {objectName} {customTitle} />
 
 		{#each infos as info}
 			<FieldEdit fieldInfo={info.fieldInfo} bind:value={editObject[info.key]} />
 		{/each}
-		<button
-			type="submit"
-			class="btn btn-primary"
-			bind:this={saveChangesButton}
-			on:click={onSaveChange}>Save changes</button
-		>
-		<button type="submit" class="btn btn-danger" on:click={onDelete}>Delete</button>
+		{#if showButtons}
+			<button
+				type="submit"
+				class="btn btn-primary"
+				bind:this={saveChangesButton}
+				on:click={onSaveChange}>Save changes</button
+			>
+			<button type="submit" class="btn btn-danger" on:click={onDelete}>Delete</button>
+		{/if}
 	</div>
 </div>

@@ -39,9 +39,9 @@ export function createEmpty(): Person {
     }
 }
 
-export async function createPerson({ name }: Person): Promise<object> {
+export async function createPerson({ name, surname }: Person): Promise<object> {
     await sleepMaxOneSec();
-    return invoke('create_person', { name })
+    return invoke('create_person', { name, surname })
 }
 
 export async function getPersonsPaginated(count: number, offset: number): Promise<Array<Person>> {
@@ -82,4 +82,9 @@ export async function updatePerson(person: Person): Promise<void> {
 export async function removePerson(personId: number): Promise<void> {
     await sleepMaxOneSec();
     return invoke('remove_person', { personId });
+}
+
+export async function getPersonByNameAndSurname(name: string, surname: string): Promise<Person | null> {
+    await sleepMaxOneSec();
+    return invoke('get_person_by_name_and_surname', { name, surname });
 }

@@ -4,3 +4,4 @@ pub mod dao {
 }
 pub type UserPerson = user_person::UserPerson;
 pub type UserPersonsRepository = user_person::UserPersonsRepository;
+pub mod user_person_repository_extension;

@@ -106,3 +106,23 @@ export async function removeViewerSeat(viewerSeatId: number): Promise<void> {
     await sleepMaxOneSec();
     return invoke('remove_viewer_seat', { viewerSeatId });
 }
+
+export async function getConcertViewerSeats(concertId: number): Promise<Array<ViewerSeat>> {
+    await sleepMaxOneSec();
+    return invoke('get_concert_viewer_seats', { concertId });
+}
+
+export async function getFreeViewerSeatsPaginated(count: number, offset: number): Promise<Array<ViewerSeat>> {
+    await sleepMaxOneSec();
+    return await invoke('get_free_viewer_seats_paginated', { count, offset });
+}
+
+export async function getFreeViewerSeatsCount(): Promise<number> {
+    await sleepMaxOneSec();
+    return invoke('get_free_viewer_seats_count');
+}
+
+export async function getFreeConcertViewerSeats(concertId: number): Promise<Array<ViewerSeat>> {
+    await sleepMaxOneSec();
+    return invoke('get_free_concert_viewer_seats', { concertId });
+}

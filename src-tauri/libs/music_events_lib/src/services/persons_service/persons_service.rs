@@ -91,3 +91,16 @@ pub async fn remove_person<'r>(
         .map_err(db_error)?;
     Ok(rows_affected)
 }
+
+#[tauri::command]
+pub async fn get_person_by_name_and_surname<'r>(
+    name: String,
+    surname: String,
+    persons_repository: State<'r, PersonsRepository>,
+) -> Result<Option<Person>, String> {
+    let person = persons_repository
+        .get_person_by_name_and_surname(name, surname)
+        .await
+        .map_err(db_error)?;
+    Ok(person)
+}

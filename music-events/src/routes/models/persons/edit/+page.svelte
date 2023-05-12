@@ -8,6 +8,7 @@
 		PERSON_ID_LITERAL
 	} from '$lib/model/person/Person';
 	import PersonObjectEdit from '$lib/model/person/PersonEdit.svelte';
+	import { removeUserPersonByPersonId } from '$lib/model/user_person/UserPerson';
 
 	let objectPromise: Promise<Person | null> = Promise.resolve(null);
 
@@ -19,6 +20,11 @@
 		}
 		const id = parseInt(idStr);
 		objectPromise = getPersonById(id);
+	}
+
+	async function cascadeRemovePerson(dp: Person) {
+		await removeUserPersonByPersonId(dp.id);
+		await removePerson(dp.id);
 	}
 
 	loadPerson();
@@ -35,7 +41,7 @@
 			<PersonObjectEdit
 				person={object}
 				changeCallback={updatePerson}
-				deleteCallback={(dc) => removePerson(dc.id)}
+				deleteCallback={cascadeRemovePerson}
 			/>
 		</div>
 	{:else}

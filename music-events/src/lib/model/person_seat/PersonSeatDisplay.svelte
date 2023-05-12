@@ -45,17 +45,17 @@
 </script>
 
 <div class="row">
-	<div class="col border">
+	<div class="col border p-1">
 		<PersonDisplay {person} short={true} showEditButton={false} />
 	</div>
-	<div class="col border">
+	<div class="col border p-1">
 		<ViewerSeatDisplay {viewerSeat} short={true} showEditButton={false} />
-		<button class="btn btn-warning" bind:this={returnButton} on:click={onReturnClick}>Return</button
+		<button class="btn btn-warning mt-1" bind:this={returnButton} on:click={onReturnClick}>Return</button
 		>
-		<button class="btn btn-danger d-none" bind:this={confirmButton} on:click={onConfirmClick}
+		<button class="btn btn-danger d-none mt-1" bind:this={confirmButton} on:click={onConfirmClick}
 			>Confirm</button
 		>
-		<button class="btn btn-secondary d-none" bind:this={cancelButton} on:click={onCancelClick}
+		<button class="btn btn-secondary d-none mt-1" bind:this={cancelButton} on:click={onCancelClick}
 			>Cancel</button
 		>
 	</div>

@@ -100,3 +100,28 @@ pub async fn remove_user_person<'r>(
         .map_err(db_error)?;
     Ok(rows_affected)
 }
+
+#[tauri::command]
+pub async fn get_user_person_by_user_id_and_person_id<'r>(
+    user_id: u64,
+    person_id: u64,
+    user_persons_repository: State<'r, UserPersonsRepository>,
+) -> Result<Option<UserPerson>, String> {
+    let user_person = user_persons_repository
+        .get_user_person_by_user_id_and_person_id(user_id, person_id)
+        .await
+        .map_err(db_error)?;
+    Ok(user_person)
+}
+
+#[tauri::command]
+pub async fn remove_user_person_by_person_id<'r>(
+    person_id: u64,
+    user_persons_repository: State<'r, UserPersonsRepository>,
+) -> Result<u64, String> {
+    let rows_affected = user_persons_repository
+        .remove_user_person_by_person_id(person_id)
+        .await
+        .map_err(db_error)?;
+    Ok(rows_affected)
+}

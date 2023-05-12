@@ -7,14 +7,19 @@
 	export let genericObject: GenericObject;
 	export let objectName: string;
 	export let short = false;
+	export let customTitle: string | undefined = undefined;
 
 	export let nameComposer: NameComposer | undefined = undefined;
 </script>
 
 <h5 class="card-title user-select-all">
-	<NameDisplay name={genericObject.name} {nameComposer} {genericObject} />
-	{#if genericObject.id != undefined}
-		<IdDisplay id={genericObject.id} />
+	{#if customTitle != undefined}
+		{customTitle}
+	{:else}
+		<NameDisplay name={genericObject.name} {nameComposer} {genericObject} />
+		{#if genericObject.id != undefined}
+			<IdDisplay id={genericObject.id} />
+		{/if}
 	{/if}
 </h5>
 {#if !short}

@@ -4,3 +4,4 @@ pub mod dao {
 }
 pub type Person = person::Person;
 pub type PersonsRepository = person::PersonsRepository;
+pub mod person_repository_extension;

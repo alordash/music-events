@@ -40,12 +40,32 @@ impl UsersRepository {
             ON user_person.user_id = usr.id
             INNER JOIN persons AS person
             ON user_person.person_id = person.id
-            LEFT JOIN viewers AS viewer
+            INNER JOIN viewers AS viewer
             ON viewer.person_id = person.id
-            LEFT JOIN viewer_seats AS viewer_seat
+            INNER JOIN viewer_seats AS viewer_seat
             ON viewer.viewer_seat_id = viewer_seat.id
             WHERE usr.id = $1;
             "#,
+            user_id as i64
+        )
+        .fetch_all(self.pool().as_ref())
+        .await?;
+
+        let viewer_entities = sqlx::query_as!(
+            ViewerEntity,
+            r#"
+                SELECT viewer.*
+                FROM users AS usr
+                INNER JOIN user_persons AS user_person
+                ON user_person.user_id = usr.id
+                INNER JOIN persons AS person
+                ON user_person.person_id = person.id
+                INNER JOIN viewers AS viewer
+                ON viewer.person_id = person.id
+                INNER JOIN viewer_seats AS viewer_seat
+                ON viewer.viewer_seat_id = viewer_seat.id
+                WHERE usr.id = $1;
+                "#,
             user_id as i64
         )
         .fetch_all(self.pool().as_ref())
@@ -60,29 +80,9 @@ impl UsersRepository {
             ON user_person.user_id = usr.id
             INNER JOIN persons AS person
             ON user_person.person_id = person.id
-            LEFT JOIN viewers AS viewer
+            INNER JOIN viewers AS viewer
             ON viewer.person_id = person.id
-            LEFT JOIN viewer_seats AS viewer_seat
-            ON viewer.viewer_seat_id = viewer_seat.id
-            WHERE usr.id = $1;
-            "#,
-            user_id as i64
-        )
-        .fetch_all(self.pool().as_ref())
-        .await?;
-
-        let viewer_entities = sqlx::query_as!(
-            ViewerEntity,
-            r#"
-            SELECT viewer.*
-            FROM users AS usr
-            INNER JOIN user_persons AS user_person
-            ON user_person.user_id = usr.id
-            INNER JOIN persons AS person
-            ON user_person.person_id = person.id
-            LEFT JOIN viewers AS viewer
-            ON viewer.person_id = person.id
-            LEFT JOIN viewer_seats AS viewer_seat
+            INNER JOIN viewer_seats AS viewer_seat
             ON viewer.viewer_seat_id = viewer_seat.id
             WHERE usr.id = $1;
             "#,

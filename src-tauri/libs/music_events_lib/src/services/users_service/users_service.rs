@@ -5,7 +5,8 @@ use crate::{
         person::Person,
         repository::*,
         user::{User, UsersRepository},
-        viewer_seat::ViewerSeat, viewer::Viewer,
+        viewer::Viewer,
+        viewer_seat::ViewerSeat,
     },
     services::db_error::db_error,
 };
@@ -112,6 +113,7 @@ pub async fn get_bought_viewer_seats<'r>(
     let persons_viewer_seats = users_repository
         .get_bought_viewer_seats(user_id)
         .await
-        .map_err(db_error)?;
+        .map_err(db_error)
+        .map_err(|s| format!("BOUGHT VIEWER SEATS ERROR: {}", s))?;
     Ok(persons_viewer_seats)
 }

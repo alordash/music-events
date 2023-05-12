@@ -44,18 +44,6 @@ pub async fn get_viewer_seats_count<'r>(
 }
 
 #[tauri::command]
-pub async fn get_concert_viewer_seats<'r>(
-    concert_id: u64,
-    viewer_seats_repository: State<'r, ViewerSeatsRepository>,
-) -> Result<Vec<ViewerSeat>, String> {
-    let viewer_seats = viewer_seats_repository
-        .get_concert_viewer_seats(concert_id)
-        .await
-        .map_err(db_error)?;
-    Ok(viewer_seats)
-}
-
-#[tauri::command]
 pub async fn get_all_viewer_seats<'r>(
     viewer_seats_repository: State<'r, ViewerSeatsRepository>,
 ) -> Result<Vec<ViewerSeat>, String> {
@@ -117,4 +105,52 @@ pub async fn remove_viewer_seat<'r>(
         .await
         .map_err(db_error)?;
     Ok(rows_affected)
+}
+
+#[tauri::command]
+pub async fn get_concert_viewer_seats<'r>(
+    concert_id: u64,
+    viewer_seats_repository: State<'r, ViewerSeatsRepository>,
+) -> Result<Vec<ViewerSeat>, String> {
+    let viewer_seats = viewer_seats_repository
+        .get_concert_viewer_seats(concert_id)
+        .await
+        .map_err(db_error)?;
+    Ok(viewer_seats)
+}
+
+#[tauri::command]
+pub async fn get_free_viewer_seats_paginated<'r>(
+    count: i64,
+    offset: i64,
+    viewer_seats_repository: State<'r, ViewerSeatsRepository>,
+) -> Result<Vec<ViewerSeat>, String> {
+    let viewer_seats = viewer_seats_repository
+        .get_free_viewer_seats_paginated(count, offset)
+        .await
+        .map_err(db_error)?;
+    Ok(viewer_seats)
+}
+
+#[tauri::command]
+pub async fn get_free_viewer_seats_count<'r>(
+    viewer_seats_repository: State<'r, ViewerSeatsRepository>,
+) -> Result<u64, String> {
+    let count = viewer_seats_repository
+        .get_free_viewer_seats_count()
+        .await
+        .map_err(db_error)?;
+    Ok(count)
+}
+
+#[tauri::command]
+pub async fn get_free_concert_viewer_seats<'r>(
+    concert_id: u64,
+    viewer_seats_repository: State<'r, ViewerSeatsRepository>,
+) -> Result<Vec<ViewerSeat>, String> {
+    let viewer_seats = viewer_seats_repository
+        .get_free_concert_viewer_seats(concert_id)
+        .await
+        .map_err(db_error)?;
+    Ok(viewer_seats)
 }

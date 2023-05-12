@@ -5,6 +5,9 @@
 	export let person: Person;
 	export let changeCallback: (newPerson: Person) => void;
 	export let deleteCallback: (deletePerson: Person) => void;
+
+	export let showButtons = true;
+	export let customTitle: string | undefined = undefined;
 </script>
 
 <GenericObjectEdit
@@ -13,4 +16,6 @@
 	{fieldComposer}
 	{changeCallback}
 	{deleteCallback}
+	{showButtons}
+	{customTitle}
 />
