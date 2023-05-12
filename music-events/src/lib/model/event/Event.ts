@@ -19,7 +19,7 @@ export function fieldComposer(fieldName: string): FieldInfo {
         case 'name':
             return FieldInfo('Name', FieldTypes.Name);
         case 'concerts':
-            return FieldInfo('Concerts', FieldTypes.ConcertsAggregated);
+            return FieldInfo('Concerts', FieldTypes.EventConcertsAggregated);
 
         default:
             return FieldInfoUnknown();
@@ -46,8 +46,7 @@ function arrayAddEventConcerts(arrUnknown: unknown) {
 
 export async function createEvent({ name }: Event): Promise<object> {
     await sleepMaxOneSec();
-    const objPromise = invoke('create_event', { name });
-    return objPromise.then(addEventConcerts);
+    return invoke('create_event', { name }).then(addEventConcerts);
 }
 
 export async function getEventsPaginated(count: number, offset: number): Promise<Array<Event>> {
@@ -57,7 +56,7 @@ export async function getEventsPaginated(count: number, offset: number): Promise
 
 export async function getAllEvents(): Promise<Array<Event>> {
     await sleepMaxOneSec();
-    return invoke('get_all_events');
+    return invoke('get_all_events').then(arrayAddEventConcerts);
 }
 
 export async function getEventsCount(): Promise<number> {

@@ -3,6 +3,7 @@ import { FieldTypes } from "$lib/generic_object_form/FieldTypes";
 import { FieldInfo, FieldInfoUnknown, exploreComposer } from "$lib/generic_object_form/FieldInfo";
 import { invoke } from "@tauri-apps/api/tauri";
 import { getEventById, getEventsCount, getEventsPaginated } from "../event/Event";
+import type { Group } from "../group/Group";
 
 export const CONCERT_ID_LITERAL = 'concert_id';
 
@@ -13,6 +14,7 @@ export type Concert = {
     address: string;
     name: string;
     eventId: number;
+    groups: Array<Group>
 }
 
 export function fieldComposer(fieldName: string): FieldInfo {
@@ -38,6 +40,8 @@ export function fieldComposer(fieldName: string): FieldInfo {
                 fieldComposer,
                 "events"
             );
+        case 'groups':
+            return FieldInfo('Groups', FieldTypes.ConcertGroupsAggregated, 20000)
         default:
             return FieldInfoUnknown();
     }
@@ -50,23 +54,34 @@ export function createEmpty(): Concert {
         date: '',
         durationMinutes: 0,
         name: '',
-        eventId: 0
+        eventId: 0,
+        groups: []
     };
+}
+
+function addConcertGroups(objUnknown: unknown) {
+    const obj = <object>objUnknown;
+    return { groups: [], ...obj }
+}
+
+function arrayAddConcertGroups(arrUnknown: unknown) {
+    const arr = <Array<object>>arrUnknown;
+    return <Array<Concert>>(<Array<unknown>>arr.map(addConcertGroups));
 }
 
 export async function createConcert({ date, durationMinutes, address, name }: Concert): Promise<object> {
     await sleepMaxOneSec();
-    return invoke('create_concert', { date, durationMinutes, address, name })
+    return invoke('create_concert', { date, durationMinutes, address, name }).then(addConcertGroups);
 }
 
 export async function getConcertsPaginated(count: number, offset: number): Promise<Array<Concert>> {
     await sleepMaxOneSec();
-    return await invoke('get_concerts_paginated', { count, offset });
+    return await invoke('get_concerts_paginated', { count, offset }).then(arrayAddConcertGroups);
 }
 
 export async function getAllConcerts(): Promise<Array<Concert>> {
     await sleepMaxOneSec();
-    return invoke('get_all_concerts');
+    return invoke('get_all_concerts').then(arrayAddConcertGroups);
 }
 
 export async function getConcertsCount(): Promise<number> {

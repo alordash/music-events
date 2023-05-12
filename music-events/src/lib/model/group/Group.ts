@@ -76,3 +76,8 @@ export async function removeGroup(groupId: number): Promise<void> {
     await sleepMaxOneSec();
     return invoke('remove_group', { groupId });
 }
+
+export async function getConcertGroups(concertId: number): Promise<Array<Group>> {
+    await sleepMaxOneSec();
+    return invoke('get_concert_groups', { concertId });
+}

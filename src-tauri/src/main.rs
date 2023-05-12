@@ -98,6 +98,7 @@ async fn main() {
             add_group,
             update_group,
             remove_group,
+            get_concert_groups,
             // participants
             create_participant,
             get_all_participants,

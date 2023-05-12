@@ -8,5 +8,6 @@ export enum FieldTypes {
     ObjectReference,
     Name,
     Password,
-    ConcertsAggregated
+    EventConcertsAggregated,
+    ConcertGroupsAggregated
 }

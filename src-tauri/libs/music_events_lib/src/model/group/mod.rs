@@ -4,3 +4,4 @@ pub mod dao {
 }
 pub type Group = group::Group;
 pub type GroupsRepository = group::GroupsRepository;
+pub mod group_repository_extension;

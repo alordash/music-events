@@ -88,3 +88,15 @@ pub async fn remove_group<'r>(
     let rows_affected = groups_repository.remove(group_id).await.map_err(db_error)?;
     Ok(rows_affected)
 }
+
+#[tauri::command]
+pub async fn get_concert_groups<'r>(
+    concert_id: u64,
+    groups_repository: State<'r, GroupsRepository>,
+) -> Result<Vec<Group>, String> {
+    let groups = groups_repository
+        .get_concert_groups(concert_id)
+        .await
+        .map_err(db_error)?;
+    Ok(groups)
+}
