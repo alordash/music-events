@@ -11,8 +11,8 @@
 	export let short = false;
 	export let showEditButton = true;
 	export let clickCallback: ClickCallback | undefined = undefined;
-	export let pageCapacity = 3;
-	export let columnsCount = 3;
+	export let pageCapacity = 4;
+	export let columnsCount = 2;
 
 	function objectExplorer(count: number, offset: number) {
 		return getEventsPaginated(count, offset).then((objects) =>
