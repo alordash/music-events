@@ -4,3 +4,4 @@ pub mod dao {
 }
 pub type Participant = participant::Participant;
 pub type ParticipantsRepository = participant::ParticipantsRepository;
+pub mod participant_repository_extension;

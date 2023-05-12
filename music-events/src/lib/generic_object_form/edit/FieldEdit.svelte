@@ -52,7 +52,7 @@
 			nameComposer={fieldInfo.nameComposer}
 		/>
 	</div>
-{:else if fieldType == FieldTypes.EventConcertsAggregated || fieldType == FieldTypes.ConcertGroupsAggregated || fieldType == FieldTypes.GroupArtistsAggregated}
+{:else if fieldType == FieldTypes.EventConcertsAggregated || fieldType == FieldTypes.ConcertGroupsAggregated || fieldType == FieldTypes.GroupArtistsAggregated || fieldType == FieldTypes.ParticipantRepertoiresAggregated}
 	<!-- skip -->
 {:else}
 	<div class="row"><TextEdit bind:value {fieldName} /></div>

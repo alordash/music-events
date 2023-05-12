@@ -5,13 +5,15 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { getConcertById, getConcertsCount, getConcertsPaginated } from "../concert/Concert";
 import { getGroupById, getGroupsCount, getGroupsPaginated } from "../group/Group";
 import type { GenericObject } from "$lib/generic_object_form/GenericObject";
+import type { Repertoire } from "../repertoire/Repertoire";
 
 export const PARTICIPANT_ID_LITERAL = 'participant_id';
 
 export type Participant = {
     id: number,
     concertId: number,
-    groupId: number
+    groupId: number,
+    repertoires: Array<Repertoire>
 }
 
 export function fieldComposer(fieldName: string): FieldInfo {
@@ -40,6 +42,12 @@ export function fieldComposer(fieldName: string): FieldInfo {
                 fieldComposer,
                 "group"
             );
+        case 'repertoires':
+            return FieldInfo(
+                'Repertoires',
+                FieldTypes.ParticipantRepertoiresAggregated,
+                50000
+            );
 
         default:
             return FieldInfoUnknown();
@@ -57,23 +65,34 @@ export function createEmpty(): Participant {
     return {
         id: 0,
         concertId: 0,
-        groupId: 0
+        groupId: 0,
+        repertoires: []
     }
+}
+
+function addParticipantRepertoires(objUnknown: unknown) {
+    const obj = <object>objUnknown;
+    return { repertoires: [], ...obj }
+}
+
+function arrayAddParticipantRepertoires(arrUnknown: unknown) {
+    const arr = <Array<object>>arrUnknown;
+    return <Array<Participant>>(<Array<unknown>>arr.map(addParticipantRepertoires));
 }
 
 export async function createParticipant({ concertId, groupId }: Participant): Promise<object> {
     await sleepMaxOneSec();
-    return invoke('create_participant', { concertId, groupId })
+    return invoke('create_participant', { concertId, groupId }).then(addParticipantRepertoires);
 }
 
 export async function getParticipantsPaginated(count: number, offset: number): Promise<Array<Participant>> {
     await sleepMaxOneSec();
-    return await invoke('get_participants_paginated', { count, offset });
+    return await invoke('get_participants_paginated', { count, offset }).then(arrayAddParticipantRepertoires);
 }
 
 export async function getAllParticipants(): Promise<Array<Participant>> {
     await sleepMaxOneSec();
-    return invoke('get_all_participants');
+    return invoke('get_all_participants').then(arrayAddParticipantRepertoires);
 }
 
 export async function getParticipantsCount(): Promise<number> {
@@ -104,4 +123,9 @@ export async function updateParticipant(participant: Participant): Promise<void>
 export async function removeParticipant(participantId: number): Promise<void> {
     await sleepMaxOneSec();
     return invoke('remove_participant', { participantId });
+}
+
+export async function getParticipantRepertoires(participantId: number): Promise<Array<Repertoire>> {
+    await sleepMaxOneSec();
+    return invoke('get_participant_repertoires', { participantId });
 }

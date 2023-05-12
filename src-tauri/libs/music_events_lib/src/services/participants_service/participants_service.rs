@@ -3,6 +3,7 @@ use tauri::State;
 use crate::{
     model::{
         participant::{Participant, ParticipantsRepository},
+        repertoire::Repertoire,
         repository::*,
     },
     services::db_error::db_error,
@@ -99,4 +100,16 @@ pub async fn remove_participant<'r>(
         .await
         .map_err(db_error)?;
     Ok(rows_affected)
+}
+
+#[tauri::command]
+pub async fn get_participant_repertoires<'r>(
+    participant_id: u64,
+    participants_repository: State<'r, ParticipantsRepository>,
+) -> Result<Vec<Repertoire>, String> {
+    let participants = participants_repository
+        .get_participant_repertoires(participant_id)
+        .await
+        .map_err(db_error)?;
+    Ok(participants)
 }

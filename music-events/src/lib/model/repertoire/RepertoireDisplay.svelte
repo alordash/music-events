@@ -3,6 +3,8 @@
 	import { fieldComposer, type Repertoire, REPERTOIRE_ID_LITERAL } from './Repertoire';
 
 	export let repertoire: Repertoire;
+	export let short = false;
+	export let showEditButton = true;
 </script>
 
 <GenericObjectDisplay
@@ -10,4 +12,6 @@
 	objectName="Repertoire"
 	{fieldComposer}
 	editLiteral={REPERTOIRE_ID_LITERAL}
+	{short}
+	{showEditButton}
 />

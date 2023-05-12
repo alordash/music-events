@@ -109,6 +109,7 @@ async fn main() {
             add_participant,
             update_participant,
             remove_participant,
+            get_participant_repertoires,
             // repertoires
             create_repertoire,
             get_all_repertoires,

@@ -8,6 +8,7 @@
 	import ConcertsAggregated from './field_displays/EventConcertsAggregatedDisplay.svelte';
 	import ConcertGroupsAggregatedDisplay from './field_displays/ConcertGroupsAggregatedDisplay.svelte';
 	import GroupArtistsAggregatedDisplay from './field_displays/GroupArtistsAggregatedDisplay.svelte';
+	import ParticipantRepertoiresAggregatedDisplay from './field_displays/ParticipantRepertoiresAggregatedDisplay.svelte';
 
 	export let fieldInfo: FieldInfo;
 	export let value: any;
@@ -32,6 +33,8 @@
 	<ConcertGroupsAggregatedDisplay concertId={objectId} />
 {:else if fieldType == FieldTypes.EventConcertsAggregated}
 	<ConcertsAggregated eventId={objectId} />
+{:else if fieldType == FieldTypes.ParticipantRepertoiresAggregated}
+	<ParticipantRepertoiresAggregatedDisplay participantId={objectId} />
 {:else if fieldType == FieldTypes.Password}
 	<!-- skip -->
 {:else if fieldType == FieldTypes.Id}
