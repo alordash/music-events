@@ -2,12 +2,14 @@ import { sleepMaxOneSec } from "$lib/Timer";
 import { FieldInfo, FieldInfoUnknown } from "$lib/generic_object_form/FieldInfo";
 import { FieldTypes } from "$lib/generic_object_form/FieldTypes";
 import { invoke } from "@tauri-apps/api/tauri";
+import type { Concert } from "../concert/Concert";
 
 export const EVENT_ID_LITERAL = 'event_id';
 
 export type Event = {
     id: number,
-    name: string
+    name: string,
+    concerts: Array<Concert>
 }
 
 export function fieldComposer(fieldName: string): FieldInfo {
@@ -16,6 +18,8 @@ export function fieldComposer(fieldName: string): FieldInfo {
             return FieldInfo('Id', FieldTypes.Id);
         case 'name':
             return FieldInfo('Name', FieldTypes.Name);
+        case 'concerts':
+            return FieldInfo('Concerts', FieldTypes.ConcertsAggregated);
 
         default:
             return FieldInfoUnknown();
@@ -25,18 +29,30 @@ export function fieldComposer(fieldName: string): FieldInfo {
 export function createEmpty(): Event {
     return {
         id: 0,
-        name: ''
+        name: '',
+        concerts: []
     }
+}
+
+function addEventConcerts(objUnknown: unknown) {
+    const obj = <object>objUnknown;
+    return { concerts: [], ...obj }
+}
+
+function arrayAddEventConcerts(arrUnknown: unknown) {
+    const arr = <Array<object>>arrUnknown;
+    return <Array<Event>>(<Array<unknown>>arr.map(addEventConcerts));
 }
 
 export async function createEvent({ name }: Event): Promise<object> {
     await sleepMaxOneSec();
-    return invoke('create_event', { name })
+    const objPromise = invoke('create_event', { name });
+    return objPromise.then(addEventConcerts);
 }
 
 export async function getEventsPaginated(count: number, offset: number): Promise<Array<Event>> {
     await sleepMaxOneSec();
-    return await invoke('get_events_paginated', { count, offset });
+    return invoke('get_events_paginated', { count, offset }).then(arrayAddEventConcerts);
 }
 
 export async function getAllEvents(): Promise<Array<Event>> {

@@ -7,6 +7,8 @@
 	} from './Concert';
 
 	export let concert: Concert;
+	export let short = false;
+	export let showEditButton = true;
 </script>
 
 <GenericObjectDisplay
@@ -14,4 +16,6 @@
 	objectName="Concert"
 	{fieldComposer}
 	editLiteral={CONCERT_ID_LITERAL}
+	{short}
+	{showEditButton}
 />

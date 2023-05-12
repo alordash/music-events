@@ -4,3 +4,4 @@ pub mod dao {
 }
 pub type Concert = concert::Concert;
 pub type ConcertsRepository = concert::ConcertsRepository;
+pub mod concert_repository_extension;

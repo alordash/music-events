@@ -91,11 +91,15 @@ export async function addConcert(concert: object): Promise<number> {
 
 export async function updateConcert(concert: Concert): Promise<void> {
     await sleepMaxOneSec();
-    console.log('update concert :>> ', concert);
     return invoke('update_concert', { concert });
 }
 
 export async function removeConcert(concertId: number): Promise<void> {
     await sleepMaxOneSec();
     return invoke('remove_concert', { concertId });
+}
+
+export async function getEventConcerts(eventId: number): Promise<Array<Concert>> {
+    await sleepMaxOneSec();
+    return invoke('get_event_concerts', { eventId });
 }

@@ -5,9 +5,11 @@
 	import type { FieldInfo, ObjectExtractor } from '../FieldInfo';
 	import CostRublesDisplay from './field_displays/CostRublesDisplay.svelte';
 	import ObjectRefDisplay from './field_displays/ObjectRefDisplay.svelte';
+	import ConcertsAggregated from './field_displays/ConcertsAggregatedDisplay.svelte';
 
 	export let fieldInfo: FieldInfo;
 	export let value: any;
+	export let objectId = 0;
 
 	let fieldName = fieldInfo.fieldName;
 	let fieldType = fieldInfo.fieldType;
@@ -22,6 +24,8 @@
 	<div class="row">
 		<ObjectRefDisplay {fieldName} {value} {objectExtractor} nameComposer={fieldInfo.nameComposer} />
 	</div>
+{:else if fieldType == FieldTypes.ConcertsAggregated}
+	<ConcertsAggregated eventId={objectId} />
 {:else if fieldType == FieldTypes.Password}
 	<!-- skip -->
 {:else if fieldType == FieldTypes.Id}

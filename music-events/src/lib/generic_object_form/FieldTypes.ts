@@ -7,5 +7,6 @@ export enum FieldTypes {
     CostRubles,
     ObjectReference,
     Name,
-    Password
+    Password,
+    ConcertsAggregated
 }

@@ -110,3 +110,15 @@ pub async fn remove_concert<'r>(
         .map_err(db_error)?;
     Ok(rows_affected)
 }
+
+#[tauri::command]
+pub async fn get_event_concerts<'r>(
+    event_id: u64,
+    concerts_repository: State<'r, ConcertsRepository>,
+) -> Result<Vec<Concert>, String> {
+    let concerts = concerts_repository
+        .get_event_concerts(event_id)
+        .await
+        .map_err(db_error)?;
+    Ok(concerts)
+}

@@ -45,7 +45,11 @@
 		<GenericObjectCardHeader genericObject={displayObject} {objectName} {short} {nameComposer} />
 		{#if !short}
 			{#each infos as info}
-				<FieldDisplay fieldInfo={info.fieldInfo} value={displayObject[info.key]} />
+				<FieldDisplay
+					fieldInfo={info.fieldInfo}
+					value={displayObject[info.key]}
+					objectId={displayObject.id}
+				/>
 			{/each}
 		{/if}
 	</div>
