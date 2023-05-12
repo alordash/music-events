@@ -3,7 +3,7 @@
 	import PasswordEdit from '$lib/generic_object_form/edit/field_edit/PasswordEdit.svelte';
 	import TextEdit from '$lib/generic_object_form/edit/field_edit/TextEdit.svelte';
 	import { tryLogin, type User } from '$lib/model/user/User';
-	import { accountRoleStore, roleMapper } from '$lib/user_forms/AccountStore';
+	import { accountStore, roleMapper } from '$lib/user_forms/AccountStore';
 
 	let login = '';
 	let password = '';
@@ -22,7 +22,7 @@
 			status = LoginStatus.Ok;
 		}
 
-		accountRoleStore.set(user.role);
+		accountStore.set(user);
 		let redirect = roleMapper(user.role);
 		goto(redirect);
 	}

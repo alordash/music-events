@@ -1,7 +1,8 @@
+import { createEmpty } from "$lib/model/user/User";
 import { writable } from "svelte/store";
 
-export const ACCOUNT_DEFAULT_ROLE = 'guest';
-export const accountRoleStore = writable(ACCOUNT_DEFAULT_ROLE);
+const defaultUser = createEmpty();
+export const accountStore = writable(defaultUser);
 
 export function roleMapper(role: string) {
     switch (role) {

@@ -18,7 +18,7 @@
 <GenericObjectExplorer
 	{objectExplorer}
 	totalCountExtractor={getArtistsCount}
-	objectName="Artist seat"
+	objectName="Artist"
 	{fieldComposer}
 	editLiteral={ARTIST_ID_LITERAL}
 	columnsCount={2}

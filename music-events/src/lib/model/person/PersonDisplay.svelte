@@ -3,6 +3,8 @@
 	import { fieldComposer, type Person, PERSON_ID_LITERAL, nameComposer } from './Person';
 
 	export let person: Person;
+	export let short = false;
+	export let showEditButton = true;
 </script>
 
 <GenericObjectDisplay
@@ -11,4 +13,6 @@
 	{fieldComposer}
 	editLiteral={PERSON_ID_LITERAL}
 	{nameComposer}
+	{short}
+	{showEditButton}
 />

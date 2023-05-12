@@ -2,8 +2,10 @@ use tauri::State;
 
 use crate::{
     model::{
+        person::Person,
         repository::*,
         user::{User, UsersRepository},
+        viewer_seat::ViewerSeat, viewer::Viewer,
     },
     services::db_error::db_error,
 };
@@ -100,4 +102,16 @@ pub async fn try_login_user<'r>(
         .await
         .map_err(db_error)?;
     Ok(maybe_user)
+}
+
+#[tauri::command]
+pub async fn get_bought_viewer_seats<'r>(
+    user_id: u64,
+    users_repository: State<'r, UsersRepository>,
+) -> Result<Vec<(Person, Viewer, ViewerSeat)>, String> {
+    let persons_viewer_seats = users_repository
+        .get_bought_viewer_seats(user_id)
+        .await
+        .map_err(db_error)?;
+    Ok(persons_viewer_seats)
 }

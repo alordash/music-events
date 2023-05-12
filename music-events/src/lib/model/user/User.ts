@@ -3,8 +3,12 @@ import { FieldInfo, FieldInfoUnknown } from "$lib/generic_object_form/FieldInfo"
 import { FieldTypes } from "$lib/generic_object_form/FieldTypes";
 import type { GenericObject } from "$lib/generic_object_form/GenericObject";
 import { invoke } from "@tauri-apps/api/tauri";
+import type { Person } from "../person/Person";
+import type { ViewerSeat } from "../viewer_seat/ViewerSeat";
+import type { Viewer } from "../viewer/Viewer";
 
 export const USER_ID_LITERAL = 'user_id';
+export const ACCOUNT_DEFAULT_ROLE = 'guest';
 
 export type User = {
     id: number,
@@ -39,7 +43,7 @@ export function createEmpty(): User {
         id: 0,
         login: '',
         password: '',
-        role: ''
+        role: ACCOUNT_DEFAULT_ROLE
     }
 }
 
@@ -91,4 +95,9 @@ export async function removeUser(userId: number): Promise<void> {
 export async function tryLogin(login: string, password: string): Promise<object> {
     await sleepMaxOneSec();
     return invoke('try_login_user', { login, password })
+}
+
+export async function getBoughtViewerSeats(userId: number): Promise<Array<[Person, Viewer, ViewerSeat]>> {
+    await sleepMaxOneSec();
+    return invoke('get_bought_viewer_seats', { userId });
 }

@@ -181,6 +181,7 @@ async fn main() {
             update_user,
             remove_user,
             try_login_user,
+            get_bought_viewer_seats,
             // user_persons
             create_user_person,
             get_all_user_persons,
