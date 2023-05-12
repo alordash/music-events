@@ -4,3 +4,4 @@ pub mod dao {
 }
 pub type Artist = artist::Artist;
 pub type ArtistsRepository = artist::ArtistsRepository;
+pub mod artist_repository_extension;

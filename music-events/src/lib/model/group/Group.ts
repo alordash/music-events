@@ -2,6 +2,7 @@ import { sleepMaxOneSec } from "$lib/Timer";
 import { FieldInfo, FieldInfoUnknown } from "$lib/generic_object_form/FieldInfo";
 import { FieldTypes } from "$lib/generic_object_form/FieldTypes";
 import { invoke } from "@tauri-apps/api/tauri";
+import type { Artist } from "../artist/Artist";
 
 export const GROUP_ID_LITERAL = 'group_id';
 
@@ -9,6 +10,7 @@ export type Group = {
     id: number,
     name: string,
     genre: string,
+    artists: Array<Artist>
 }
 
 export function fieldComposer(fieldName: string): FieldInfo {
@@ -19,6 +21,8 @@ export function fieldComposer(fieldName: string): FieldInfo {
             return FieldInfo('Name', FieldTypes.Name);
         case 'genre':
             return FieldInfo('Genre', FieldTypes.Text);
+        case 'artists':
+            return FieldInfo('Artists', FieldTypes.GroupArtistsAggregated, 10000);
         default:
             return FieldInfoUnknown();
     }
@@ -28,23 +32,34 @@ export function createEmpty(): Group {
     return {
         id: 0,
         name: '',
-        genre: ''
+        genre: '',
+        artists: []
     }
+}
+
+function addGroupArtists(objUnknown: unknown) {
+    const obj = <object>objUnknown;
+    return { artists: [], ...obj }
+}
+
+function arrayAddGroupArtists(arrUnknown: unknown) {
+    const arr = <Array<object>>arrUnknown;
+    return <Array<Group>>(<Array<unknown>>arr.map(addGroupArtists));
 }
 
 export async function createGroup({ name, genre }: Group): Promise<object> {
     await sleepMaxOneSec();
-    return invoke('create_group', { name, genre })
+    return invoke('create_group', { name, genre }).then(addGroupArtists);
 }
 
 export async function getGroupsPaginated(count: number, offset: number): Promise<Array<Group>> {
     await sleepMaxOneSec();
-    return await invoke('get_groups_paginated', { count, offset });
+    return await invoke('get_groups_paginated', { count, offset }).then(arrayAddGroupArtists);
 }
 
 export async function getAllGroups(): Promise<Array<Group>> {
     await sleepMaxOneSec();
-    return invoke('get_all_groups');
+    return invoke('get_all_groups').then(arrayAddGroupArtists);
 }
 
 export async function getGroupsCount(): Promise<number> {

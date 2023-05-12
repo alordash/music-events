@@ -7,6 +7,7 @@
 	import ObjectRefDisplay from './field_displays/ObjectRefDisplay.svelte';
 	import ConcertsAggregated from './field_displays/EventConcertsAggregatedDisplay.svelte';
 	import ConcertGroupsAggregatedDisplay from './field_displays/ConcertGroupsAggregatedDisplay.svelte';
+	import GroupArtistsAggregatedDisplay from './field_displays/GroupArtistsAggregatedDisplay.svelte';
 
 	export let fieldInfo: FieldInfo;
 	export let value: any;
@@ -25,6 +26,8 @@
 	<div class="row">
 		<ObjectRefDisplay {fieldName} {value} {objectExtractor} nameComposer={fieldInfo.nameComposer} />
 	</div>
+{:else if fieldType == FieldTypes.GroupArtistsAggregated}
+	<GroupArtistsAggregatedDisplay groupId={objectId} />
 {:else if fieldType == FieldTypes.ConcertGroupsAggregated}
 	<ConcertGroupsAggregatedDisplay concertId={objectId} />
 {:else if fieldType == FieldTypes.EventConcertsAggregated}

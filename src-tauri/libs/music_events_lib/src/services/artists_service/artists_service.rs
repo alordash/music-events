@@ -85,6 +85,21 @@ pub async fn remove_artist<'r>(
     artist_id: u64,
     artists_repository: State<'r, ArtistsRepository>,
 ) -> Result<u64, String> {
-    let rows_affected = artists_repository.remove(artist_id).await.map_err(db_error)?;
+    let rows_affected = artists_repository
+        .remove(artist_id)
+        .await
+        .map_err(db_error)?;
     Ok(rows_affected)
+}
+
+#[tauri::command]
+pub async fn get_group_artists<'r>(
+    group_id: u64,
+    artists_repository: State<'r, ArtistsRepository>,
+) -> Result<Vec<Artist>, String> {
+    let artists = artists_repository
+        .get_group_artists(group_id)
+        .await
+        .map_err(db_error)?;
+    Ok(artists)
 }

@@ -94,3 +94,8 @@ export async function removeArtist(artistId: number): Promise<void> {
     await sleepMaxOneSec();
     return invoke('remove_artist', { artistId });
 }
+
+export async function getGroupArtists(groupId: number): Promise<Array<Artist>> {
+    await sleepMaxOneSec();
+    return invoke('get_group_artists', { groupId });
+}

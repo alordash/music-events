@@ -1,14 +1,18 @@
 <script lang="ts">
 	import GenericObjectDisplay from '$lib/generic_object_form/display/GenericObjectDisplay.svelte';
-	import { fieldComposer, type Actor, ACTOR_ID_LITERAL, nameComposer } from './Actor';
+	import { fieldComposer, type Artist, ARTIST_ID_LITERAL, nameComposer } from './Artist';
 
-	export let actor: Actor;
+	export let short = false;
+	export let showEditButton = true;
+	export let artist: Artist;
 </script>
 
 <GenericObjectDisplay
-	displayObject={actor}
-	objectName="Actor seat"
+	displayObject={artist}
+	objectName="Artist"
 	{fieldComposer}
-	editLiteral={ACTOR_ID_LITERAL}
+	editLiteral={ARTIST_ID_LITERAL}
 	{nameComposer}
+	{short}
+	{showEditButton}
 />

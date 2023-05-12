@@ -129,6 +129,7 @@ async fn main() {
             add_artist,
             update_artist,
             remove_artist,
+            get_group_artists,
             // group_artists
             create_group_artist,
             get_all_group_artists,
