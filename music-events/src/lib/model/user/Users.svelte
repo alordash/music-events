@@ -1,7 +1,13 @@
 <script lang="ts">
 	import type { ClickCallback } from '$lib/generic_object_form/explorer/ClickCallback';
 	import GenericObjectExplorer from '$lib/generic_object_form/explorer/GenericObjectExplorer.svelte';
-	import { fieldComposer, USER_ID_LITERAL, getUsersPaginated, getUsersCount } from './User';
+	import {
+		fieldComposer,
+		USER_ID_LITERAL,
+		getUsersPaginated,
+		getAllUsers,
+		getUsersCount
+	} from './User';
 
 	export let short = false;
 	export let showEditButton = true;
@@ -15,8 +21,9 @@
 </script>
 
 <GenericObjectExplorer
+	globalObjectExplorer={getAllUsers}
 	{objectExplorer}
-	totalCountExtractor={getUsersCount}
+	totalExplorer={getUsersCount}
 	objectName="User"
 	{fieldComposer}
 	editLiteral={USER_ID_LITERAL}

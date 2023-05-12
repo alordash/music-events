@@ -5,6 +5,7 @@
 		fieldComposer,
 		REPERTOIRE_ID_LITERAL,
 		getRepertoiresPaginated,
+		getAllRepertoires,
 		getRepertoiresCount
 	} from './Repertoire';
 
@@ -22,8 +23,9 @@
 </script>
 
 <GenericObjectExplorer
+	globalObjectExplorer={getAllRepertoires}
 	{objectExplorer}
-	totalCountExtractor={getRepertoiresCount}
+	totalExplorer={getRepertoiresCount}
 	objectName="Repertoire"
 	{fieldComposer}
 	editLiteral={REPERTOIRE_ID_LITERAL}

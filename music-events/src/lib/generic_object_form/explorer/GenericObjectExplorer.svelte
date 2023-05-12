@@ -3,11 +3,13 @@
 	import { GenNumRange } from '$lib/Utils';
 	import GenericObjectDisplay from '../display/GenericObjectDisplay.svelte';
 	import type { FieldInfo, NameComposer, ObjectExplorer, TotalCountExtractor } from '../FieldInfo';
+	import type { GenericObject } from '../GenericObject';
 	import type { ClickCallback } from './ClickCallback';
 	import { PAGE_LITERAL, type ExplorationResult } from './Paging';
 
 	export let objectExplorer: ObjectExplorer;
-	export let totalCountExtractor: TotalCountExtractor;
+	export let totalExplorer: TotalCountExtractor;
+	export let globalObjectExplorer: () => Promise<Array<GenericObject>>;
 	export let objectName: string;
 	export let fieldComposer: (fieldName: string) => FieldInfo;
 	export let editLiteral: string | undefined;
@@ -20,6 +22,44 @@
 	export let showEditButton = true;
 	export let nameComposer: NameComposer | undefined = undefined;
 	let currentOffset = 0;
+
+	let searchName: string = '';
+
+	async function filterObj(obj: GenericObject) {
+		let name = obj.name;
+		if (name == null) {
+			if (nameComposer == null) {
+				return true;
+			}
+			name = await nameComposer(obj);
+		}
+		return name.includes(searchName);
+	}
+
+	async function filterObjs(objs: Array<GenericObject>): Promise<Array<GenericObject>> {
+		let filteredObjects = [];
+		for (const obj of objs) {
+			if (await filterObj(obj)) {
+				filteredObjects.push(obj);
+			}
+		}
+		return filteredObjects;
+	}
+
+	let filteredExtractor = (count: number, offset: number) => {
+		if (searchName != '') {
+			return globalObjectExplorer().then(async (objects) => {
+				return { objects: await filterObjs(objects), offset: 0 };
+			});
+		}
+		return objectExplorer(count, offset).then(async (result) => {
+			return {
+				objects: await filterObjs(result.objects),
+				offset: result.offset
+			};
+		});
+	};
+
 	$: {
 		let searchParamPage = $page.url.searchParams.get(PAGE_LITERAL);
 		if (searchParamPage != null) {
@@ -32,9 +72,10 @@
 	}
 	export let clickCallback: ClickCallback | undefined = undefined;
 
-	let totalCountAndPagesPromise = totalCountExtractor().then((totalCount) => {
+	let totalCountAndPagesPromise = totalExplorer().then((totalCount) => {
 		return { totalCount, totalPages: Math.ceil(totalCount / pageCapacity) };
 	});
+
 	let objectsPromise: Promise<ExplorationResult> = new Promise((_res, _rej) => {});
 	let currentObjectsPromise: Promise<ExplorationResult> = new Promise((_res, _rej) => {});
 	// used to disabled reactive change trigger
@@ -47,7 +88,8 @@
 		});
 	}
 	$: {
-		objectsPromise = objectExplorer(pageCapacity, currentOffset);
+		searchName = searchName;
+		objectsPromise = filteredExtractor(pageCapacity, currentOffset);
 		updateCurrentObjectsPromise();
 	}
 
@@ -82,6 +124,17 @@
 					/>
 				{/await}
 			</h4>
+			<div class="input-group mb-3 position-absolute end-0 w-25 top-0 p-2">
+				<button class="input-group-text btn btn-primary" id="search-addon">Search</button>
+				<input
+					type="text"
+					class="form-control"
+					placeholder="Name"
+					aria-label="Name"
+					aria-describedby="search-addon"
+					bind:value={searchName}
+				/>
+			</div>
 		</div>
 		{#await currentObjectsPromise}
 			<div class="start-0 p-2">
@@ -110,67 +163,69 @@
 				</div>
 			{/if}
 		{/await}
-		{#await totalCountAndPagesPromise}
-			<div class="start-0 p-2">
-				<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
-				Loading...
-			</div>
-		{:then { totalPages }}
-			{#if totalPages > 1}
-				<nav class="card-footer d-flex justify-content-center" aria-label="Pagination">
-					<ul class="pagination m-0 me-2">
-						<li class="page-item">
-							<a class="page-link {currentPage == 0 ? 'disabled' : ''}" href="?{PAGE_LITERAL}={0}"
-								>First</a
-							>
-						</li>
-					</ul>
-					<ul class="pagination justify-content-center m-0">
-						{#if currentPage > extraPageButtonsCount}
+		{#if searchName == ''}
+			{#await totalCountAndPagesPromise}
+				<div class="start-0 p-2">
+					<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
+					Loading...
+				</div>
+			{:then { totalPages }}
+				{#if totalPages > 1}
+					<nav class="card-footer d-flex justify-content-center" aria-label="Pagination">
+						<ul class="pagination m-0 me-2">
 							<li class="page-item">
-								<a
-									class="page-link {currentPage > 0 ? '' : 'disabled'}"
-									href="?{PAGE_LITERAL}={currentPage - 1}">&laquo;</a
+								<a class="page-link {currentPage == 0 ? 'disabled' : ''}" href="?{PAGE_LITERAL}={0}"
+									>First</a
 								>
 							</li>
-						{/if}
-						{#each GenNumRange(currentPage - extraPageButtonsCount, currentPage) as prevPage}
-							{#if prevPage >= 0 && prevPage < totalPages}
+						</ul>
+						<ul class="pagination justify-content-center m-0">
+							{#if currentPage > extraPageButtonsCount}
 								<li class="page-item">
-									<a class="page-link" href="?{PAGE_LITERAL}={prevPage}">{prevPage + 1}</a>
+									<a
+										class="page-link {currentPage > 0 ? '' : 'disabled'}"
+										href="?{PAGE_LITERAL}={currentPage - 1}">&laquo;</a
+									>
 								</li>
 							{/if}
-						{/each}
-						<li class="page-item disabled">
-							<a class="page-link" href="?{PAGE_LITERAL}={currentPage}">{currentPage + 1}</a>
-						</li>
-						{#each GenNumRange(currentPage + 1, currentPage + extraPageButtonsCount + 1) as nextPage}
-							{#if nextPage >= 0 && nextPage < totalPages}
-								<li class="page-item">
-									<a class="page-link" href="?{PAGE_LITERAL}={nextPage}">{nextPage + 1}</a>
-								</li>
-							{/if}
-						{/each}
-						{#if totalPages - currentPage > extraPageButtonsCount}
-							<li class="page-item">
-								<a
-									class="page-link {currentPage < totalPages - 1 ? '' : 'disabled'}"
-									href="?{PAGE_LITERAL}={currentPage + 1}">&raquo;</a
-								>
+							{#each GenNumRange(currentPage - extraPageButtonsCount, currentPage) as prevPage}
+								{#if prevPage >= 0 && prevPage < totalPages}
+									<li class="page-item">
+										<a class="page-link" href="?{PAGE_LITERAL}={prevPage}">{prevPage + 1}</a>
+									</li>
+								{/if}
+							{/each}
+							<li class="page-item disabled">
+								<a class="page-link" href="?{PAGE_LITERAL}={currentPage}">{currentPage + 1}</a>
 							</li>
-						{/if}
-					</ul>
+							{#each GenNumRange(currentPage + 1, currentPage + extraPageButtonsCount + 1) as nextPage}
+								{#if nextPage >= 0 && nextPage < totalPages}
+									<li class="page-item">
+										<a class="page-link" href="?{PAGE_LITERAL}={nextPage}">{nextPage + 1}</a>
+									</li>
+								{/if}
+							{/each}
+							{#if totalPages - currentPage > extraPageButtonsCount}
+								<li class="page-item">
+									<a
+										class="page-link {currentPage < totalPages - 1 ? '' : 'disabled'}"
+										href="?{PAGE_LITERAL}={currentPage + 1}">&raquo;</a
+									>
+								</li>
+							{/if}
+						</ul>
 
-					<ul class="pagination m-0 ms-2">
-						<li class="page-item">
-							<a
-								class="page-link {currentPage == totalPages - 1 ? 'disabled' : ''}"
-								href="?{PAGE_LITERAL}={totalPages - 1}">Last</a
-							>
-						</li>
-					</ul>
-				</nav>
-			{/if}
-		{/await}
+						<ul class="pagination m-0 ms-2">
+							<li class="page-item">
+								<a
+									class="page-link {currentPage == totalPages - 1 ? 'disabled' : ''}"
+									href="?{PAGE_LITERAL}={totalPages - 1}">Last</a
+								>
+							</li>
+						</ul>
+					</nav>
+				{/if}
+			{/await}
+		{/if}
 	</div>
 </div>

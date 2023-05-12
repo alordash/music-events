@@ -5,6 +5,7 @@
 		fieldComposer,
 		VIEWER_ID_LITERAL,
 		getViewersPaginated,
+		getAllViewers,
 		getViewersCount
 	} from './Viewer';
 
@@ -22,8 +23,9 @@
 </script>
 
 <GenericObjectExplorer
+	globalObjectExplorer={getAllViewers}
 	{objectExplorer}
-	totalCountExtractor={getViewersCount}
+	totalExplorer={getViewersCount}
 	objectName="Viewer"
 	{fieldComposer}
 	editLiteral={VIEWER_ID_LITERAL}

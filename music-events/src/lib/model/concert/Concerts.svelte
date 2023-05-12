@@ -5,7 +5,10 @@
 		fieldComposer,
 		CONCERT_ID_LITERAL,
 		getConcertsPaginated,
+		getAllConcerts,
+
 		getConcertsCount
+
 	} from './Concert';
 
 	export let short = false;
@@ -22,8 +25,9 @@
 </script>
 
 <GenericObjectExplorer
+	globalObjectExplorer={getAllConcerts}
 	{objectExplorer}
-	totalCountExtractor={getConcertsCount}
+	totalExplorer={getConcertsCount}
 	objectName="Concert"
 	{fieldComposer}
 	editLiteral={CONCERT_ID_LITERAL}

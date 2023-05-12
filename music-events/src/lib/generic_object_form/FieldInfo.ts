@@ -8,7 +8,7 @@ export type FieldInfo = {
     priority: number,
     objectExtractor: ObjectExtractor | undefined,
     objectExplorer: ObjectExplorer | undefined,
-    totalCountExtractor: TotalCountExtractor | undefined,
+    totalCountExtractor: TotalExplorer | undefined,
     fieldComposer: FieldComposer | undefined,
     objectName: string | undefined,
     nameComposer: NameComposer | undefined

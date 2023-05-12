@@ -56,6 +56,6 @@
 	editLiteral=""
 	objectExplorer={exploreComposer(explorer)}
 	objectName="viewer seat"
-	totalCountExtractor={counter}
+	totalExplorer={counter}
 	{nameComposer}
 />

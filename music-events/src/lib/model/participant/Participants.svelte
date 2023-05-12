@@ -5,7 +5,10 @@
 		fieldComposer,
 		PARTICIPANT_ID_LITERAL,
 		getParticipantsPaginated,
+		getAllParticipants,
+
 		getParticipantsCount
+
 	} from './Participant';
 
 	export let short = false;
@@ -22,8 +25,9 @@
 </script>
 
 <GenericObjectExplorer
+	globalObjectExplorer={getAllParticipants}
 	{objectExplorer}
-	totalCountExtractor={getParticipantsCount}
+	totalExplorer={getParticipantsCount}
 	objectName="Participant"
 	{fieldComposer}
 	editLiteral={PARTICIPANT_ID_LITERAL}

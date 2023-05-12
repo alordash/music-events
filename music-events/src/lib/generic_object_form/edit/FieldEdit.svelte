@@ -5,7 +5,7 @@
 		FieldInfo,
 		ObjectExplorer,
 		ObjectExtractor,
-		TotalCountExtractor
+		TotalExplorer
 	} from '../FieldInfo';
 	import DateEdit from './field_edit/DateEdit.svelte';
 	import DurationMinutesEdit from './field_edit/DurationMinutesEdit.svelte';
@@ -22,7 +22,7 @@
 	let fieldType = fieldInfo.fieldType;
 	let objectExtractor = <ObjectExtractor>fieldInfo.objectExtractor;
 	let objectExplorer = <ObjectExplorer>fieldInfo.objectExplorer;
-	let totalCountExtractor = <TotalCountExtractor>fieldInfo.totalCountExtractor;
+	let totalCountExtractor = <TotalExplorer>fieldInfo.totalCountExtractor;
 	let fieldComposer = <FieldComposer>fieldInfo.fieldComposer;
 	let objectName = <string>fieldInfo.objectName;
 </script>

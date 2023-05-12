@@ -5,6 +5,7 @@
 		fieldComposer,
 		GROUP_ARTIST_ID_LITERAL,
 		getGroupArtistsPaginated,
+		getAllGroupArtists,
 		getGroupArtistsCount
 	} from './GroupArtist';
 
@@ -22,8 +23,9 @@
 </script>
 
 <GenericObjectExplorer
+	globalObjectExplorer={getAllGroupArtists}
 	{objectExplorer}
-	totalCountExtractor={getGroupArtistsCount}
+	totalExplorer={getGroupArtistsCount}
 	objectName="Group artist"
 	{fieldComposer}
 	editLiteral={GROUP_ARTIST_ID_LITERAL}

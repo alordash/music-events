@@ -4,7 +4,7 @@
 		NameComposer,
 		ObjectExplorer,
 		ObjectExtractor,
-		TotalCountExtractor
+		TotalExplorer
 	} from '$lib/generic_object_form/FieldInfo';
 	import type { GenericObject } from '$lib/generic_object_form/GenericObject';
 	import IdDisplay from '$lib/generic_object_form/display/field_displays/IdDisplay.svelte';
@@ -17,7 +17,7 @@
 	export let objectExtractor: ObjectExtractor;
 	export let fieldComposer: FieldComposer;
 	export let objectExplorer: ObjectExplorer;
-	export let totalCountExtractor: TotalCountExtractor;
+	export let totalCountExtractor: TotalExplorer;
 	export let objectName: string;
 
 	export let nameComposer: NameComposer | undefined = undefined;
@@ -82,7 +82,7 @@
 					editLiteral=""
 					{objectExplorer}
 					{objectName}
-					{totalCountExtractor}
+					totalExplorer={totalCountExtractor}
 					{nameComposer}
 				/>
 			</div>

@@ -5,8 +5,9 @@
 		fieldComposer,
 		PERSON_ID_LITERAL,
 		getPersonsPaginated,
-		getPersonsCount,
-		nameComposer
+		nameComposer,
+		getAllPersons,
+		getPersonsCount
 	} from './Person';
 
 	export let short = false;
@@ -23,8 +24,9 @@
 </script>
 
 <GenericObjectExplorer
+	globalObjectExplorer={getAllPersons}
 	{objectExplorer}
-	totalCountExtractor={getPersonsCount}
+	totalExplorer={getPersonsCount}
 	objectName="Person"
 	{fieldComposer}
 	editLiteral={PERSON_ID_LITERAL}

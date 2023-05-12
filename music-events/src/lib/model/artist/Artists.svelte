@@ -4,8 +4,9 @@
 		fieldComposer,
 		ARTIST_ID_LITERAL,
 		getArtistsPaginated,
-		getArtistsCount,
-		nameComposer
+		nameComposer,
+		getAllArtists,
+		getArtistsCount
 	} from './Artist';
 
 	function objectExplorer(count: number, offset: number) {
@@ -16,8 +17,9 @@
 </script>
 
 <GenericObjectExplorer
+	globalObjectExplorer={getAllArtists}
 	{objectExplorer}
-	totalCountExtractor={getArtistsCount}
+	totalExplorer={getArtistsCount}
 	objectName="Artist"
 	{fieldComposer}
 	editLiteral={ARTIST_ID_LITERAL}

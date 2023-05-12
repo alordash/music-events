@@ -25,5 +25,5 @@
 	editLiteral=""
 	objectExplorer={exploreComposer(getEventsPaginated)}
 	objectName="event"
-	totalCountExtractor={getEventsCount}
+	totalExplorer={getEventsCount}
 />

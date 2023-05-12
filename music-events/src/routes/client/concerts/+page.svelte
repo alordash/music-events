@@ -53,5 +53,5 @@
 	editLiteral=""
 	objectExplorer={exploreComposer(explorer)}
 	objectName="concert"
-	totalCountExtractor={counter}
+	totalExplorer={counter}
 />

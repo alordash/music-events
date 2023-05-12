@@ -1,12 +1,7 @@
 <script lang="ts">
 	import type { ClickCallback } from '$lib/generic_object_form/explorer/ClickCallback';
 	import GenericObjectExplorer from '$lib/generic_object_form/explorer/GenericObjectExplorer.svelte';
-	import {
-		fieldComposer,
-		EVENT_ID_LITERAL,
-		getEventsPaginated,
-		getEventsCount
-	} from './Event';
+	import { fieldComposer, EVENT_ID_LITERAL, getEventsPaginated, getAllEvents, getEventsCount } from './Event';
 
 	export let short = false;
 	export let showEditButton = true;
@@ -22,8 +17,9 @@
 </script>
 
 <GenericObjectExplorer
+	globalObjectExplorer={getAllEvents}
 	{objectExplorer}
-	totalCountExtractor={getEventsCount}
+	totalExplorer={getEventsCount}
 	objectName="Event"
 	{fieldComposer}
 	editLiteral={EVENT_ID_LITERAL}
