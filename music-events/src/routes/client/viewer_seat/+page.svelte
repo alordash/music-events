@@ -119,7 +119,7 @@
 			/>
 		</div>
 		<button class="btn btn-success mt-1" bind:this={buyButton} on:click={onBuyCallback}>Buy</button>
-		<a class="btn btn-info mt-1 d-none" bind:this={buyMoreButton} href="client/events">Buy more</a>
+		<a class="btn btn-info mt-1 d-none" bind:this={buyMoreButton} href="/client/events">Buy more</a>
 		<a
 			class="btn btn-primary mt-1 d-none"
 			bind:this={homeButton}
