@@ -6,7 +6,8 @@
 		USER_ID_LITERAL,
 		getUsersPaginated,
 		getAllUsers,
-		getUsersCount
+		getUsersCount,
+		nameComposer
 	} from './User';
 
 	export let short = false;
@@ -32,4 +33,5 @@
 	{short}
 	{showEditButton}
 	{clickCallback}
+	{nameComposer}
 />

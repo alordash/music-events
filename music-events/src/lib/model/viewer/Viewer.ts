@@ -4,6 +4,7 @@ import { FieldTypes } from "$lib/generic_object_form/FieldTypes";
 import { invoke } from "@tauri-apps/api/tauri";
 import { getPersonById, getPersonsCount, getPersonsPaginated, nameComposer as personNameComposer } from "../person/Person";
 import { getViewerSeatById, getViewerSeatsCount, getViewerSeatsPaginated, nameComposer as viewerSeatNameComposer } from "../viewer_seat/ViewerSeat";
+import type { GenericObject } from "$lib/generic_object_form/GenericObject";
 
 export const VIEWER_ID_LITERAL = 'viewer_id';
 
@@ -45,6 +46,16 @@ export function fieldComposer(fieldName: string): FieldInfo {
         default:
             return FieldInfoUnknown();
     }
+}
+
+export async function nameComposer(obj: GenericObject) {
+    const viewer = <Viewer>obj;
+    const viewerSeat = await getViewerSeatById(viewer.viewerSeatId);
+    if (viewerSeat == null) {
+        return '';
+    }
+    const viewerSeatName = await viewerSeatNameComposer(viewerSeat);
+    return viewerSeatName;
 }
 
 export function createEmpty(): Viewer {

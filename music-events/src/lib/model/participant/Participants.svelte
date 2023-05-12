@@ -6,9 +6,8 @@
 		PARTICIPANT_ID_LITERAL,
 		getParticipantsPaginated,
 		getAllParticipants,
-
+		nameComposer,
 		getParticipantsCount
-
 	} from './Participant';
 
 	export let short = false;
@@ -36,4 +35,5 @@
 	{short}
 	{showEditButton}
 	{clickCallback}
+	{nameComposer}
 />

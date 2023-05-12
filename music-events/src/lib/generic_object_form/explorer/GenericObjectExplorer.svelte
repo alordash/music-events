@@ -48,7 +48,6 @@
 
 	let filteredExtractor = (count: number, offset: number) => {
 		if (searchName != '') {
-			console.log(`Using global explorer`);
 			return globalObjectExplorer().then(async (objects) => {
 				return { objects: await filterObjs(objects), offset: pageCapacity };
 			});

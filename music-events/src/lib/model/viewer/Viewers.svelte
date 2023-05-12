@@ -6,7 +6,8 @@
 		VIEWER_ID_LITERAL,
 		getViewersPaginated,
 		getAllViewers,
-		getViewersCount
+		getViewersCount,
+		nameComposer
 	} from './Viewer';
 
 	export let short = false;
@@ -34,4 +35,5 @@
 	{short}
 	{showEditButton}
 	{clickCallback}
+	{nameComposer}
 />
