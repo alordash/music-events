@@ -28,14 +28,14 @@
 			bind:this={loadTab}
 			class="nav-link active"
 			aria-current="page"
-			href="/groups/load/">Load</a
+			href="/models/groups/load/">Load</a
 		>
 	</li>
 	<li class="nav-item" on:keypress={onTabClick} on:click={onTabClick}>
-		<a id="createTab" bind:this={createTab} class="nav-link" href="/groups/create/">Create</a>
+		<a id="createTab" bind:this={createTab} class="nav-link" href="/models/groups/create/">Create</a>
 	</li>
 	<li class="nav-item" on:keypress={onTabClick} on:click={onTabClick}>
-		<a id="editTab" bind:this={editTab} class="nav-link" href="/groups/edit/">Edit</a>
+		<a id="editTab" bind:this={editTab} class="nav-link" href="/models/groups/edit/">Edit</a>
 	</li>
 </ul>
 
