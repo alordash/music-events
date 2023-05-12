@@ -48,8 +48,9 @@
 
 	let filteredExtractor = (count: number, offset: number) => {
 		if (searchName != '') {
+			console.log(`Using global explorer`);
 			return globalObjectExplorer().then(async (objects) => {
-				return { objects: await filterObjs(objects), offset: 0 };
+				return { objects: await filterObjs(objects), offset: pageCapacity };
 			});
 		}
 		return objectExplorer(count, offset).then(async (result) => {
@@ -82,11 +83,12 @@
 
 	function updateCurrentObjectsPromise() {
 		objectsPromise.then((v) => {
-			if (v.offset == currentPage * pageCapacity) {
+			if (v.offset == currentPage * pageCapacity || searchName != '') {
 				currentObjectsPromise = Promise.resolve(v);
 			}
 		});
 	}
+	
 	$: {
 		searchName = searchName;
 		objectsPromise = filteredExtractor(pageCapacity, currentOffset);
@@ -110,7 +112,7 @@
 			<h4>
 				{formatObjectName()}
 				{#await totalCountAndPagesPromise then { totalPages }}
-					{#if totalPages != 0}
+					{#if totalPages != 0 && searchName == ''}
 						{#await currentObjectsPromise then { offset }}
 							({Math.ceil(offset / pageCapacity) + 1}/{totalPages})
 						{/await}

@@ -4,7 +4,7 @@
 		NameComposer,
 		ObjectExplorer,
 		ObjectExtractor,
-		TotalExplorer
+		TotalCountExtractor
 	} from '$lib/generic_object_form/FieldInfo';
 	import type { GenericObject } from '$lib/generic_object_form/GenericObject';
 	import IdDisplay from '$lib/generic_object_form/display/field_displays/IdDisplay.svelte';
@@ -17,10 +17,14 @@
 	export let objectExtractor: ObjectExtractor;
 	export let fieldComposer: FieldComposer;
 	export let objectExplorer: ObjectExplorer;
-	export let totalCountExtractor: TotalExplorer;
+	export let totalCountExtractor: TotalCountExtractor;
 	export let objectName: string;
 
 	export let nameComposer: NameComposer | undefined = undefined;
+
+	let globalObjectExplorer = () => {
+		return objectExplorer(Number.MAX_SAFE_INTEGER, 0).then((r) => r.objects);
+	};
 
 	let modalId = `${Math.random() % 1}`;
 
@@ -73,6 +77,7 @@
 		<div class="modal-content">
 			<div class="modal-body">
 				<GenericObjectExplorer
+					{globalObjectExplorer}
 					short={true}
 					showEditButton={false}
 					clickCallback={callback}

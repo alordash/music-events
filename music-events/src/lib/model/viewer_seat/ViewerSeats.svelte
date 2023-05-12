@@ -1,12 +1,12 @@
 <script lang="ts">
 	import GenericObjectExplorer from '$lib/generic_object_form/explorer/GenericObjectExplorer.svelte';
-	import { getViewersCount } from '../viewer/Viewer';
 	import {
 		fieldComposer,
 		VIEWER_SEAT_ID_LITERAL,
 		getViewerSeatsPaginated,
 		nameComposer,
-		getAllViewerSeats
+		getAllViewerSeats,
+		getViewerSeatsCount
 	} from './ViewerSeat';
 
 	function objectExplorer(count: number, offset: number) {
@@ -19,7 +19,7 @@
 <GenericObjectExplorer
 	globalObjectExplorer={getAllViewerSeats}
 	{objectExplorer}
-	totalExplorer={getViewersCount}
+	totalExplorer={getViewerSeatsCount}
 	objectName="Viewer seat"
 	{fieldComposer}
 	editLiteral={VIEWER_SEAT_ID_LITERAL}
