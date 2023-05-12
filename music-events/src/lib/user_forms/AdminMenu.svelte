@@ -2,8 +2,6 @@
 
 <ul class="list-group">
 	<li class="list-group-item"><a href="models/users/load">Users</a></li>
-	<li class="list-group-item">A second item</li>
-	<li class="list-group-item">A third item</li>
-	<li class="list-group-item">A fourth item</li>
-	<li class="list-group-item">And a fifth one</li>
+	<li class="list-group-item"><a href="models/persons/load">Persons</a></li>
+	<li class="list-group-item"><a href="models/viewers/load">Viewers</a></li>
 </ul>
