@@ -1,10 +1,10 @@
 <script lang="ts">
 	import PersonSeatDisplay from '$lib/model/person_seat/PersonSeatDisplay.svelte';
 	import { createEmpty, getBoughtViewerSeats } from '$lib/model/user/User';
-	import { accountStore } from '$lib/user_forms/AccountStore';
+	import { accountStore, getCurrentAccount } from '$lib/user_forms/AccountStore';
 
 	let user = createEmpty();
-	accountStore.subscribe((v) => (user = v));
+	accountStore.subscribe(() => (user = getCurrentAccount()));
 
 	let personSeatPromise = getBoughtViewerSeats(user.id);
 	const deleteCallback = () => {

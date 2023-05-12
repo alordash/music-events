@@ -1,10 +1,10 @@
 <script lang="ts">
 	import LogoutButton from '$lib/authorization/LogoutButton.svelte';
 	import { ACCOUNT_DEFAULT_ROLE } from '$lib/model/user/User';
-	import { accountStore, roleMapper } from '$lib/user_forms/AccountStore';
+	import { accountStore, getCurrentAccount, roleMapper } from '$lib/user_forms/AccountStore';
 
-	let accountRole: string;
-	accountStore.subscribe((v) => (accountRole = v.role));
+	let accountRole: string = getCurrentAccount().role;
+	accountStore.subscribe(() => (accountRole = getCurrentAccount().role));
 </script>
 
 <div class="container w-75">
