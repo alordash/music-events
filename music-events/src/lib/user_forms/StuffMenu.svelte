@@ -7,6 +7,7 @@
 	<li class="list-group-item"><a href="models/participants/load">Participants</a></li>
 	<li class="list-group-item"><a href="models/repertoires/load">Repertoires</a></li>
 	<li class="list-group-item"><a href="models/groups/load">Groups</a></li>
+	<li class="list-group-item"><a href="models/group_artists/load">Group artists</a></li>
 	<li class="list-group-item"><a href="models/artists/load">Artists</a></li>
 	<li class="list-group-item"><a href="models/persons/load">Persons</a></li>
 </ul>
