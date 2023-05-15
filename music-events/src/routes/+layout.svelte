@@ -3,8 +3,8 @@
 	import { ACCOUNT_DEFAULT_ROLE } from '$lib/model/user/User';
 	import { accountStore, getCurrentAccount, roleMapper } from '$lib/user_forms/AccountStore';
 
-	let accountRole: string = getCurrentAccount().role;
-	accountStore.subscribe(() => (accountRole = getCurrentAccount().role));
+	let accountRole: string = getCurrentAccount().role || "guest";
+	accountStore.subscribe(() => (accountRole = getCurrentAccount().role || "guest"));
 </script>
 
 <div class="container w-75">

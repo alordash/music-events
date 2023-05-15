@@ -7,7 +7,11 @@ const defaultUser = createEmpty();
 export const accountStore = writable(getCurrentAccount());
 
 export function getCurrentAccount() {
-    return <User>JSON.parse(localStorage.getItem(ACCOUNT_STORAGE_KEY) || JSON.stringify(defaultUser));
+    let acc = <User>JSON.parse(localStorage.getItem(ACCOUNT_STORAGE_KEY) || "null");
+    if (acc == null) {
+        acc = defaultUser;
+    }
+    return acc;
 }
 
 export function setCurrentAccount(user: User) {
