@@ -13,6 +13,7 @@
 	export let fieldInfo: FieldInfo;
 	export let value: any;
 	export let objectId = 0;
+	export let hideRefs = false;
 
 	let fieldName = fieldInfo.fieldName;
 	let fieldType = fieldInfo.fieldType;
@@ -27,13 +28,13 @@
 	<div class="row">
 		<ObjectRefDisplay {fieldName} {value} {objectExtractor} nameComposer={fieldInfo.nameComposer} />
 	</div>
-{:else if fieldType == FieldTypes.GroupArtistsAggregated}
+{:else if fieldType == FieldTypes.GroupArtistsAggregated && !hideRefs}
 	<GroupArtistsAggregatedDisplay groupId={objectId} />
-{:else if fieldType == FieldTypes.ConcertGroupsAggregated}
+{:else if fieldType == FieldTypes.ConcertGroupsAggregated && !hideRefs}
 	<ConcertGroupsAggregatedDisplay concertId={objectId} />
-{:else if fieldType == FieldTypes.EventConcertsAggregated}
+{:else if fieldType == FieldTypes.EventConcertsAggregated && !hideRefs}
 	<ConcertsAggregated eventId={objectId} />
-{:else if fieldType == FieldTypes.ParticipantRepertoiresAggregated}
+{:else if fieldType == FieldTypes.ParticipantRepertoiresAggregated && !hideRefs}
 	<ParticipantRepertoiresAggregatedDisplay participantId={objectId} />
 {:else if fieldType == FieldTypes.Password}
 	<!-- skip -->
@@ -41,6 +42,8 @@
 	<!-- skip -->
 {:else if fieldType == FieldTypes.Name}
 	<!-- skip -->
-{:else}
+{:else if fieldType == FieldTypes.Text}
 	<div class="row"><TextDisplay {fieldName} {value} /></div>
+{:else}
+	<!-- skip -->
 {/if}

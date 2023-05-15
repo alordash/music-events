@@ -22,6 +22,7 @@
 	export let nameComposer: NameComposer | undefined = undefined;
 	const getAction = () =>
 		clickCallback == undefined ? () => {} : () => (<ClickCallback>clickCallback)(displayObject);
+	export let hideRefs = false;
 
 	const currentLink = $page.url.href;
 	const editLink = currentLink.substring(0, currentLink.lastIndexOf('/')) + '/edit';
@@ -49,6 +50,7 @@
 					fieldInfo={info.fieldInfo}
 					value={displayObject[info.key]}
 					objectId={displayObject.id}
+					{hideRefs}
 				/>
 			{/each}
 		{/if}

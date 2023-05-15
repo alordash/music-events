@@ -21,9 +21,26 @@
 	export let short = false;
 	export let showEditButton = true;
 	export let nameComposer: NameComposer | undefined = undefined;
+	export let reportMode = false;
 	let currentOffset = 0;
 
+	let oldPage = currentPage;
+	let oldPageCapacity = pageCapacity;
+
 	let searchName: string = '';
+
+	function onReportModeChange() {
+		if (reportMode) {
+			currentPage = oldPage;
+			pageCapacity = oldPageCapacity;
+		} else {
+			oldPage = currentPage;
+			oldPageCapacity = pageCapacity;
+			currentPage = 0;
+			pageCapacity = Number.MAX_SAFE_INTEGER;
+		}
+		reportMode = !reportMode;
+	}
 
 	async function filterObj(obj: GenericObject) {
 		let name = obj.name;
@@ -68,6 +85,10 @@
 	}
 
 	$: {
+		reportMode = reportMode;
+	}
+
+	$: {
 		currentOffset = currentPage * pageCapacity;
 	}
 	export let clickCallback: ClickCallback | undefined = undefined;
@@ -87,7 +108,7 @@
 			}
 		});
 	}
-	
+
 	$: {
 		searchName = searchName;
 		objectsPromise = filteredExtractor(pageCapacity, currentOffset);
@@ -111,7 +132,7 @@
 			<h4>
 				{formatObjectName()}
 				{#await totalCountAndPagesPromise then { totalPages }}
-					{#if totalPages != 0 && searchName == ''}
+					{#if totalPages != 0 && searchName == '' && !reportMode}
 						{#await currentObjectsPromise then { offset }}
 							({Math.ceil(offset / pageCapacity) + 1}/{totalPages})
 						{/await}
@@ -125,17 +146,27 @@
 					/>
 				{/await}
 			</h4>
-			<div class="input-group mb-3 position-absolute end-0 w-25 top-0 p-2">
-				<button class="input-group-text btn btn-primary" id="search-addon">Search</button>
-				<input
-					type="text"
-					class="form-control"
-					placeholder="Name"
-					aria-label="Name"
-					aria-describedby="search-addon"
-					bind:value={searchName}
-				/>
+			<div class="mb-3 position-absolute start-0 w-25 top-0 p-2">
+				<button
+					class="input-group-text btn btn-info"
+					id="search-addon"
+					on:click={onReportModeChange}
+					>{#if reportMode}Explore{:else}Form report{/if}</button
+				>
 			</div>
+			{#if !reportMode}
+				<div class="input-group mb-3 position-absolute end-0 w-25 top-0 p-2">
+					<button class="input-group-text btn btn-primary" id="search-addon">Search</button>
+					<input
+						type="text"
+						class="form-control"
+						placeholder="Name"
+						aria-label="Name"
+						aria-describedby="search-addon"
+						bind:value={searchName}
+					/>
+				</div>
+			{/if}
 		</div>
 		{#await currentObjectsPromise}
 			<div class="start-0 p-2">
@@ -155,16 +186,17 @@
 								{fieldComposer}
 								{editLiteral}
 								{short}
-								{showEditButton}
+								showEditButton={showEditButton && !reportMode}
 								{clickCallback}
 								{nameComposer}
+								hideRefs={reportMode}
 							/>
 						</div>
 					{/each}
 				</div>
 			{/if}
 		{/await}
-		{#if searchName == ''}
+		{#if searchName == '' && !reportMode}
 			{#await totalCountAndPagesPromise}
 				<div class="start-0 p-2">
 					<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
@@ -227,6 +259,8 @@
 					</nav>
 				{/if}
 			{/await}
+		{:else if reportMode}
+			<nav class="card-footer d-flex justify-content-center" aria-label="Pagination" />
 		{/if}
 	</div>
 </div>
