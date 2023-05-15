@@ -32,6 +32,7 @@
 
 	async function onDelete() {
 		deleteCallback(editObject);
+		history.back();
 	}
 
 	$: {
