@@ -148,7 +148,7 @@
 			</h4>
 			<div class="mb-3 position-absolute start-0 w-25 top-0 p-2">
 				<button
-					class="input-group-text btn btn-info"
+					class="input-group-text btn btn-primary"
 					id="search-addon"
 					on:click={onReportModeChange}
 					>{#if reportMode}Explore{:else}Form report{/if}</button
